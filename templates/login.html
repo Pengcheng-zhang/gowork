@@ -1,0 +1,52 @@
+<div class="login-box">
+    <div class="section clearfix">
+    <!--页面左边-->
+    <div class="login-left"></div>
+    <!--/页面左边-->
+    
+    <!--页面右边-->
+    <div class="login-right">
+      <h1>会员登录</h1>
+      <form id="login_form" name="loginForm">
+      <ul>
+        <li>
+          <label>用户名：</label>
+          <input id="yzusername" name="email" type="text" placeholder="邮箱">
+        </li>
+        <li>
+          <label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+          <input id="yzpassword" name="password" type="password" placeholder="输入登录密码">
+        </li>
+      </ul>
+      <div class="btn-box">
+        <div class="col">
+          <input id="btnSubmit" name="btnSubmit" class="submit" type="submit" value="登 录">
+        </div>
+        <div id="msgtips" class="col tips"></div>
+        <div class="clearfix">
+          <span class="left">
+            <label><input id="chkRemember" name="chkRemember" type="checkbox"> 记住登录</label>
+          </span>
+          <a class="right" href="/repassword.html">忘记密码？</a>
+        </div>
+      </div>
+      <input id="turl" name="turl" type="hidden" value="http://www.18ppt.com/"><!--记住上一页网址-->
+      </form>
+      <!--第三方登录-->
+      <div class="oauth-box">
+       <h3>第三方账号登录，还没注册？ <a href="/register.html">点击注册</a></h3>
+       <p>
+         <a title="用QQ帐号登录" href="/api/oauth/qq/index.aspx"><img src="/image/login/201708201338089647.png"></a>
+         <a title="用微信帐号登录" href="/api/oauth/weixin/index.aspx"><img src="/image/login/201708201338214803.png"></a>
+       </p>
+      </div>
+      <!--/第三方登录-->
+    </div>
+    <!--页面右边-->
+  </div>
+  </div>
+  <script>
+  $(document).ready(function(){
+    
+  });
+  </script>
