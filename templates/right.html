@@ -1,138 +1,222 @@
 {{ define "right" }}
-<div id="Leftbar"></div>
-<div id="Rightbar">
-        <div class="sep20"></div>
-        <div class="box">
-            <div class="cell">
-                <strong>有赞币答</strong>
-                <div class="sep5"></div>
-                <span class="fade">你的每一次点赞都是有付出的劳动</span>
-            </div>
-            <div class="inner">
-                <div class="sep5"></div>
-                <div align="center">
-                    <a href="/signup" class="super normal button">现在注册</a>
-                    <div class="sep5"></div>
-                    <div class="sep10"></div>
-                    已注册用户请 &nbsp;
-                    <a href="/signin">登录</a>
+<div class="col-md-3" style="padding:0px;">
+    <div class="forum_module">
+        <div class="forum_module_name">
+            <div class="pull-left note_new">
+                <div>
+                    <a type="button" class="btn btn-large btn-primary forum_post_btn" href="/home/addons/execute/_addons/sync_login/_controller/base/_action/login/type/qq.html">
+                         发表新帖
+                    </a>
                 </div>
             </div>
-        </div>
-        <div class="sep20"></div>
-        <div class="box">
-            <div class="inner">
+            <div class="pull-right">
+                <!--<a href="/forum" class="font_grey" style="font-size: 14px;">查看全部</a>-->
             </div>
         </div>
-        <div class="sep20"></div>
-        <div class="box" id="TopicsHot">
-            <div class="cell">
-                <span class="fade">今日热议主题</span>
-            </div>
-            <div class="cell from_79153 hot_t_418964">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                    <tbody>
-                        <tr>
-                            <td width="24" valign="middle" align="center">
-                                <a href="/member/binxin">
-                                    <img src="//v2ex.assets.uxengine.net/avatar/2551/fff4/79153_normal.png?m=1499331852"
-                                        class="avatar" border="0" align="default" style="max-width: 24px; max-height: 24px;">
-                                </a>
-                            </td>
-                            <td width="10"></td>
-                            <td width="auto" valign="middle">
-                                <span class="item_hot_topic_title">
-                                    <a href="/t/418964">什么样的标准才是净身出户？</a>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="forum_module_content clearfix">
+            <a class="btn btn-default position btn-primary" href="/forum/forum_0.html">全部帖子</a>
+            <a href="/forum/forum_1.html" class="btn btn-default  position ">交流杂谈</a>
+            <a href="/forum/forum_2.html" class="btn btn-default  position ">推广研究</a>
+            <a href="/forum/forum_3.html" class="btn btn-default  position ">站长交易</a>
+            <a href="/forum/forum_5.html" class="btn btn-default  position ">向我提问</a>
+            <a href="/forum/forum_6.html" class="btn btn-default  position ">新闻公告</a>
         </div>
-        <div class="sep20"></div>
-        <div class="box">
-            <div class="cell">
-                <div class="fr"></div>
-                <span class="fade">最热节点</span>
-            </div>
-            <div class="cell">
-                <a href="/go/qna" class="item_node">问与答</a>
-                <a href="/go/share" class="item_node">分享发现</a>
-                <a href="/go/jobs" class="item_node">酷工作</a>
-                <a href="/go/programmer" class="item_node">程序员</a>
-                <a href="/go/macos" class="item_node">macOS</a>
-                <a href="/go/create" class="item_node">分享创造</a>
-                <a href="/go/python" class="item_node">Python</a>
-                <a href="/go/iphone" class="item_node">iPhone</a>
-                <a href="/go/android" class="item_node">Android</a>
-                <a href="/go/apple" class="item_node">Apple</a>
-                <a href="/go/bb" class="item_node">宽带症候群</a>
-                <a href="/go/linux" class="item_node">Linux</a>
-                <a href="/go/cv" class="item_node">求职</a>
-                <a href="/go/mbp" class="item_node">MacBook Pro</a>
-            </div>
-            <div class="inner">
-                <a href="/index.xml" target="_blank">
-                    <img src="/image/rss.png" align="absmiddle" border="0" style="margin-top:-3px;">
-                </a>&nbsp;
-                <a href="/index.xml" target="_blank">RSS</a>
-            </div>
-        </div>
-        <div class="sep20"></div>
-        <div class="box">
-            <div class="cell">
-                <div class="fr"></div>
-                <span class="fade">最近新增节点</span>
-            </div>
-            <div class="inner">
-                <a href="/go/2018" class="item_node">2018</a>
-                <a href="/go/homekit" class="item_node">HomeKit</a>
-            </div>
-        </div>
-        <div class="sep20"></div>
-        <div class="box">
-            <div class="cell">
-                <span class="fade">社区运行状况</span>
-            </div>
-            <div class="cell">
-                <table cellpadding="5" cellspacing="0" border="0" width="100%">
-                    <tbody>
-                        <tr>
-                            <td width="60" align="right">
-                                <span class="gray">注册会员</span>
-                            </td>
-                            <td width="auto" align="left">
-                                <strong>278126</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="60" align="right">
-                                <span class="gray">主题</span>
-                            </td>
-                            <td width="auto" align="left">
-                                <strong>419077</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="60" align="right">
-                                <span class="gray">回复</span>
-                            </td>
-                            <td width="auto" align="left">
-                                <strong>5152102</strong>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="inner">
-                <span class="chevron">›</span>
-                <a href="/top/rich">财富排行榜</a>
-                <div class="sep5"></div>
-                <span class="chevron">›</span>
-                <a href="/top/player">消费排行榜</a>
-            </div>
-        </div>
-        <div class="sep20"></div>
     </div>
+    <!--首页右侧部分-->
+    <div class="hot_post" style="margin-top: 10px">
+        <!--登录后显示个人区域-->
+        <!--登录后显示个人区域部分结束-->
+        <div>
+            <div class="box1 " id="checkdiv">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                        <i class="ico_calendar"></i>
+
+                    </div>
+                    <div class="col-xs-4  text-center" style="color: #fff; padding-top:2px;line-height: 16px">
+                        <div>01.02</div>
+                        <div>周二</div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+                        <a href="/login" id="checkin" class="btn-sign">签到</a>
+                    </div>
+                </div>
+            </div>
+            <div class="checkin">
+                <div class="check_rank ">
+                    <ul class="check_rank_list" style="margin-bottom: 10px;padding-top: 10px">
+                        <li class="row">
+                            <div class="paiming col-md-2">
+                                1 </div>
+                            <div class="list col-md-6">
+                                <img class="avatar-img" style="width: 32px" src="/image/header.png">
+                                <a ucard="13131" class="text-more " style="width: 50%;vertical-align: middle" href="/ucenter/13131.html" data-hasqtip="66">
+                                    甲醛治理资讯</a>
+                            </div>
+
+                            <div class="col-md-4 check_date">
+                                00:01:10 </div>
+                        </li>
+                        <li class="row">
+                            <div class="paiming col-md-2">
+                                2 </div>
+                            <div class="list col-md-6">
+                                <img class="avatar-img" style="width: 32px" src="/image/header.png">
+                                <a ucard="326" class="text-more " style="width: 50%;vertical-align: middle" href="/ucenter/326.html" data-hasqtip="67">
+                                    山水之间</a>
+                            </div>
+
+                            <div class="col-md-4 check_date">
+                                00:01:17 </div>
+                        </li>
+                        <li class="row">
+                            <div class="paiming col-md-2">
+                                3 </div>
+                            <div class="list col-md-6">
+                                <img class="avatar-img" style="width: 32px" src="/image/header.png">
+                                <a ucard="4421" class="text-more " style="width: 50%;vertical-align: middle" href="/ucenter/4421.html" data-hasqtip="68">
+                                    李俊采</a>
+                            </div>
+                            <div class="col-md-4 check_date">
+                                08:42:02 </div>
+                        </li>
+                        <li class="row">
+                            <div class="paiming col-md-2">
+                                4 </div>
+                            <div class="list col-md-6">
+                                <img class="avatar-img" style="width: 32px" src="/image/header.png">
+                                <a ucard="377" class="text-more " style="width: 50%;vertical-align: middle" href="/ucenter/377.html" data-hasqtip="69">
+                                    5_哥</a>
+                            </div>
+
+                            <div class="col-md-4 check_date">
+                                09:10:17 </div>
+                        </li>
+                    </ul>
+                    <div class="col-xs-12" style="text-align:center;margin-bottom: 2px;border-top: 1px #ccc dashed;">
+                        <a href="/people/index/ranking.html" style="padding: 0;color: #848484;">
+                            <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;查看签到排行</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div style="margin-bottom: 12px"></div>
+            </div>
+            <div class="hot_post common_block_border" style="margin-top: 10px">
+                <div class="row common_block_title">
+                    热门讨论
+                </div>
+                <dl>
+                    <dt>
+                        <span class="hot_num">1</span>
+                        <a href="/forum/detail_125168.html" title="一篇看懂SEO外链的全部规律">
+                            一篇看懂SEO外链的全部规律 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">2</span>
+                        <a href="/forum/detail_125157.html" title="你不得不了解的自媒体消重机制">
+                            你不得不了解的自媒体消重机制 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">3</span>
+                        <a href="/forum/detail_125161.html" title="咨询事件">
+                            咨询事件 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">4</span>
+                        <a href="/forum/detail_125136.html" title="【B站公布年度弹幕，“囍”加冕年度弹幕】12月26日 星期二 #松松兄弟短资讯#">
+                            【B站公布年度弹幕，“囍”加冕年度弹幕】12月26日 星期二 #松松兄弟短资讯# </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">5</span>
+                        <a href="/forum/detail_125137.html" title="2018年互联网下一波红利">
+                            2018年互联网下一波红利 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">6</span>
+                        <a href="/forum/detail_125138.html" title="熬夜晚睡气色差？ 3分钟急救护肤攻略千万别错过！">
+                            熬夜晚睡气色差？ 3分钟急救护肤攻略千万别错过！ </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">7</span>
+                        <a href="/forum/detail_125139.html" title="分享8个无版权限制的高清图库网站">
+                            分享8个无版权限制的高清图库网站 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">8</span>
+                        <a href="/forum/detail_125140.html" title="2017年网赚趋势微淘客">
+                            2017年网赚趋势微淘客 </a>
+                    </dt>
+                    <dt>
+                        <span class="hot_num">9</span>
+                        <a href="/forum/detail_125141.html" title="网站制作基础小知识">
+                            网站制作基础小知识 </a>
+                    </dt>
+                </dl>
+            </div>
+            <!--广告位-->
+            <div class="hot-topic common_block_border">
+                <div class="common_block_title">最新文章</div>
+                <ul>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9749.html" title="2018年快速提升网站排名的方法及策略" target="_blank">2018年快速提升网站排名的方法及策略</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9746.html" title="浅谈普通人的“格局逆袭”" target="_blank">浅谈普通人的“格局逆袭”</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9736.html" title="揭秘一个不起眼的微商新品牌，如何快速赢得客户信任?" target="_blank">揭秘一个不起眼的微商新品牌，如何快速赢得客户信任?</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9739.html" title="2018年互联网下一波红利" target="_blank">2018年互联网下一波红利</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9734.html" title="SEO之大量的长尾关键字如何管理?" target="_blank">SEO之大量的长尾关键字如何管理?</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9730.html" title="工作的第10年头，才发现，前9年的模式都错了" target="_blank">工作的第10年头，才发现，前9年的模式都错了</a>
+                    </li>
+                    <li>
+                        <a href="http://lusongsong.com/reed/9726.html" title="北上广租房记" target="_blank">北上广租房记</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="_u83p11mnsoe"></div>
+            <div class="gonggao">
+                <div class="row common_block_title" style="margin-left:0px;">
+                    全站公告
+                </div>
+                <div id="_pe6wobp2a2"></div>
+            </div>
+            <script type="text/javascript">BAIDU_CLB_fillSlot("1122771");</script>
+            <div class="flink_text" style="margin-bottom: 20px;background: none repeat scroll 0% 0% #FFF;border-radius: 3px;border: 1px solid #CCC;">
+                <h2 class="tit" style="margin:10px;">友情连接</h2>
+                <p class="pList clearfix" style="margin:10px;">
+                    <span>
+                        <a target="_blank" title="" href="http://lusongsong.com/">卢松松博客</a>
+                        <br>
+                        <a target="_blank" title="" href="http://www.zui5.com/">站长工具</a>
+                        <br>
+                        <a target="_blank" title="" href="http://down.lusongsong.com/">松松资讯</a>
+                        <br>
+                        <a target="_blank" title="" href="http://www.tui56.com/">站长论坛</a>
+                        <br>
+                        <a target="_blank" title="" href="https://ruanwen.lusongsong.com/">软文推广</a>
+                        <br>
+                        <a target="_blank" title="" href="http://www.mcyit.com/">中文业界资讯站</a>
+                        <br>
+                        <a target="_blank" title="" href="https://www.songsongyun.com/">松松云</a>
+                        <br>
+                        <a target="_blank" title="" href="http://shenyongxiang.com/">申永祥</a>
+                        <br>
+                        <a target="_blank" title="" href="http://tool.lusongsong.com/">松松站长工具</a>
+                        <br>
+                        <a target="_blank" title="" href="http://www.zhuaqubao.com/">抓取宝</a>
+                        <br> </span>
+                </p>
+            </div>
+        </div>
+    </div>
+        <!--首页右侧部分结束-->
+</div>
 {{ end }}

@@ -39,7 +39,7 @@ func (home Home) Index(r render.Render, session sessions.Session) {
 	data.Category = comm.GetCategory(1)
 	data.CurrentTab = 1
 	data.Js = []string{}
-	data.Css = []string{"/css/main/style.css?v=1","/css/basic.css?v=1","/css/desktop.css?v=1"}
+	data.Css = []string{}
 	fmt.Println(data)
 	r.HTML(200, "index", data)
 }
@@ -82,7 +82,7 @@ func (home Home) GetLogin(r render.Render, session sessions.Session)  {
 	var data output
 	data.User = user
 	data.Js = []string{"/js/yzcomm.js"}
-	data.Css = []string{"/css/main/style.css","/css/basic.css","/css/main/basev6.css","/css/desktop.css"}
+	data.Css = []string{}
 	r.HTML(200, "login", data)
 }
 func (home Home) GetRegist(r render.Render, session sessions.Session)  {
