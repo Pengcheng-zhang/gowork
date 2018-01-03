@@ -41,13 +41,11 @@ func main()  {
 	var userCenter controller.UserCenter
 	m.Group("/ucenter",func (r martini.Router)  {
 		//首页
-		r.Get("",userCenter.Index)
-		//下载记录
-		r.Get("/download_history",userCenter.DownloadHistory)
+		r.Get("/:id",userCenter.Index)
 		//收藏管理
 		r.Get("/collect", userCenter.Collections)
-		//会员充值
-		r.Get("/recharge", userCenter.Recharge)
+		//签到记录
+		r.Get("/sign_history", userCenter.Recharge)
 		//我的积分
 		r.Get("/points", userCenter.MyPoints)
 		//站内信息
@@ -56,8 +54,6 @@ func main()  {
 		r.Get("/invite", userCenter.InviteFriends)
 		//个人资料
 		r.Get("/info", userCenter.SelfInfo)
-		//头像设置
-		r.Get("/photo", userCenter.PhotoSetting)
 		//修改密码
 		r.Get("/password", userCenter.ChangePassword)
 	})
