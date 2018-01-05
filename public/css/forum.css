@@ -319,4 +319,23 @@
   .one_forum .body {
     padding: 10px;
   }
+
+  .user_top_left {
+    float: left;
+    width: 100px;
+  }
+  .user_top_right {
+    margin-left: 10px;
+    margin-top: 20px;
+    font-size: 15px;
+    width: 100px;
+    text-align: center;
+  }
+  .user_top_right .name{
+    padding: 10px;
+  }
+  .user_top_right .touxian{
+    padding: 10px;
+  }
+
   

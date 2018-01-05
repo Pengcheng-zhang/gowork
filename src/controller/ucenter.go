@@ -73,8 +73,8 @@ func (ucenter UserCenter) InviteFriends(r render.Render, session sessions.Sessio
 func (ucenter UserCenter) SelfInfo(r render.Render, session sessions.Session)  {
 	
 }
-//头像设置
-func (ucenter UserCenter) PhotoSetting(r render.Render, session sessions.Session)  {
+//签到记录
+func (ucenter UserCenter) SignLogHistory(r render.Render, session sessions.Session)  {
 	
 }
 //修改密码
