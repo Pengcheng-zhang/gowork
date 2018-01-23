@@ -1,26 +1,26 @@
 package controller
 
-type Tab struct{
+type TabController struct{
 
 }
 
 //技术交流
-func (tab Tab) ToTech() {
+func (this *TabController) ToTech() {
 	
 }
 //新创意
-func (tab Tab) ToCreative()  {
+func (this *TabController) ToCreative()  {
 	
 }
 //酷工作
-func (tab Tab) ToJobs()  {
+func (this *TabController) ToJobs()  {
 	
 }
 //交易
-func (tab Tab) ToDeals() {
+func (this *TabController) ToDeals() {
 	
 }
 //相亲角
-func (tab Tab) ToPartern()  {
+func (this *TabController) ToPartern()  {
 	
 }

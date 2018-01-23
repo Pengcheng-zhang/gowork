@@ -17,10 +17,14 @@
     <link rel="stylesheet" type="text/css" href="/css/rank.css">
     <link rel="stylesheet" type="text/css" href="/css/note.css">
     <link rel="stylesheet" type="text/css" href="/css/ucenter.css">
+    
      {{range $key,$value := .Css}}
     <link rel="stylesheet" type="text/css" href="{{$value}}"> {{end}}
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script> {{range $key,$value := .Js}}
+    <script type="text/javascript" src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script> 
+    <script type="text/javascript" src="/js/wangEditor.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    {{range $key,$value := .Js}}
     <script type="text/javascript" src="{{$value}}"></script> {{end}}
 </head>
 <body>

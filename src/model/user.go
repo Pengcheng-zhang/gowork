@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type User struct {
+type UserModel struct {
 	Id int `gorm:"primary_key"`
 	Username string
 	Password string
@@ -22,6 +22,6 @@ type User struct {
 	UpdatedAt time.Time
 }
 
-func (User) TableName() string {
+func (UserModel) TableName() string {
 	return "user"
 }

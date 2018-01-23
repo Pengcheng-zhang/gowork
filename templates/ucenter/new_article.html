@@ -1,65 +1,79 @@
 <div id="main-container" class="conatiner" style="min-height: 359px;">
     <div class="container">
         <div class="col-md-9">
-            <div class="container-fluid">   
+            <div class="container-fluid fourm-top">   
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="fourm-top common_block_border" style="padding: 15px 20px;margin: -15px;margin-top: 0;margin-bottom: 15px">
+                        <div class="fourm-new-article">
                             <h4>发表新帖</h4>
                             <hr>
                             <section id="contents">
-                                <form id="edit-article-form">
+                                <form id="edit_article_form" class="forum-article-form">
                                     <div class="row">
                                         <div class="col-sm-3 col-xs-12">
-                                            <p>
-                                                <select class="form-control" name="forum_id">
-                                                    <option value="1">交流杂谈</option>
-                                                    <option value="3">站长交易</option>
-                                                    <option value="5">向我提问</option>
-                                                </select>
-                                            </p>
+                                            <select class="form-control" name="forum_type">
+                                                <option value="1">交流杂谈</option>
+                                                <option value="2">站长交易</option>
+                                                <option value="3">向我提问</option>
+                                            </select>
                                         </div>
                                         <div class="col-sm-9 col-xs-12">
-                                            <p>
-                                                <input id="title" type="text" name="title" placeholder="标题" value="" class="form-control">
-                                            </p>
+                                            <input id="title" type="text" name="title" placeholder="标题" value="" class="form-control">
                                         </div>
                                     </div>
-                                    <p class="pull-right">
-                                        <button type="submit" class="btn btn-large btn-primary" id="submit-button">
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                            <span id="submit-content">发表</span>
-                                        </button>
-                                        <input type="hidden" id="isEdit" value="">
-                                    </p>
-                                    <p>
-                                        <a class="btn btn-large btn-primary" onclick="history.go(-1)">
-                                            <span class="glyphicon glyphicon-home"></span>返回帖子列表
-                                        </a>
-                                    </p>
-                                    <textarea name="content" id="umeditor_textarea_content" style="display: none;"></textarea>
+                                    <div class="row">
+                                        <div class="col-sm-12" id="yz_editor">
+                                            <p>欢迎登陆“有赞币答“......</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <a class="btn btn-large btn-primary" onclick="history.go(-1)">
+                                                    <span class="glyphicon glyphicon-home"></span>返回帖子列表
+                                                </a>
+                                        </div>
+                                        <div class="col-sm-3 pull-right">
+                                            <button type="button" class="btn btn-large btn-primary pull-right" id="submit_article">
+                                                <span>发表</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
                             </section>
-                            <div style="font-size:14px; line-height:30px;">
-                                <b>发帖指南</b><br>
-                                为了让大家更好的融入有赞币答，请遵守以下创建主题规定：<br>
-                                【1】请不要在有赞币答分享社会新闻。欢迎大家讨论、交流你所关心的互联网新兴事物、有趣事物等，共同分享、发现精彩的互联网。<br>
-                                【2】欢迎大家一起分享网赚的欣喜和艰辛、交流关于百度联盟，ADSENSE，淘宝客，AMAZON，CLICKBANK等等网赚经验<br>
-                                【3】禁止一图一帖，一句一贴，发布无实质性内容或相同相近内容，视为灌水;禁止政治话题、图片，拒绝所有色情暴力，禁止谩骂、攻击、诋毁，违规一律删除并禁言。<br>
-                                【4】广告贴一般当天晚上之前就会删除。
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-9">
-                    </div>
-                    <div class="col-xs-3">
-
-                    </div>
+                    <div class="col-xs-12 forum-article-tip">
+                            <b>发帖指南</b><br>
+                            为了让大家更好的融入有赞币答，请遵守以下创建主题规定：<br>
+                            【1】请不要在有赞币答分享未经证实的社会性舆论。欢迎大家讨论、交流你所关心的互联网新兴事物、有趣事物等，共同分享、发现精彩的互联网。<br>
+                            【2】禁止一图一帖，一句一贴，发布无实质性内容或相同相近内容，视为灌水;禁止政治话题、图片，拒绝所有色情暴力，禁止谩骂、攻击、诋毁，违规一律删除并禁言。<br>
+                            【3】广告贴一般当天晚上之前就会删除。
+                        </div>
                 </div>
             </div>
         </div>
         {{ template "right" }}
     </div>
 </div>
+<script type="text/javascript">
+    var editor
+    $(function(){
+        var E = window.wangEditor
+        editor = new E('#yz_editor')
+        editor.create();
+        $('#submit_article').click(publishNote);
+    });
+    function publishNote() {
+        $.post("/ucenter/new_article", {"forum_type":$('select').val(), "title":$('#title').val(), "content":editor.txt.html()}, function(data){
+            if(data.result) {
+                toastr.success('发表成功！');
+                window.location.href = '/ucenter/article/'+data.message.id;
+            }else{
+                toastr.fail('发表失败');
+            }
+        });
+
+    }
+</script>

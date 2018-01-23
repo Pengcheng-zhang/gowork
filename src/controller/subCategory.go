@@ -1,33 +1,33 @@
 package controller
 
-type SubCategory struct {
+type SubCategoryController struct {
 
 }
 
-func (subcate SubCategory) ToPHP() {
+func (this *SubCategoryController) ToPHP() {
 	
 }
 
-func (subcate SubCategory) ToPython()  {
+func (this *SubCategoryController) ToPython()  {
 	
 }
 
-func (subcate SubCategory) ToJava() {
+func (this *SubCategoryController) ToJava() {
 
 }
 
-func (subcate SubCategory) ToNodeJs()  {
+func (this *SubCategoryController) ToNodeJs()  {
 	
 }
 
-func (subcate SubCategory) ToGoLang()  {
+func (this *SubCategoryController) ToGoLang()  {
 	
 }
 
-func (subcate SubCategory) ToAndroid()  {
+func (this *SubCategoryController) ToAndroid()  {
 	
 }
 
-func (subcate SubCategory) ToIOS()  {
+func (this *SubCategoryController) ToIOS()  {
 	
 }

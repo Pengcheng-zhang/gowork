@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Category struct{
+type CategoryModel struct{
 	Id int 
 	Name string
 	Pid int 
@@ -13,6 +13,6 @@ type Category struct{
 	CreatedAt time.Time
 }
 
-func (Category) TableName() string {
+func (CategoryModel) TableName() string {
 	return "yz_category"
 }

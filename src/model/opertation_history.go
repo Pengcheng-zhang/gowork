@@ -5,7 +5,7 @@ import (
 )
 
 //管理员操作记录表
-type OperationHistory struct {
+type OperationHistoryModel struct {
 	Id int
 	UserId int  //管理员id
 	ArticleId int //帖子id
@@ -14,6 +14,6 @@ type OperationHistory struct {
 	CreatedAt time.Time
 }
 
-func (OperationHistory) TableName() string {
+func (OperationHistoryModel) TableName() string {
 	return "yz_operation_history"
 }

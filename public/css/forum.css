@@ -337,5 +337,25 @@
   .user_top_right .touxian{
     padding: 10px;
   }
+  .fourm-new-article{
+    padding: 15px 20px;
+    margin: -15px;
+    margin-top: 0;
+    margin-bottom: 15px
+  }
+  .forum-article-form{
+    padding-top: 10px;
+  }
+  .forum-article-form .row{
+    padding-top: 10px;
+  }
+  .forum-article-tip{
+    font-size:14px; 
+    line-height:30px;
+  }
+  .forum_module .row{
+    margin-right: 0px;
+    margin-left: 0px;
+  }
 
   

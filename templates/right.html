@@ -1,36 +1,14 @@
 {{ define "right" }}
-<div class="col-md-3" style="padding:0px;">
-    <div class="forum_module">
-        <div class="forum_module_name">
-            <div class="pull-left note_new">
-                <div>
-                    <a type="button" class="btn btn-large btn-primary forum_post_btn" href="/home/addons/execute/_addons/sync_login/_controller/base/_action/login/type/qq.html">
-                         发表新帖
-                    </a>
-                </div>
-            </div>
-            <div class="pull-right">
-                <!--<a href="/forum" class="font_grey" style="font-size: 14px;">查看全部</a>-->
-            </div>
-        </div>
-        <div class="forum_module_content clearfix">
-            <a class="btn btn-default position btn-primary" href="/forum/forum_0.html">全部帖子</a>
-            <a href="/forum/forum_1.html" class="btn btn-default  position ">交流杂谈</a>
-            <a href="/forum/forum_2.html" class="btn btn-default  position ">推广研究</a>
-            <a href="/forum/forum_3.html" class="btn btn-default  position ">站长交易</a>
-            <a href="/forum/forum_5.html" class="btn btn-default  position ">向我提问</a>
-            <a href="/forum/forum_6.html" class="btn btn-default  position ">新闻公告</a>
-        </div>
-    </div>
+<div class="col-md-3">
     <!--登录后显示个人区域-->
     <div class="forum_module" id="user_module">
-        <div class="module_user_top">
-            <div class="user_top_left">
-                <a href="/ucenter/29050.html" data-hasqtip="0">
-                    <img src="/image/default_128_128.jpg" class="avatar-img">
-                </a>
+        <div class="row">
+            <div class="col-sm-4">
+                    <a href="/ucenter/29050.html" data-hasqtip="0">
+                        <img src="/image/default_128_128.jpg" class="avatar-img">
+                    </a>
             </div>
-            <div class="user_top_right">
+            <div class="col-sm-6">
                 <span class="name">
                     <a ucard="" href="/ucenter/29050.html" class="user_name" data-hasqtip="1">雪楓_BWl7</a>
                 </span>
@@ -41,54 +19,60 @@
                 </p>
             </div>
         </div>
-        <div class="module_user_middle">
-            <div class="col-xs-4 text-center" style="width:120px;">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4 text-center">
                 <a href="/ucenter/fans">0</a><br>粉丝
             </div>
-            <div class="col-xs-4 text-center" style="width:100px;">
+            <div class="col-sm-4 text-center">
                 <a href="/ucenter/following">0</a><br>关注
             </div>
         </div>
-        <div class="module_user_bottom"> 
-            <p class="text-primary">积分：10</p>
-            <p class="text-primary">等级：Lv1 实习</p>
+        <div class="row"> 
+            <div class="col-sm-12">
+                    <div class="col-sm-12 text-primary">
+                            积分：10
+                    </div>
+                    <div class="col-sm-12 text-primary">
+                            等级：Lv1 实习
+                    </div>
+                    
+            </div>
+            
         </div>
     </div>
     <!--登录后显示个人区域部分结束-->
     <!-- 签到 -->
     <div class="forum_module">
-        <div class="box1 " id="checkdiv">
-            <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-                    <i class="ico_calendar"></i>
-
-                </div>
-                <div class="col-xs-4  text-center" style="color: #fff; padding-top:2px;line-height: 16px">
-                    <div>01.02</div>
-                    <div>周二</div>
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <a href="/login" id="checkin" class="btn-sign">签到</a>
-                </div>
+        <div class="row box1" id="checkdiv">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                <i class="ico_calendar"></i>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center" style="color: #fff; padding-top:2px;line-height: 16px">
+                <div>01.02</div>
+                <div>周二</div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <a href="/login" id="checkin" class="btn-sign">签到</a>
             </div>
         </div>
-        <div class="checkin">
+        <div class="row checkin">
             <div class="check_rank ">
-                <ul class="check_rank_list" style="margin-bottom: 10px;padding-top: 10px">
+                <ul class="check_rank_list">
                     <li class="row">
-                        <div class="paiming col-md-2">
+                        <div class="paiming col-sm-2">
                             1 </div>
-                        <div class="list col-md-6">
-                            <img class="avatar-img" style="width: 32px" src="/image/header.png">
-                            <a ucard="13131" class="text-more " style="width: 50%;vertical-align: middle" href="/ucenter/13131.html" data-hasqtip="66">
+                        <div class="list col-sm-5">
+                            <a ucard="13131" class="text-more" style="width: 100%;" href="/ucenter/13131.html" data-hasqtip="66">
                                 甲醛治理资讯</a>
                         </div>
-                        <div class="col-md-4 check_date">
-                            00:01:10 </div>
+                        <div class="col-sm-5 check_date">
+                            <span class="pull-right">00:01:10</span>
+                        </div>
                     </li>
                 </ul>
-                <div class="col-xs-12" style="text-align:center;margin-bottom: 2px;border-top: 1px #ccc dashed;">
-                    <a href="/people/index/ranking.html" style="padding: 0;color: #848484;">
+                <div class="col-xs-12">
+                    <a href="/people/index/ranking.html">
                         <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;查看签到排行
                     </a>
                 </div>

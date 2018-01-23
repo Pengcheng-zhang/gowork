@@ -14,7 +14,7 @@ type LoginRequired struct {
 
 func (loginRequire LoginRequired) Call(c martini.Context, r render.Render, session sessions.Session) {
 	v := session.Get("sucai_session_token")
-	var user model.User
+	var user model.UserModel
 	if v != nil {
 		fmt.Println(v)
 		user = biz.GetUserFromSession(v.(string))

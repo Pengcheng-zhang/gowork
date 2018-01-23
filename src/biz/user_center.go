@@ -6,9 +6,10 @@ import (
 	"strings"
 	"encoding/base64"
 	"strconv"
+	"regexp"
 )
 
-type UCenter struct {
+type UCenterManager struct {
 
 }
 type sessionStruct struct {
@@ -17,20 +18,29 @@ type sessionStruct struct {
 	Roles string
 }
 
-var currentUser model.User;
-func CheckUserExist(email string)  model.User{
-	var user model.User
+var currentUser model.UserModel;
+//检查用户是否存在
+func CheckUserExist(email string)  model.UserModel{
+	var user model.UserModel
 	GetDbInstance().Where("email = ?", email).First(&user)
 	return user
 }
-
-func (uCenter UCenter) Register(email, password string)  bool{
-	var user model.User
+func (this *UCenterManager) CheckSensitiveWord(username string) bool {
+	r,_ := regexp.Compile("[*|/|\\|(|)]")
+	result := r.FindStringIndex(username)
+	if result != nil {
+		return false
+	}
+	return true
+}
+//注册用户
+func (this *UCenterManager) Register(email, password string)  bool{
+	var user model.UserModel
 	user = CheckUserExist(email)
 	if user.Id > 0 {
 		return false
 	}
-	user = model.User{ Email:email, Password:password }
+	user = model.UserModel{ Email:email, Password:password }
 	err := GetDbInstance().Create(&user).Error
 	fmt.Printf("user Register: user_id: %s\n", user.Id)
 	fmt.Printf("user Register: err: %v\n", err)
@@ -39,9 +49,9 @@ func (uCenter UCenter) Register(email, password string)  bool{
 	}
 	return false
 }
-
-func (uCenter UCenter) Login(email string, password string) (string, model.User, error){
-	var user model.User
+//用户登陆
+func (this *UCenterManager) Login(email string, password string) (string, model.UserModel, error){
+	var user model.UserModel
 	err := GetDbInstance().Where("email = ? AND password = ?", email, password).First(&user).Error
 	if err != nil {
 		return "", user, err
@@ -60,20 +70,21 @@ func (uCenter UCenter) Login(email string, password string) (string, model.User,
 	return sessionString, user,nil
 }
 
-func Logout() bool {
+//用户登出
+func (this *UCenterManager) Logout() bool {
 	return true
 }
-
-func GetCurrentUser() model.User {
+//获取当前用户
+func (this *UCenterManager) GetCurrentUser() model.UserModel {
 	return currentUser
 }
-
-func setCurrentUser(user model.User) {
+//设置当前用户
+func setCurrentUser(user model.UserModel) {
 	currentUser = user
 }
-
-func GetUserFromSession(session string) model.User{
-	var user model.User
+//从session中获取当前用户
+func GetUserFromSession(session string) model.UserModel{
+	var user model.UserModel
 	decodedSession,err := base64.StdEncoding.DecodeString(session)
 	if err != nil {
 		return user
@@ -100,6 +111,20 @@ func GetUserFromSession(session string) model.User{
 		}
 	}
 	return user
+}
+//检查用户旧密码是否有效
+func (this *UCenterManager) CheckUserOldPassword(username string, oldPassword string) error{
+	var user model.UserModel
+	err := GetDbInstance().Where("username = ? AND password = ?", username, oldPassword).First(&user).Error
+	return err
+}
+//更改用户信息
+func (this *UCenterManager) UpdateUserInfo(user model.UserModel, value interface{}) (model.UserModel,error) {
+	err := GetDbInstance().Model(&user).Updates(value).Error
+	if err != nil {
+		fmt.Println(err)
+	}
+	return user,err
 }
 
 
