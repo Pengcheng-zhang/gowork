@@ -1,7 +1,8 @@
-{{.User.Username}}
-<div id="main-container" class="conatiner" style="min-height: 359px;">
-    <div class="container">
-        {{ template "left" }}
+{{.Data.User.Username}}
+<div id="main-container" class="yz-main-container">
+    <div class="yz-content">
         {{ template "right" }}
+        {{ template "left" }}
     </div>
+    <div class="yz-clear"></div>
 </div>

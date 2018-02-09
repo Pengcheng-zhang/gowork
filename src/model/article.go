@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+//文章表
 type ArticleModel struct{
 	Id int
 	Type string

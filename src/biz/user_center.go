@@ -25,6 +25,7 @@ func CheckUserExist(email string)  model.UserModel{
 	GetDbInstance().Where("email = ?", email).First(&user)
 	return user
 }
+
 func (this *UCenterManager) CheckSensitiveWord(username string) bool {
 	r,_ := regexp.Compile("[*|/|\\|(|)]")
 	result := r.FindStringIndex(username)
@@ -125,6 +126,24 @@ func (this *UCenterManager) UpdateUserInfo(user model.UserModel, value interface
 		fmt.Println(err)
 	}
 	return user,err
+}
+//签到
+func (this *UCenterManager) CheckIn(checkmodel model.SignHistoryModel) bool{
+	err := GetDbInstance().Create(&checkmodel).Error
+	if err != nil {
+		fmt.Printf("check in err: %s", err)
+		return false
+	}
+	return true
+}
+//检查今日是否签到
+func (this *UCenterManager) CheckedIn(checkmodel model.SignHistoryModel) bool{
+	err := GetDbInstance().Where("to_days(created_at) = to_days(now())").First(&checkmodel).Error
+	if err != nil {
+		fmt.Printf("check in err: %s", err)
+		return false
+	}
+	return true
 }
 
 

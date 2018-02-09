@@ -4,7 +4,7 @@ import (
 	"biz"
 	"fmt"
 	"net/http"
-	"github.com/go-martini/martini"
+	//"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
 	// "biz"
@@ -12,7 +12,9 @@ import (
 )
 
 type UserCenterController struct {
-
+	r render.Render
+	session sessions.Session 
+	req *http.Request
 }
 
 type outPut struct {
@@ -24,8 +26,9 @@ type outPut struct {
 
 var output outPut
 var userManager biz.UCenterManager
+
 //首页
-func (this *UserCenterController) Index(r render.Render, session sessions.Session, params martini.Params)  {
+func (this *UserCenterController) Index()  {
 	// v := session.Get("sucai_session_token")
 	// fmt.Println(v)
 	var user model.UserModel
@@ -38,7 +41,7 @@ func (this *UserCenterController) Index(r render.Render, session sessions.Sessio
 	output.User = user
 	output.Js = []string{}
 	output.Css = []string{}
-	r.HTML(200, "ucenter/index", output)
+	this.r.HTML(200, "ucenter/index", output)
 }
 //下载记录
 func (this *UserCenterController) DownloadHistory(r render.Render, session sessions.Session)  {
@@ -65,6 +68,25 @@ func (this *UserCenterController) GetArtList(r render.Render, session sessions.S
 	output.Js = []string{}
 	output.Css = []string{}
 	r.HTML(200, "ucenter/artlist", output)
+}
+//日常签到
+func (this *UserCenterController)  CheckDaily(r render.Render, session sessions.Session){
+	user := userManager.GetCurrentUser()
+	var checkmodel model.SignHistoryModel
+	checkmodel.UserId = user.Id
+	result := userManager.CheckedIn(checkmodel)
+	if result {
+		jResult = map[string]interface{}{"code": 30001, "message":"您今日已经签到过", "result": ""}
+		r.JSON(200, jResult)
+		return
+	}
+	result = userManager.CheckIn(checkmodel)
+	if result {
+		jResult = map[string]interface{}{"code": 10000, "message":"签到成功", "result": ""}
+	}else{
+		jResult = map[string]interface{}{"code": 30002, "message":"签到失败", "result": ""}
+	}
+	r.JSON(200, jResult)
 }
 //发表新贴 GET
 func (this *UserCenterController) NewArticleView(r render.Render)  {
@@ -93,7 +115,8 @@ func (this *UserCenterController) SelfInfo(r render.Render, session sessions.Ses
 }
 //签到记录
 func (this *UserCenterController) SignLogHistory(r render.Render, session sessions.Session)  {
-	
+	//user := userManager.GetCurrentUser()
+
 }
 //修改密码
 func (this *UserCenterController) ChangePassword(r render.Render, req *http.Request, session sessions.Session)  {

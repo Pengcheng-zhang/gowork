@@ -12,6 +12,7 @@ type AdminController struct{
 }
 
 var artManager biz.ArtManager
+
 //后台管理首页
 func (this *AdminController) Index(r render.Render, req *http.Request, session sessions.Session) {
 	

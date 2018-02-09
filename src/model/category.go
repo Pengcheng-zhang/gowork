@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+//分类标签
 type CategoryModel struct{
 	Id int 
 	Name string

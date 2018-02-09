@@ -805,18 +805,6 @@ General list for item with image
   color: #fff !important;
   background: #414448 !important;
 }
-.button {
-  width: 60px;
-  background: #bbb;
-  color: #FFF;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  float: right;
-}
 .lzl_reply_list {
   list-style: none;
   border-bottom: 1px solid #ddd;

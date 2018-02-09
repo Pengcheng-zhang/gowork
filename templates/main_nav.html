@@ -1,39 +1,32 @@
 {{ define "main_nav" }}
-<div id="logo_bar" class="logo_bar" style="background: #03AE87">
-    <div class="container">
-        <div class="row logo">
-            <div class="col-md-9">
-                <a href="/">
-                    <img src="/image/logo.png" style="max-width: 100%">
-                </a>
-            </div>
-            <div class="col-md-3 hidden-xs">
-                <div class="pull-right text-right" style="padding-top:4px;">
-                    <style>
-                        .bdcs-container .bdcs-search-form-input{background:#fff;}
-                        .bdcs-container .bdcs-search-form-submit{height:28px;}
-                    </style>
-                    <div id="bdcs">
-                        <div class="bdcs-container">
-                            <meta http-equiv="x-ua-compatible" content="IE=9">
-                            <!-- 嵌入式 -->
-                            <div class="bdcs-main bdcs-clearfix" id="default-searchbox">
-                                <div class="bdcs-search bdcs-clearfix" id="bdcs-search-inline">
-                                    <form action="http://so.lusongsong.com/cse/search" method="get" target="_blank" class="bdcs-search-form" autocomplete="off" id="bdcs-search-form">
-                                        <input type="hidden" name="s" value="8439151208917997526">
-                                        <input type="hidden" name="entry" value="1">
-                                        <input type="text" name="q" class="bdcs-search-form-input" id="bdcs-search-form-input" placeholder="请输入关键词" autocomplete="off" style="height: 28px; line-height: 28px;">
-                                        <input type="submit" class="bdcs-search-form-submit " id="bdcs-search-form-submit" value="搜索">
-                                    </form>
-                                </div>
-                                <div class="bdcs-search-sug" id="bdcs-search-sug" style="top: 36px; left: -73px; width: 247px;">
-                                    <ul class="bdcs-search-sug-list" id="bdcs-search-sug-list"></ul>
-                                </div>
+<div class="yz-top">
+    <div class="yz-top-content">
+        <div class="yz-top-col">
+            <table cellpadding="0" cellspacing="0" class="yz-top-table">
+                <tbody>
+                    <tr>
+                        <td width="110" align="left">
+                            <a href="/" name="top" title="way to explore">
+                                <img src="//cdn.v2ex.com/site/logo@2x.png?m=1346064962"  align="default" alt="YZBD" class="yz-top-logo" border="0" width="94" height="30">
+                            </a>
+                        </td>
+                        <td width="auto" align="left">
+                            <div id="Search">
+                                <form action="https://www.google.com" onsubmit="return dispatch()" target="_blank">
+                                    <div class="yz-top-search">
+                                        <input type="text" maxlength="40" name="s" id="s" value="" class="yz-top-search-input">
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </td>
+                        <td width="570" align="right" class="yz-top-right">
+                            <a href="/" class="top">首页</a>
+                            <a href="/signup" class="top">注册</a>
+                            <a href="/signin" class="top">登录</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
