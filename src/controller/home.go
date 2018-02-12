@@ -81,11 +81,11 @@ func (this *HomeController) GetLogin(r render.Render, session sessions.Session) 
 	}
 	hResult.Data = map[string]interface{}{"User": user}
 	hResult.Js = []string{"/js/yzcomm.js"}
-	r.HTML(200, "login", hResult)
+	r.HTML(200, "main/signin", hResult)
 }
 
 func (this *HomeController) GetRegist(r render.Render, session sessions.Session)  {
-	
+	r.HTML(200, "main/signup", hResult)
 }
 
 //注册 /regist POST

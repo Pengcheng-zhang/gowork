@@ -1,147 +1,378 @@
-function regist(email, password) {
-    $.post("/api/login",{"email":email, "password":password}, function(data) {
-        if(data.result) {
-            window.location.href = data.next_url;
-        }else{
-            console.log(data.message);
-        }
+// refresh money
+function refreshMoney() {
+    $.post('/ajax/money', function(data) {
+        $('#money').html(data);
     });
 }
-$(function () {
-    bindLzlEvent();
-});
 
+var moveEnd = function(obj){
+	obj.focus();
+    obj = obj.get(0);
+	var len = obj.value.length;
+	if (document.selection) {
+		var sel = obj.createTextRange();
+		sel.moveStart('character',len);
+		sel.collapse();
+		sel.select();
+	} else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+		obj.selectionStart = obj.selectionEnd = len;
+	}
+}
 
-var getArgs = function (uri) {
-    if (!uri) return {};
-    var obj = {},
-        args = uri.split("&"),
-        l, arg;
-    l = args.length;
-    while (l-- > 0) {
-        arg = args[l];
-        if (!arg) {
-            continue;
+function dispatch() {
+    var q = document.getElementById("q");
+    if (q.value != "") {
+        var url = 'https://www.google.com/search?q=site:v2ex.com/t%20' + q.value;
+        if (navigator.userAgent.indexOf('iPad') > -1 || navigator.userAgent.indexOf('iPod') > -1 || navigator.userAgent.indexOf('iPhone') > -1) {
+            location.href = url;
+        } else {
+            window.open(url, "_blank");
         }
-        arg = arg.split("=");
-        obj[arg[0]] = arg[1];
+        return false;
+    } else {
+        return false;
     }
-    return obj;
-};
+}
 
-function bindLzlEvent() {
-    var reply_btn = $('.reply_lzl_btn');
-    reply_btn.unbind('click');
-    reply_btn.click(function () {
-        var args = getArgs($(this).attr('args'));
-
-        var to_f_reply_id = args['to_f_reply_id'];
-        $('#show_textarea_' + to_f_reply_id).show();
-
-        $('#reply_' + to_f_reply_id).val('回复@' + args['to_nickname'] + ' ：');
-        $('#submit_' + to_f_reply_id).attr('args', $(this).attr('args'));
-
+function resendVerificationEmail(once) {
+    $("#ButtonResendVerification").prop("disabled", true);
+    $.post('/settings/resend?once=' + once, function(data) {
+        $("#ResendResponse").html(data.message);
     });
-    $('.input_tips').unbind('keypress');
-    $('.input_tips').keypress(function (e) {
-        if (e.ctrlKey && e.which == 13 || e.which == 10) {
-            var re = $(this).attr('args');
-            var args = getArgs($('#submit_' + re).attr('args'));
+}
 
-            var to_f_reply_id = args['to_f_reply_id'];
-            var post_id = $('#submit_' + re).attr('post_id');
-            var content = $('#reply_' + to_f_reply_id).val();
-            var to_reply_id = args['to_reply_id'];
-            var to_uid = args['to_uid'];
-            submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content);
-        }
-        // this.preventDefault();
+function goTop() {
+    event.preventDefault();
+    $("html, body").animate({scrollTop: 0}, 1000);
+}
+
+// reply a reply
+function replyOne(username){
+    replyContent = $("#reply_content");
+	oldContent = replyContent.val();
+	prefix = "@" + username + " ";
+	newContent = ''
+	if(oldContent.length > 0){
+	    if (oldContent != prefix) {
+	        newContent = oldContent + "\n" + prefix;
+	    }
+	} else {
+	    newContent = prefix
+	}
+	replyContent.focus();
+	replyContent.val(newContent);
+	moveEnd($("#reply_content"));
+}
+
+// send a thank to reply
+function thankReply(replyId, token) {
+    $.post('/thank/reply/' + replyId + "?t=" + token, function() {
+        $('#thank_area_' + replyId).addClass("thanked").html("感谢已发送");
+        refreshMoney();
     });
+}
 
-    var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content, p) {
-        var url = U('Forum/LZL/doSendLZLReply');
+// send a thank to topic
+function thankTopic(topicId, token) {
+    $.post('/thank/topic/' + topicId + "?t=" + token, function(data) {
+        $('#topic_thank').html('<span class="f11 gray" style="text-shadow: 0px 1px 0px #fff;">感谢已发送</span>');
+        refreshMoney();
+    });
+}
 
-        $.post(url, {post_id: post_id, to_f_reply_id: to_f_reply_id, to_reply_id: to_reply_id, to_uid: to_uid, content: content, p: p}, function (msg) {
-            if (msg.status) {
-                toast.success(msg.info, '温馨提示');
-                $('#lzl_reply_list_' + to_f_reply_id).load(U('Forum/LZL/lzlList', ['to_f_reply_id', to_f_reply_id, 'page', msg.url], true), function () {
-                    ucard()
-                })
-                $('#reply_' + to_f_reply_id).val('');
-            } else {
-                toast.error(msg.info, '温馨提示');
+function upVoteTopic(topicId) {
+    if (csrfToken) {
+        var request = $.ajax({
+            url: '/up/topic/' + topicId + "?t=" + csrfToken,
+            type: "POST",
+            dataType: "json"
+        });
+        request.done(function(data) {
+            if (data.changed) {
+                $('#topic_' + topicId + '_votes').html(data.html);
             }
-        }, 'json');
-    };
+        });
+    }
+}
 
-    $(".submitReply").unbind('.submitReply');
-    $(".submitReply").click(function () {
-        var args = getArgs($(this).attr('args'));
-        var to_f_reply_id = args['to_f_reply_id'];
-        var post_id = $(this).attr('post_id');
-        var content = $('#reply_' + to_f_reply_id).val();
-        var to_reply_id = args['to_reply_id'];
-        var to_uid = args['to_uid'];
-        var p = args['p'];
+function downVoteTopic(topicId) {
+    if (csrfToken) {
+        var request = $.ajax({
+            url: '/down/topic/' + topicId + "?t=" + csrfToken,
+            type: "POST",
+            dataType: "json"
+        });
+        request.done(function(data) {
+            if (data.changed) {
+                $('#topic_' + topicId + '_votes').html(data.html);
+            }
+        });
+    }
+}
 
-        submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content, p);
+function ignoreReply(replyId, token) {
+    $.post('/ignore/reply/' + replyId + "?once=" + token, function(data) {
 
-        this.preventDefault();
     });
+    $("#r_" + replyId).slideUp('fast');
+}
 
-    $('.reply_btn').unbind('click');
-    $('.reply_btn').click(function (event) {
-        var args = $(this).attr('args');
-        $('#lzl_reply_div_' + args).toggle();
-        event.preventDefault();
-        //this.preventDefault();
+function deleteNotification(nId, token) {
+    $.post('/delete/notification/' + nId + '?once=' + token, function(data) {
+
     });
-    $('.show_textarea').unbind('click');
-    $('.show_textarea').click(function () {
-        var args = $(this).attr('args');
-        $('#show_textarea_' + args).toggle();
-        this.preventDefault();
-    })
+    $("#n_" + nId).slideUp('fast');
+}
 
-    $('.del_lzl_reply').unbind('click');
-    $('.del_lzl_reply').click(function () {
-        if (confirm('确定要删除该回复么？')) {
-            var args = getArgs($(this).attr('args'));
-            var to_f_reply_id = args['to_f_reply_id'];
-            var url = U('Forum/LZL/delLZLReply');
-            $.post(url, {id: args['lzl_reply_id']}, function (msg) {
-                if (msg.status) {
-                    toast.success('删除成功', '温馨提示');
-                    $('#forum_lzl_reply_' + args['lzl_reply_id']).hide();
-                    $('#reply_' + to_f_reply_id).val('');
-                    $('#reply_btn_' + msg.post_reply_id).html('回复(' + msg.lzl_reply_count + ')');
-                } else {
-                    toast.error('删除失败', '温馨提示');
-                }
-            });
-        }
-        this.preventDefault();
-    });
-    $('.del_reply_btn').unbind('click');
-    $('.del_reply_btn').click(function () {
-        if (confirm('确定要删除该回复么？')) {
-            var args = getArgs($(this).attr('args'));
-            var url = U('Forum/Index/delPostReply');
-            $.post(url, {id: args['reply_id']}, function (msg) {
-                if (msg.status) {
-                    toast.success('删除成功', '温馨提示');
-                    location.reload();
-                } else {
-                    toast.error('删除失败', '温馨提示');
-                }
-            });
+// for GA
+function recordOutboundLink(link, category, action) {
+    try {
+        var pageTracker=_gat._getTracker("UA-11940834-2");
+        pageTracker._trackEvent(category, action);
+        // setTimeout('document.location = "' + link.href + '"', 100)
+    } catch(err) {}
+}
 
-        }
-        this.preventDefault();
+function protectTraffic() {
+    var l = top.location.href;
+	if ((l.indexOf("v2ex.com") == -1) && (l.indexOf("v2ex.co") == -1) && (l.indexOf("v2work.com") == -1) && (l.indexOf("v2ex.dev") == -1) && (l.indexOf("127.0.0.1:") == -1) && (l.indexOf("localhost:") == -1) && (l.indexOf("192.168.86.") == -1) && (l.indexOf("192.168.87.") == -1) && (l.indexOf("192.168.31.") == -1) && (l.indexOf("192.168.1.") == -1) && (l.indexOf("10.0.1.") == -1) && (l.indexOf("10.1.10.") == -1) && (l.indexOf("108.") == -1)) {
+		location.href = 'https://www.v2ex.com/';
+	}
+}
+
+function previewTopic() {
+    var box = $("#box");
+    var preview = $("#topic_preview");
+    if (preview.length == 0) {
+        box.append('<div class="inner" id="topic_preview"></div>');
+        preview = $("#topic_preview");
+    }
+    var md = editor.getValue();
+    $.post( "/preview/markdown", { 'md' : md }, function( data ) {
+        preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
     });
 }
-function changePage(id, p) {
-    $('#lzl_reply_list_' + id).load(U('Forum/LZL/lzllist',['to_f_reply_id',id,'page',p], true), function () {
-        ucard();
-    })
+
+function publishTopic() {
+    var errors = 0;
+    var em = $("#error_message");
+
+    var content = editor.getValue();
+
+    var title = $("#topic_title").val();
+
+    if (title.length == 0) {
+        errors++;
+        em.html("主题标题不能为空");
+    } else if (title.length > 120) {
+        errors++;
+        em.html("主题标题不能超过 120 个字符");
+    }
+
+    if (content.length > 20000) {
+        errors++;
+        em.html("主题内容不能超过 20000 个字符");
+    }
+
+    if (errors == 0) {
+        var input_content = $("#topic_content");
+        input_content.val(content);
+        var form = $("#compose");
+        return form.submit();
+    }
 }
+
+function previewTopicSupplement() {
+    var box = $("#box");
+    var preview = $("#topic_preview");
+    if (preview.length == 0) {
+        box.append('<div class="dock_area"><div class="inner"><span class="gray">主题附言预览</span></div></div><div class="inner" id="topic_preview"></div>');
+        preview = $("#topic_preview");
+    }
+    var txt = $("#topic_supplement").val();
+    var syntax = $("#syntax").val();
+    if (syntax == 0) {
+        $.post( "/preview/default", { 'txt' : txt }, function( data ) {
+            preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
+        });
+    }
+    if (syntax == 1) {
+        $.post( "/preview/markdown", { 'md' : txt }, function( data ) {
+            preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
+        });
+    }
+}
+
+function previewTopicContent() {
+    var box = $("#box");
+    var preview = $("#topic_preview");
+    var syntax = $("#syntax").val();
+    var syntax_text = $('#syntax option:selected').text()
+    if (preview.length == 0) {
+        box.append('<div class="dock_area"><div class="inner"><div class="fr gray" id="syntax_text">文本标记语法 &nbsp;<strong>' + syntax_text + '</strong></div><span class="gray">主题内容预览</span></div></div><div class="inner" id="topic_preview"></div>');
+        preview = $("#topic_preview");
+    } else {
+        $("#syntax_text").html("文本标记语法 &nbsp;<strong>" + syntax_text + "</strong>");
+    }
+    var txt = $("#topic_content").val();
+    if (syntax == 0) {
+        $.post( "/preview/default", { 'txt' : txt }, function( data ) {
+            preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
+        });
+    }
+    if (syntax == 1) {
+        $.post( "/preview/markdown", { 'md' : txt }, function( data ) {
+            preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
+        });
+    }
+}
+
+// Begin: draft management for composing new topic
+
+function saveComposeDraft(memberId) {
+    var contentId = "topic:compose:by:" + memberId;
+    var draft_title = $("#topic_title").val();
+    var draft_content = editor.getValue();
+    var draft_node = $("#nodes").val();
+
+    lscache.set(contentId, {'title': draft_title, 'content': draft_content, 'node': draft_node}, 525600);
+    console.log('Compose draft for member ID ' + memberId + ' is saved');
+}
+
+function loadComposeDraft(memberId) {
+    var draft;
+
+    var contentId = "topic:compose:by:" + memberId;
+    draft = lscache.get(contentId);
+    if (draft) {
+        $("#topic_title").val(draft.title);
+        editor.setValue(draft.content);
+        $("#nodes").select2("val", draft.node);
+        console.log("Loaded compose draft for member ID " + memberId);
+    }
+}
+
+function purgeComposeDraft(memberId) {
+    var contentId = "topic:compose:by:" + memberId;
+    lscache.remove(contentId);
+    console.log("Purged compose draft for member ID " + memberId);
+}
+
+// End: draft management for composing new topic
+
+// Begin: draft management for new topic (default interface)
+
+function saveTopicDraft(nodeName, memberId) {
+    var contentId = "topic:new:" + nodeName + ":by:" + memberId;
+    var draft_title = $("#topic_title").val();
+    var draft_content = $("#topic_content").val();
+
+    lscache.set(contentId, {'title': draft_title, 'content': draft_content}, 525600);
+    console.log('New topic draft for member ID ' + memberId + ' is saved');
+}
+
+function loadTopicDraft(nodeName, memberId) {
+    var draft;
+
+    var contentId = "topic:new:" + nodeName + ":by:" + memberId;
+    draft = lscache.get(contentId);
+    if (draft) {
+        $("#topic_title").val(draft.title);
+        $("#topic_content").val(draft.content);
+        console.log("Loaded new topic draft for member ID " + memberId);
+    }
+}
+
+function purgeTopicDraft(nodeName, memberId) {
+    var contentId = "topic:new:" + nodeName + ":by:" + memberId;
+    lscache.remove(contentId);
+    console.log("Purged new topic draft for member ID " + memberId);
+}
+
+// End: draft management for new topic (default interface)
+
+// Begin: draft management for reply
+
+function saveReplyDraft(topicId, memberId) {
+    if ('localStorage' in window && window['localStorage'] !== null) {
+        var contentId = "topic:" + topicId + ":reply:draft:by:" + memberId
+        var draft = $("#reply_content").val();
+        lscache.set(contentId, draft, 525600);
+        console.log('Reply draft for topic ID ' + topicId + ' is saved');
+    }
+}
+
+function loadReplyDraft(topicId, memberId) {
+    var draft = null;
+
+    var contentId = "topic:" + topicId + ":reply:draft:by:" + memberId
+    draft = lscache.get(contentId);
+    if (draft) {
+        $("#reply_content").val(draft);
+        console.log("Loaded reply draft for topic ID " + topicId);
+    }
+}
+
+function purgeReplyDraft(topicId, memberId) {
+    var contentId = "topic:" + topicId + ":reply:draft:by:" + memberId
+    lscache.remove(contentId);
+    console.log("Purged reply draft for topic ID " + topicId);
+}
+
+// End: draft management for reply
+
+// Begin: draft management for status
+
+function saveStatusDraft(memberId) {
+    var contentId = "status:by:" + memberId + ":draft"
+    var draft = $("#s").val();
+    lscache.set(contentId, draft, 525600);
+    console.log('Status draft by ' + memberId + ' is saved');
+}
+
+function loadStatusDraft(memberId) {
+    var draft = null;
+
+    var contentId = "status:by:" + memberId + ":draft"
+    draft = lscache.get(contentId);
+    if (draft) {
+        $("#s").val(draft);
+        console.log("Loaded status draft by " + memberId);
+    }
+}
+
+function purgeStatusDraft(memberId) {
+    var contentId = "status:by:" + memberId + ":draft"
+    lscache.remove(contentId);
+    console.log("Purged status draft by " + memberId);
+}
+
+// End: draft management for status
+
+// Begin: draft management for /notes/new
+
+function saveNoteDraft(memberId) {
+    var contentId = "note:by:" + memberId + ":draft"
+    var draft = $("#note_content").val();
+    lscache.set(contentId, draft, 525600);
+    console.log('Note draft by ' + memberId + ' is saved');
+}
+
+function loadNoteDraft(memberId) {
+    var draft = null;
+
+    var contentId = "note:by:" + memberId + ":draft"
+    draft = lscache.get(contentId);
+    if (draft) {
+        $("#note_content").val(draft);
+        console.log("Loaded note draft by " + memberId);
+    }
+}
+
+function purgeNoteDraft(memberId) {
+    var contentId = "note:by:" + memberId + ":draft"
+    lscache.remove(contentId);
+    console.log("Purged note draft by " + memberId);
+}
+
+// End: draft management for /notes/new

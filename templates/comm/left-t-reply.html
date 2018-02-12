@@ -1,0 +1,45 @@
+{{ define "leftReply"}}
+<div class="yz-box">
+    <div class="yz-cell">
+        <div class="yz-fr">
+            <a href="#" onclick="goTop()">
+                <strong>↑</strong> 回到顶部</a>
+        </div>
+        添加一条新回复
+    </div>
+    <div class="yz-cell">
+        <form method="post" action="/t/430338">
+            <textarea name="content" maxlength="10000" class="yz-mll" id="reply_content" style="overflow: hidden; word-wrap: break-word; resize: none; height: 112px;"></textarea>
+            <div class="yz-sep10"></div>
+            <div class="yz-fr">
+                <div class="yz-sep5"></div>
+                <span class="yz-gray">请尽量让自己的回复能够对别人有帮助</span>
+            </div>
+            <input type="hidden" value="74528" name="once">
+            <input type="submit" value="回复" class="yz-super yz-normal yz-button">
+            <script type="text/javascript">
+                $("#reply_content").on('input', function (e) {
+                    saveReplyDraft(430338, 285624);
+                });
+
+                var keyPressed = 0;
+
+                $("#reply_content").keydown(function (e) {
+                    keyPressed = keyPressed + 1;
+
+                    if ((e.ctrlKey || e.metaKey) && e.which === 13) {
+                        e.preventDefault();
+                        $("#reply_content").parent().submit();
+                    }
+                });
+            </script>
+        </form>
+    </div>
+    <div class="yz-inner">
+        <div class="yz-fr">
+            <a href="/">← V2EX</a>
+        </div>
+        &nbsp;
+    </div>
+</div>
+{{ end }}

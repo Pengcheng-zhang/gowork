@@ -31,7 +31,7 @@ func commRoute(m *martini.ClassicMartini)  {
 	var home controller.HomeController
 	m.Get("/", home.Index) 					//首页
 	m.Get("/login", home.GetLogin)			//登陆页
-	m.Get("/regist", home.GetRegist)		//注册页
+	m.Get("/signup", home.GetRegist)		//注册页
 
 	m.Post("/api/regist", home.Regist)  		//注册
 	m.Post("/api/login", home.Login)		//登陆

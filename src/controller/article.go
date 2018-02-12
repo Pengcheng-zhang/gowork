@@ -46,12 +46,12 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params) {
 	artId := params["id"]
 	id,err := strconv.Atoi(artId)
 	if err != nil {
-		r.HTML(200, "article/detail", artOutput)
+		r.HTML(200, "article/view", artOutput)
 		return
 	}
 	article, err := artManage.Detail(id)
 	if err != nil {
-		r.HTML(200, "article/detail", artOutput)
+		r.HTML(200, "article/view", artOutput)
 		return
 	}
 	//update view times
@@ -59,7 +59,7 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params) {
 	artManager.Update(article, updateData)
 
 	artOutput.Article = article
-	r.HTML(200, "article/detail", artOutput)
+	r.HTML(200, "article/view", artOutput)
 	
 }
 

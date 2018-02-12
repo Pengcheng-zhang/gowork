@@ -1,0 +1,26 @@
+.yz-editor {
+    position: relative;
+    width: auto;
+    height: 600px;
+    font-size: 16px;
+    line-height: 130%;
+    visibility: hidden;
+    display: none;
+}
+.yz-eidtor-title {
+    padding: 0px;
+    background-color: #fff;
+}
+.yz-editor-area {
+    text-align: left;
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 14px; line-height: 120%;
+}
+.yz-nodes {
+    width: 300px;
+    font-size: 14px;
+    display: none;
+}
+.CodeMirror {
+    font-family: 'Consolas', 'Panic Sans', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
+}

@@ -3,97 +3,8 @@
 <div class="yz-comm-left">
     <div class="yz-sep20"></div>
     <div class="yz-box">
-        <div class=" yz-inner yz-index-category" id="Tabs">
-            <a href="/?tab=tech" class="tab">技术</a>
-            <a href="/?tab=creative" class="tab">创意</a>
-            <a href="/?tab=play" class="tab">好玩</a>
-            <a href="/?tab=apple" class="tab">Apple</a>
-            <a href="/?tab=jobs" class="tab_current">酷工作</a>
-            <a href="/?tab=deals" class="tab">交易</a>
-            <a href="/?tab=city" class="tab">城市</a>
-            <a href="/?tab=qna" class="tab">问与答</a>
-            <a href="/?tab=hot" class="tab">最热</a>
-            <a href="/?tab=all" class="tab">全部</a>
-            <a href="/?tab=r2" class="tab">R2</a>
-        </div>
-        <div class="yz-cell yz-tab-sub">
-            <a href="/go/jobs">酷工作</a> &nbsp; &nbsp;
-            <a href="/go/cv">求职</a> &nbsp; &nbsp;
-            <a href="/go/career">职场话题</a> &nbsp; &nbsp;
-            <a href="/go/outsourcing">外包</a>
-            <div class="yz-fr">
-                <a href="/new/cv">发布我的简历</a> &nbsp; &nbsp;
-                <a href="/new/jobs">发布招聘信息</a>
-            </div>
-        </div>
-        <div class="yz-cell yz-item">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="48" valign="top" align="center">
-                            <a href="/member/ttgo">
-                                <img src="//cdn.v2ex.com/avatar/54a9/40cc/276192_normal.png?m=1513923135" class="avatar" border="0" align="default">
-                            </a>
-                        </td>
-                        <td width="10"></td>
-                        <td width="auto" valign="middle">
-                            <span class="yz-item-title">
-                                <a href="/t/427796#reply723">隔壁组的小兵集体情愿 要炒了 team leader</a>
-                            </span>
-                            <div class="yz-sep5"></div>
-                            <span class="yz-small yz-fade">
-                                <div class="yz-votes">
-                                    <li class="fa fa-chevron-up"></li> &nbsp;80 &nbsp;&nbsp; </div>
-                                <a class="yz-node" href="/go/career">职场话题</a> &nbsp;•&nbsp;
-                                <strong>
-                                    <a href="/member/ttgo">ttgo</a>
-                                </strong> &nbsp;•&nbsp; 3 分钟前 &nbsp;•&nbsp; 最后回复来自
-                                <strong>
-                                    <a href="/member/fengche361">fengche361</a>
-                                </strong>
-                            </span>
-                        </td>
-                        <td width="70" align="right" valign="middle">
-                            <a href="/t/427796#reply723" class="count_livid">723</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="yz-cell yz-item">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="48" valign="top" align="center">
-                            <a href="/member/xiaofans">
-                                <img src="//cdn.v2ex.com/gravatar/0099c2e1123fb82afac87816caf2c6f6?s=48&amp;d=retro" class="avatar" border="0" align="default">
-                            </a>
-                        </td>
-                        <td width="10"></td>
-                        <td width="auto" valign="middle">
-                            <span class="yz-item-title">
-                                <a href="/t/429702#reply14">公司承若的 13 薪，结果变成了 12 薪</a>
-                            </span>
-                            <div class="yz-sep5"></div>
-                            <span class="yz-small yz-fade">
-                                <div class="yz-votes"></div>
-                                <a class="yz-node" href="/go/career">职场话题</a> &nbsp;•&nbsp;
-                                <strong>
-                                    <a href="/member/xiaofans">xiaofans</a>
-                                </strong> &nbsp;•&nbsp; 6 分钟前 &nbsp;•&nbsp; 最后回复来自
-                                <strong>
-                                    <a href="/member/jasonchen168">jasonchen168</a>
-                                </strong>
-                            </span>
-                        </td>
-                        <td width="70" align="right" valign="middle">
-                            <a href="/t/429702#reply14" class="count_livid">14</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        {{ template "tabSubcategory" }}
+        {{ template "leftMainContent"}}
         <div class="yz-inner">
             <div class="yz-fr">
                 <a href="/feed/tab/jobs.xml" target="_blank">
@@ -104,6 +15,7 @@
             <span class="chevron">→</span>
             <a href="/recent">更多新主题</a>
         </div>
+        {{ template "pagenation" }}
     </div>
 </div>
 {{ end }}

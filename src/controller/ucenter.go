@@ -95,7 +95,7 @@ func (this *UserCenterController) NewArticleView(r render.Render)  {
 	output.User = user
 	output.Js = []string{}
 	output.Css = []string{}
-	r.HTML(200, "ucenter/new_article", output)
+	r.HTML(200, "article/new", output)
 }
 //我的积分
 func (this *UserCenterController) MyPoints(r render.Render, session sessions.Session)  {

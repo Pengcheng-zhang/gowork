@@ -1,0 +1,59 @@
+<div class="yz-fl"></div>
+{{ template "right" }}
+<div class="yz-comm-left">
+    <div class="yz-sep20"></div>
+    <div class="yz-box">
+        <div class="yz-header">
+            <a href="/">V2EX</a>
+            <span class="yz-chevron">›</span> 登录 
+            <li class="fa fa-lock"></li>
+        </div>
+        <div class="yz-message" onclick="$(this).slideUp('fast');">你要查看的页面需要先登录</div>
+        <div class="yz-cell">
+            <form method="post" action="/signin">
+                <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="120" align="right">用户名</td>
+                            <td width="auto" align="left">
+                                <input type="text" class="yz-sl" name="a6abe5d4b9738cfd8bbd538a1b8d843afb4c255858dd66e34925edcf631436c5"
+                                    value="" autofocus="autofocus" autocorrect="off" spellcheck="false" autocapitalize="off"
+                                    placeholder="用户名或电子邮箱地址">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">密码</td>
+                            <td width="auto" align="left">
+                                <input type="password" class="yz-sl" name="51d8a1e2a032d2793ab0459fa0dcb4b03a25d32a16eab13d5f86349cade8a94f"
+                                    value="" autocorrect="off" spellcheck="false" autocapitalize="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">你是机器人么？</td>
+                            <td width="auto" align="left">
+                                <div class="yz-code"></div>
+                                <div class="yz-sep10"></div>
+                                <input type="text" class="yz-sl" name="6acb3f7f2414b8acc1d01dc2a2d9d4eb74b15219d6eff33066da956f88667846"
+                                    value="" autocorrect="off" spellcheck="false" autocapitalize="off" placeholder="请输入上图中的验证码">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"></td>
+                            <td width="auto" align="left">
+                                <input type="hidden" value="70058" name="once">
+                                <input type="submit" class="super normal button" value="登录">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"></td>
+                            <td width="auto" align="left">
+                                <a href="/forgot">我忘记密码了</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" value="https://www.v2ex.com/signup" name="next">
+            </form>
+        </div>
+    </div>
+</div>

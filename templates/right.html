@@ -1,157 +1,18 @@
 {{ define "right" }}
 <div class="yz-comm-right">
+    <!--用户-->
     <div class="yz-sep20"></div>
-    <div class="yz-box">
-        <div class="yz-cell">
-            <strong>有咱币答 = 付出 + 收获</strong>
-            <div class="yz-sep5"></div>
-            <span class="yz-fade">有赞币答-你的每一次点击都是有付出的劳动</span>
-        </div>
-        <div class="yz-inner">
-            <div class="yz-sep5"></div>
-            <div align="center">
-                <a href="/signup" class="super normal button">现在注册</a>
-                <div class="yz-sep5"></div>
-                <div class="yz-sep10"></div>
-                已注册用户请 &nbsp;
-                <a href="/signin">登录</a>
-            </div>
-        </div>
-    </div>
-
+    {{ template "rightUser" }}
+    <!--广告-->
     <div class="yz-sep20"></div>
-    <div class="yz-box">
-        <div class="yz-inner">
-            <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- 250x250, V2EX Rightbar -->
-            <ins class="adsbygoogle" style="display:inline-block;width:250px;height:250px" data-ad-client="ca-pub-9823529788289591" data-ad-slot="1330965148"
-                data-adsbygoogle-status="done">
-                <ins id="aswift_0_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:250px;background-color:transparent;">
-                    <ins id="aswift_0_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:250px;background-color:transparent;">
-                        <iframe width="250" height="250" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0"
-                            allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}"
-                            id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:250px;height:250px;"></iframe>
-                    </ins>
-                </ins>
-            </ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
+    {{ template "rightAds"}}
+    <!--热帖-->
     <div class="yz-sep20"></div>
-
-    <div class="yz-box" id="TopicsHot">
-        <div class="yz-cell">
-            <span class="yz-fade">今日热议主题</span>
-        </div>
-
-        <div class="yz-cell from_85759 hot_t_429506">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="24" valign="middle" align="center">
-                            <a href="/member/qweaszxcdf">
-                                <img src="//cdn.v2ex.com/gravatar/8863208730f1800af726335da684675f?s=24&amp;d=retro" class="avatar"
-                                    border="0" align="default" style="max-width: 24px; max-height: 24px;">
-                            </a>
-                        </td>
-                        <td width="10"></td>
-                        <td width="auto" valign="middle">
-                            <span class="item_hot_topic_title">
-                                <a href="/t/429506">京东售后。。。怎么说呢</a>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="yz-cell from_72587 hot_t_429632">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="24" valign="middle" align="center">
-                            <a href="/member/sutking">
-                                <img src="//cdn.v2ex.com/avatar/286b/1d8c/72587_normal.png?m=1466646436" class="avatar" border="0"
-                                    align="default" style="max-width: 24px; max-height: 24px;">
-                            </a>
-                        </td>
-                        <td width="10"></td>
-                        <td width="auto" valign="middle">
-                            <span class="item_hot_topic_title">
-                                <a href="/t/429632">天真的我再一次被虚假宣传戏弄了，这一次是京东！</a>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="yz-cell from_206876 hot_t_429542">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="24" valign="middle" align="center">
-                            <a href="/member/erming">
-                                <img src="//cdn.v2ex.com/gravatar/7f4b3895936964b79c53290b8ea350b0?s=24&amp;d=retro" class="avatar"
-                                    border="0" align="default" style="max-width: 24px; max-height: 24px;">
-                            </a>
-                        </td>
-                        <td width="10"></td>
-                        <td width="auto" valign="middle">
-                            <span class="item_hot_topic_title">
-                                <a href="/t/429542">go 语言适合写桌面程序吗？</a>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    {{ template "rightHotTopic" }}
+    <!--运营状况-->
     <div class="yz-sep20"></div>
-    <div class="yz-box">
-        <div class="yz-cell">
-            <span class="yz-fade">运行状况</span>
-        </div>
-        <div class="yz-cell">
-            <table cellpadding="5" cellspacing="0" border="0" width="100%">
-                <tbody>
-                    <tr>
-                        <td width="60" align="right">
-                            <span class="gray">注册会员</span>
-                        </td>
-                        <td width="auto" align="left">
-                            <strong>290934</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="60" align="right">
-                            <span class="gray">主题</span>
-                        </td>
-                        <td width="auto" align="left">
-                            <strong>429740</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="60" align="right">
-                            <span class="gray">回复</span>
-                        </td>
-                        <td width="auto" align="left">
-                            <strong>5316606</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="yz-inner">
-            <span class="chevron">›</span>
-            <a href="/top/rich">财富排行榜</a>
-            <div class="yz-sep5"></div>
-            <span class="chevron">›</span>
-            <a href="/top/player">消费排行榜</a>
-        </div>
-    </div>
+    {{ template "rightWebStatus" }}
+    
     <div class="yz-sep20"></div>
 </div>
 {{ end }}

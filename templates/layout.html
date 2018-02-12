@@ -10,20 +10,28 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="/css/jquery.qtip.min.css">
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    
-     {{range $key,$value := .Css}}
-    <link rel="stylesheet" type="text/css" href="{{$value}}"> {{end}}
+    <link rel="stylesheet" type="text/css" href="/css/yz-style.css">
+    <link rel="stylesheet" type="text/css" href="/css/yz-new.css">
+    <link rel="stylesheet" type="text/css" href="/codemirror/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="/select2/select2.css">
+
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script> 
     <script type="text/javascript" src="/js/wangEditor.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    {{range $key,$value := .Js}}
-    <script type="text/javascript" src="{{$value}}"></script> {{end}}
+    <script type="text/javascript" src="/codemirror/codemirror.js"></script>
+    <script type="text/javascript" src="/select2/select2.js"></script>
+    <script type="text/javascript" src="/js/yzcomm.js"></script>
 </head>
 <body>
     {{ template "main_nav" }}
-    {{ yield }}
+    <div id="main-container" class="yz-main-container">
+        <div class="yz-content">
+        {{ yield }}
+        </div>
+        <div class="yz-sep20"></div>
+        <div class="yz-clear"></div>
+    </div>
     {{ template "footer" }}
 </body>
 
