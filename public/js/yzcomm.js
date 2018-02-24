@@ -83,13 +83,14 @@ function thankTopic(topicId, token) {
 function upVoteTopic(topicId) {
     if (csrfToken) {
         var request = $.ajax({
-            url: '/up/topic/' + topicId + "?t=" + csrfToken,
+            url: '/article/api_prise',
+            data: {id:topicId},
             type: "POST",
             dataType: "json"
         });
         request.done(function(data) {
-            if (data.changed) {
-                $('#topic_' + topicId + '_votes').html(data.html);
+            if (data.code == '10000') {
+                $('#topic_votes>a:first>li').html(data.result);
             }
         });
     }
@@ -98,18 +99,31 @@ function upVoteTopic(topicId) {
 function downVoteTopic(topicId) {
     if (csrfToken) {
         var request = $.ajax({
-            url: '/down/topic/' + topicId + "?t=" + csrfToken,
+            url: '/article/api_diss',
+            data: {id: topicId},
             type: "POST",
             dataType: "json"
         });
         request.done(function(data) {
-            if (data.changed) {
-                $('#topic_' + topicId + '_votes').html(data.html);
+            if (data.code == '10000') {
+                $('#topic_votes>a:last>li').html(data.result);
             }
         });
     }
 }
-
+function replyArticle(topicId, content) {
+    var request = $.ajax({
+        url: '/article/api_comment',
+        data: {id: topicId, content: content},
+        type: "POST",
+        dataType: "json"
+    });
+    request.done(function(data) {
+        if (data.code == '10000') {
+            $('#topic_votes>a:last>li').html(data.result);
+        }
+    });
+}
 function ignoreReply(replyId, token) {
     $.post('/ignore/reply/' + replyId + "?once=" + token, function(data) {
 

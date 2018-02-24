@@ -160,7 +160,8 @@ func (this *ArticleController) AddViewTimes(r render.Render, req *http.Request, 
 
 //为帖子点赞
 func (this *ArticleController) AddPriseNum(r render.Render, req *http.Request, session sessions.Session) {
-	articleID := req.FormValue("article_id")
+	articleID := req.FormValue("id")
+	fmt.Println("articleID:",articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -174,7 +175,7 @@ func (this *ArticleController) AddPriseNum(r render.Render, req *http.Request, s
 	updateData := map[string]interface{}{"PriseNum": article.PriseNum+1}
 	result := artManager.Update(article, updateData);
 	if result {
-		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "点赞成功"})
+		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "点赞成功", "result": article.PriseNum+1})
 	}else{
 		r.JSON(200, map[string]interface{}{"code": 20003, "message" : "点赞失败"})
 	}
@@ -183,7 +184,7 @@ func (this *ArticleController) AddPriseNum(r render.Render, req *http.Request, s
 
 //Diss一下帖子
 func (this *ArticleController) AddDissNum(r render.Render, req *http.Request, session sessions.Session) {
-	articleID := req.FormValue("article_id")
+	articleID := req.FormValue("id")
 	fmt.Printf("article diss id: %s", articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
@@ -198,7 +199,7 @@ func (this *ArticleController) AddDissNum(r render.Render, req *http.Request, se
 	updateData := map[string]interface{}{"DissNum": article.DissNum+1}
 	result := artManager.Update(article, updateData);
 	if result {
-		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "Diss成功"})
+		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "Diss成功", "result": article.DissNum+1})
 	}else{
 		r.JSON(200, map[string]interface{}{"code": 20006, "message" : "Diss失败"})
 	}
@@ -206,7 +207,7 @@ func (this *ArticleController) AddDissNum(r render.Render, req *http.Request, se
 
 //添加评论
 func (this *ArticleController) AddReply(r render.Render, req *http.Request, session sessions.Session) {
-	articleID := req.FormValue("article_id")
+	articleID := req.FormValue("id")
 	replyContent := req.FormValue("content")
 	fmt.Printf("article addReply id: %s", articleID)
 	artId,err := strconv.Atoi(articleID)

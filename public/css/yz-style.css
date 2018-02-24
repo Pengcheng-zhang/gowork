@@ -485,3 +485,8 @@ a.yz-tb:link, a.yz-tb:visited, a.yz-tb:active {
     resize: vertical;
     box-sizing: border-box;
 }
+.yz-detail-bottom-right {
+    line-height: 12px;
+    padding-top: 3px;
+    text-shadow: 0px 1px 0px #fff;
+}
