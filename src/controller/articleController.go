@@ -17,6 +17,7 @@ type artOutPut struct{
 	ReplyList []model.ReplyResultModel
 	PageCount int
 	ReplyCount int
+	User model.UserModel
 }
 
 type ArticleController struct{

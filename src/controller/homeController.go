@@ -120,9 +120,8 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 		r.JSON(200, this.jResult)
 		return 
 	}
-	var success bool
 	var nextUrl string
-	success = this.uCenterBiz.Register(username, email, password)
+	message, success := this.uCenterBiz.Register(username, email, password)
 	if success {
 		var user model.UserModel
 		loginSession,user,err := this.uCenterBiz.Login(email, password)
@@ -135,8 +134,10 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 		fmt.Printf("session=%s\n", loginSession)
 		session.Set("sucai_session_token", loginSession)
 		nextUrl = strings.Join([]string{"/user/", strconv.Itoa(user.Id)}, "")
+		this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}
+	} else {
+		this.jResult = map[string]interface{}{"code": 10001, "message" : message}
 	}
-	this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}
 	r.JSON(200, this.jResult)
 }
 

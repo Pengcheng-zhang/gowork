@@ -7,6 +7,7 @@ import (
 	"encoding/base64"
 	"strconv"
 	"regexp"
+	"errors"
 )
 
 type UserBiz struct {
@@ -20,10 +21,36 @@ type sessionStruct struct {
 
 var currentUser model.UserModel;
 //检查用户是否存在
-func CheckUserExist(username, email string)  model.UserModel{
+func CheckUserExist(username, email string)  (string,error){
+	result := checkUserByName(username)
+	if result == false {
+		return "用户名已被占用", errors.New("username is used")
+	}
+	result = checkUserByEmail(email) 
+	if result == false {
+		return "邮箱已被占用", errors.New("email is used")
+	}
+	return "", nil
+}
+
+//检查用户名是否注册
+func checkUserByName(username string) bool {
 	var user model.UserModel
-	GetDbInstance().Where("username = ? or email = ?", username, email).First(&user)
-	return user
+	GetDbInstance().Where("username = ?", username).First(&user)
+	if user.Id > 0 {
+		return false
+	}
+	return true
+}
+
+//检查邮箱是否注册
+func checkUserByEmail (email string) bool {
+	var user model.UserModel
+	GetDbInstance().Where("email = ?", email).First(&user)
+	if user.Id > 0 {
+		return false
+	}
+	return true
 }
 
 //检查敏感词
@@ -36,20 +63,19 @@ func (this *UserBiz) CheckSensitiveWord(username string) bool {
 	return true
 }
 //注册用户
-func (this *UserBiz) Register(username, email, password string)  bool{
+func (this *UserBiz) Register(username, email, password string)  (string, bool){
 	var user model.UserModel
-	user = CheckUserExist(username, email)
-	if user.Id > 0 {
-		return false
+	message, err := CheckUserExist(username, email)
+	if err != nil {
+		return message, false
 	}
-	user = model.UserModel{ Email:email, Password:password }
-	err := GetDbInstance().Create(&user).Error
-	fmt.Printf("user Register: user_id: %d\n", user.Id)
+	user = model.UserModel{ Username: username, Email:email, Password:password }
+	err = GetDbInstance().Create(&user).Error
 	fmt.Printf("user Register: err: %v\n", err)
 	if err == nil{
-		return true
+		return "", true
 	}
-	return false
+	return "注册失败",false
 }
 //用户登陆
 func (this *UserBiz) Login(email string, password string) (string, model.UserModel, error){

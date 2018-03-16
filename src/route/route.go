@@ -11,9 +11,9 @@ import(
 )
 
 func Run(m *martini.ClassicMartini)  {
-	var comm biz.Commom
+	var commBiz biz.CommomBiz
 	var category []model.CategoryModel
-	category = comm.GetCategory(1)
+	category = commBiz.GetCategory(1)
 	fmt.Println(category)
 	
 	commRoute(m)
@@ -90,7 +90,7 @@ func articleRoute(m *martini.ClassicMartini)  {
 
 //小分类路由
 func subPathRoute(m *martini.ClassicMartini)  {
-	var subCategory controller.SubCategoryController
+	var subCategory controller.CategoryController
 	m.Group("/go", func (r martini.Router)  {
 		r.Get("/php", subCategory.ToPHP)
 		r.Get("/python", subCategory.ToPython)
