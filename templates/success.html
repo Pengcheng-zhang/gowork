@@ -1,0 +1,12 @@
+<div class="yz-sep20"></div>
+<div class="yz-box" style="height:500px;text-align:center;">
+{{ if eq .Code 1000}}
+<div class="yz-success" style="padding-top:200px;">
+    {{ .Message }}
+</div>
+{{ else }}
+<div class="yz-error" style="padding-top:200px;">
+    {{ .Message }}
+</div>
+{{ end }}
+</div>

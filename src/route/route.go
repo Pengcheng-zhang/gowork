@@ -21,6 +21,8 @@ func Run(m *martini.ClassicMartini)  {
 	ucenterRoute(m)
 	articleRoute(m)
 	subPathRoute(m)
+	wechatRoute(m)
+	emailRoute(m)
 	route404(m)
 
 	m.Run()
@@ -32,8 +34,9 @@ func commRoute(m *martini.ClassicMartini)  {
 	m.Get("/", home.Index) 					//首页
 	m.Get("/signin", home.GetLogin)			//登陆页
 	m.Get("/signup", home.GetRegist)		//注册页
+	m.Get("/about", home.About)             //关于我们
 
-	m.Post("/api/regist", home.Regist)  		//注册
+	m.Post("/api/signup", home.Regist)  		//注册
 	m.Post("/api/login", home.Login)		//登陆
 	m.Post("/api/logout", home.Logout)			//登出
 }
@@ -53,7 +56,7 @@ func ucenterRoute(m *martini.ClassicMartini)  {
 	var userCenter controller.UserCenterController
 	m.Group("/ucenter",func (r martini.Router)  {
 		//Get
-		r.Get("/user/:id\\d{1,5}",userCenter.Index) 		//首页
+		r.Get("/user/:id",userCenter.Index) 		//首页
 		r.Get("/collect", userCenter.Collections)			//收藏管理
 		r.Get("/sign_history", userCenter.SignLogHistory)	//签到记录
 		r.Get("/points", userCenter.MyPoints)				//我的积分
@@ -63,9 +66,10 @@ func ucenterRoute(m *martini.ClassicMartini)  {
 		r.Get("/password", userCenter.ChangePassword)		//修改密码
 		r.Get("/new_article", userCenter.NewArticleView)	//发表新文章view
 		r.Get("/art_list/:status", userCenter.GetArtList)	//文章列表
-
+		r.Get("/settings", userCenter.Settings)
 		//POST
 		r.Post("/api_check", userCenter.CheckDaily)			//每日签到
+		
 	})
 }
 
@@ -73,7 +77,7 @@ func ucenterRoute(m *martini.ClassicMartini)  {
 func articleRoute(m *martini.ClassicMartini)  {
 	var articleController controller.ArticleController
 	m.Group("/article",func(r martini.Router){
-		m.Get("/:id\\d{1,5}", articleController.Detail)      		//文章详情
+		m.Get("/:id", articleController.Detail)      		//文章详情
 		m.Post("/api_new", articleController.NewArticle)				//发表文章
 		m.Post("/api_prise", articleController.AddPriseNum)				//为文章点赞
 		m.Post("/api_diss", articleController.AddDissNum)				//Diss一下文章
@@ -95,6 +99,22 @@ func subPathRoute(m *martini.ClassicMartini)  {
 		r.Get("/golang", subCategory.ToGoLang)
 		r.Get("/android", subCategory.ToAndroid)
 		r.Get("/ios", subCategory.ToIOS)
+	})
+}
+//微信路由
+func wechatRoute(m *martini.ClassicMartini) {
+	var wechat controller.WechatController
+	m.Group("/wechat", func(r martini.Router) {
+		r.Get("", wechat.Index)
+		r.Get("/login", wechat.Login)
+	})
+}
+
+func emailRoute(m *martini.ClassicMartini) {
+	var email controller.EmailController
+	m.Group("/email", func(r martini.Router) {
+		r.Get("/verify", email.Verification)
+		r.Post("/send", email.SendRegistVerification)
 	})
 }
 //404 not found

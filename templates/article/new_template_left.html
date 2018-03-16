@@ -3,7 +3,7 @@
     <div class="yz-cell">
         <a href="/">有赞币答</a>
         <span class="yz-chevron"> › </span> 创作新主题</div>
-    <form method="post" action="/new" id="compose">
+    <form>
         <div class="yz-cell">
             <div class="yz-fr yz-fade" id="title_remaining">120</div>
             主题标题
@@ -23,34 +23,14 @@
                 <option></option>
             </select>
         </div>
-        <div class="yz-cell">
-            最热节点 &nbsp;
-            <a href="javascript:chooseNode('qna')" class="yz-node">问与答</a> &nbsp;
-            <a href="javascript:chooseNode('share')" class="yz-node">分享发现</a> &nbsp;
-            <a href="javascript:chooseNode('jobs')" class="node">酷工作</a> &nbsp;
-            <a href="javascript:chooseNode('programmer')" class="node">程序员</a> &nbsp;
-            <a href="javascript:chooseNode('macos')" class="node">macOS</a> &nbsp;
-            <a href="javascript:chooseNode('create')" class="node">分享创造</a> &nbsp;
-            <a href="javascript:chooseNode('python')" class="node">Python</a> &nbsp;
-            <a href="javascript:chooseNode('iphone')" class="node">iPhone</a> &nbsp;
-            <a href="javascript:chooseNode('apple')" class="node">Apple</a> &nbsp;
-            <a href="javascript:chooseNode('android')" class="node">Android</a> &nbsp;
-            <a href="javascript:chooseNode('bb')" class="node">宽带症候群</a> &nbsp;
-            <a href="javascript:chooseNode('linux')" class="node">Linux</a> &nbsp;
-            <a href="javascript:chooseNode('cv')" class="node">求职</a> &nbsp;
-            <a href="javascript:chooseNode('mbp')" class="node">MacBook Pro</a> &nbsp;
-        </div>
-        <input type="hidden" name="content" value="" id="topic_content">
         <input type="hidden" name="once" value="22183">
     </form>
     <div class="yz-cell">
-        <div class="yz-fr">
-            <span id="error_message"></span> &nbsp;
-            <button type="button" class="yz-super yz-normal yz-button" onclick="publishTopic();">
+        <div>
+            <span id="yz_error_message"></span> &nbsp;
+            <button type="button" class="yz-super yz-normal yz-button"  onclick="publishTopic();">
                 <li class="fa fa-paper-plane"></li> &nbsp;发布主题</button>
         </div>
-        <button class="yz-super yz-normal yz-button" onclick="previewTopic();">
-            <li class="fa fa-eye"></li> &nbsp;预览主题</button>
     </div>
     <div class="yz-inner" id="topic_preview">
         <div class="yz-topic-content">
@@ -65,7 +45,9 @@
             placeholder: '请选择一个节点',
             data: itemList
         });
-
+        $('#yz_nodes').on("change", function(){
+            $("#yz_error_message").html('');
+        });
         editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
             mode: "markdown",
             lineNumbers: true,

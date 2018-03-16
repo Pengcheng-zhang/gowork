@@ -22,9 +22,10 @@
     <script type="text/javascript" src="/codemirror/codemirror.js"></script>
     <script type="text/javascript" src="/select2/select2.js"></script>
     <script type="text/javascript" src="/js/yzcomm.js"></script>
+    <script type="text/javascript" src="/js/template.js"></script>
 </head>
 <body>
-    {{ template "main_nav" }}
+    {{ template "main_nav" . }}
     <div id="main-container" class="yz-main-container">
         <div class="yz-content">
         {{ yield }}

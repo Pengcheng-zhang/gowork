@@ -1,0 +1,124 @@
+<div class="yz-fl"></div>
+<div class="yz-comm-right">
+    <!--用户-->
+    <div class="yz-sep20"></div>
+    {{ template "rightUser" . }}
+</div>
+<div class="yz-comm-left">
+    <div class="yz-sep20"></div>
+    <div class="yz-box">
+        <div class="yz-header">
+            <a href="/">首页</a>
+            <span class="yz-chevron">&nbsp;›&nbsp;</span> 设置
+        </div>
+        <div class="yz-inner">
+            <form method="post" action="/settings">
+                <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="120" align="right">
+                                <img src="//cdn.v2ex.com/gravatar/73e31ac71801427bd6aa44aded5769e2?s=24&amp;d=retro" class="avatar" border="0" align="default"
+                                    style="max-width: 24px; max-height: 24px;">
+                            </td>
+                            <td width="auto" align="left">第 {{ .User.Id}} 号会员</td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">用户名</td>
+                            <td width="auto" align="left">{{ .User.Username}} </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">电子邮件</td>
+                            <td width="auto" align="left">
+                                <code>{{ .User.Email}}</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"></td>
+                            <td width="auto" align="left">
+                                <a href="/settings/email">更改注册邮箱</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">电子邮件地址验证</td>
+                            <td width="auto" align="left">
+                                <span class="green">已在 2018-01-23 10:00:15 +08:00 完成验证</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">签名</td>
+                            <td width="auto" align="left">
+                                <input type="text" class="sl" name="tagline" value="" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">个人简介</td>
+                            <td width="auto" align="left">
+                                <textarea class="ml" name="bio"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">社区财富排行榜</td>
+                            <td width="auto" align="left">
+                                <span class="negative">全区第31名</span>
+                                <a href="/top/rich" target="_blank">查看当前排行榜 ›</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">余额</td>
+                            <td width="auto" align="left">
+                                <span class="negative">2铜7银</span>
+                                <a href="/balance" target="_blank">查看我的当前余额 ›</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"></td>
+                            <td width="auto" align="left">
+                                <input type="hidden" value="1" name="show_ads">
+                                <input type="hidden" value="52007" name="once">
+                                <input type="submit" class="yz-super yz-normal yz-button" value="保存设置">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="yz-sep20"></div>
+    <div class="yz-box">
+        <div class="yz-cell">
+            更改密码</div>
+        <div class="yz-inner">
+            <form method="post" action="/settings/password">
+                <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="120" align="right">当前密码</td>
+                            <td width="auto" align="left">
+                                <input type="password" class="sl" name="password_current" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">新密码</td>
+                            <td width="auto" align="left">
+                                <input type="password" class="sl" name="password_new" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right">再次输入新密码</td>
+                            <td width="auto" align="left">
+                                <input type="password" class="sl" name="password_again" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"></td>
+                            <td width="auto" align="left">
+                                <input type="hidden" value="52007" name="once">
+                                <input type="submit" class="yz-super yz-normal yz-button" value="更改密码">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

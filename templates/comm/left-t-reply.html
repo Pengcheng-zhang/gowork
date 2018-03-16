@@ -8,31 +8,15 @@
         添加一条新回复
     </div>
     <div class="yz-cell">
-        <form>
-            <textarea name="content" maxlength="10000" class="yz-mll" id="reply_content" style="overflow: hidden; word-wrap: break-word; resize: none; height: 112px;"></textarea>
+        <form id="yz_reply_form">
+            <textarea name="content" maxlength="10000" class="yz-mll" id="yz_reply_content" style="overflow: hidden; word-wrap: break-word; resize: none; height: 112px;"></textarea>
             <div class="yz-sep10"></div>
             <div class="yz-fr">
                 <div class="yz-sep5"></div>
                 <span class="yz-gray">请尽量让自己的回复能够对别人有帮助</span>
             </div>
             <input type="hidden" value="74528" name="once">
-            <input type="submit" id="article_reply" value="回复" class="yz-super yz-normal yz-button">
-            <script type="text/javascript">
-                $("#reply_content").on('input', function (e) {
-                    saveReplyDraft(430338, 285624);
-                });
-                $("#article_reply").on("click", replyArticle(1));    
-                var keyPressed = 0;
-
-                $("#reply_content").keydown(function (e) {
-                    keyPressed = keyPressed + 1;
-
-                    if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-                        e.preventDefault();
-                        $("#reply_content").parent().submit();
-                    }
-                });
-            </script>
+            <input type="button" id="article_reply" value="回复" class="yz-super yz-normal yz-button">
         </form>
     </div>
     <div class="yz-inner">
@@ -42,4 +26,43 @@
         &nbsp;
     </div>
 </div>
+<script id="yz_topic_reply" type="text/html">
+    <div id="r_5328068" class="yz-cell">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tbody>
+                <tr>
+                    <td width="48" valign="top" align="center">
+                        <img src="//cdn.v2ex.com/avatar/8878/4039/96987_normal.png?m=1423702076" class="yz-avatar" border="0" align="default">
+                    </td>
+                    <td width="10" valign="top"></td>
+                    <td width="auto" valign="top" align="left">
+                        <div class="yz-fr">
+                            <div id="thank_area_5328068" class="yz-thank-area">
+                                <a href="#;" onclick="if (confirm('确认花费 10 个铜币向 @SevanJoe 的这条回复发送感谢？')) { thankReply(#{=UserID}#, 'biqgcgbmekkudnnfkrrdmbwgqocuqdgy'); }"
+                                    class="yz-thank">感谢回复者</a>
+                            </div>
+                            <a href="#;" onclick="replyOne('SevanJoe');">
+                                <img src="//cdn.v2ex.com/static/img/reply.png" align="absmiddle" border="0" alt="Reply">
+                            </a>
+                            <span class="yz-no">1</span>
+                        </div>
+                        <div class="yz-sep3"></div>
+                        <strong>
+                            <a href="/member/SevanJoe" class="yz-dark">#{=Username}#</a>
+                        </strong>
+                        <span class="yz-ago">刚刚</span>
+                        <div class="yz-sep5"></div>
+                        <div class="yz-reply-content">#{=Content}#</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+<script type="text/javascript">
+    template.config({sTag: '#{', eTag: '}#'});
+    $("#article_reply").on("click", function(){
+        replyArticle(1);
+    });
+</script>
 {{ end }}

@@ -5,17 +5,19 @@
     <div class="yz-box">
         <div class="yz-header">
             <a href="/">有赞币答</a>
-            <span class="yz-chevron">></span> 注册</div>
+            <span class="yz-chevron">></span> 注册
+        </div>
         <div class="yz-inner">
-            <form method="post" action="/signup">
+            <div class="yz-message yz-hidden" id="yz_tip_message"></div>
+            <form>
                 <table cellpadding="5" cellspacing="0" border="0" width="100%">
                     <tbody>
                         <tr>
                             <td width="120" align="right" valign="top">
                                 <div class="yz-sep5"></div>用户名</td>
                             <td width="auto" align="left">
-                                <input type="text" class="yz-sls" name="561788cdbc5d5cf40bc696093207de61ee2c68f574f8c77a4e8712411ea00f72"
-                                    value="" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" required="required">
+                                <input type="text" class="yz-sls" name="username" value="" autocomplete="off"
+                                    autocorrect="off" spellcheck="false" autocapitalize="off" required="required" placeholder="5到20个字符">
                                 <div class="yz-sep5"></div>
                                 <span class="yz-fade">请使用半角的 a-z 或数字 0-9</span>
                             </td>
@@ -23,36 +25,24 @@
                         <tr>
                             <td width="120" align="right">密码</td>
                             <td width="auto" align="left">
-                                <input type="password" class="yz-sls" name="10351246004d0df73b9b843347f5379ec8eef2191c2c99df9400d68141e88f34"
-                                    value="" autocomplete="new-password" autocorrect="off" spellcheck="false" autocapitalize="off"
-                                    required="required">
+                                <input type="password" class="yz-sls" name="password" value="" autocomplete="new-password"
+                                    autocorrect="off" spellcheck="false" autocapitalize="off" required="required">
                             </td>
                         </tr>
                         <tr>
                             <td width="120" align="right" valign="top">
                                 <div class="yz-sep5"></div>电子邮件</td>
                             <td width="auto" align="left">
-                                <input type="email" class="yz-sls" name="00f398e6bbc0288d66508123ae055d1df093b88978a5eedf3816601780a3150f"
-                                    value="" autocorrect="off" spellcheck="false" autocapitalize="off" required="required">
+                                <input type="email" class="yz-sls" name="email" value="" autocorrect="off"
+                                    spellcheck="false" autocapitalize="off" required="required">
                                 <div class="yz-sep5"></div>
                                 <span class="yz-fade">请使用真实电子邮箱注册，我们不会将你的邮箱地址分享给任何人</span>
                             </td>
                         </tr>
                         <tr>
-                            <td width="120" align="right">你是机器人么？</td>
-                            <td width="auto" align="left">
-                                <div class="yz-code"></div>
-                                <div class="yz-sep10"></div>
-                                <input type="text" class="yz-sl" name="b39aec2a2bf78e22f3150af8f3624e0ba5c312d58f60ef088f1c206f09a02dde"
-                                    value="" autocorrect="off" spellcheck="false" autocapitalize="off" placeholder="请输入上图中的验证码"
-                                    required="required">
-                            </td>
-                        </tr>
-                        <tr>
                             <td width="120" align="right"></td>
                             <td width="auto" align="left">
-                                <input type="hidden" name="once" value="14217">
-                                <input type="submit" class="yz-super yz-normal yz-button" value="注册">
+                                <input type="button" class="super normal button" onclick="" value="注册">
                             </td>
                         </tr>
                     </tbody>

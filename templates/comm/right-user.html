@@ -1,114 +1,117 @@
 {{ define "rightUser"}}
 <!-- 未登录-->
-<div class="yz-box">
-    <div class="yz-cell">
-        <strong>有咱币答 = 付出 + 收获</strong>
-        <div class="yz-sep5"></div>
-        <span class="yz-fade">有赞币答-你的每一次点击都是有付出的劳动</span>
-    </div>
-    <div class="yz-inner">
-        <div class="yz-sep5"></div>
-        <div align="center">
-            <a href="/signup" class="yz-super yz-normal yz-button">现在注册</a>
-            <div class="yz-sep5"></div>
-            <div class="yz-sep10"></div>
-            已注册用户请 &nbsp;
-            <a href="/signin">登录</a>
-        </div>
-    </div>
-</div>
-<div class="yz-sep20"></div>
-<!-- 登录方式-->
-<div class="yz-box">
-    <div class="yz-header">其他登录方式</div>
-    <div class="yz-cell" style="text-align: center;">
-        <a onclick="location.href = '/auth/google?once=70058';" href="#" class="yz-google-signin"></a>
-    </div>
-</div>
-<div class="yz-sep20"></div>
+{{ if and .User  .User.Id}}
 <!-- 已登录 -->
 <div class="yz-box">
-    <div class="yz-cell">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="48" valign="top">
-                        <a href="/member/IFK">
-                            <img src="//cdn.v2ex.com/gravatar/287840c38b80043cc20c2c991110e0b9?s=48&amp;d=retro" class="yz-avatar"
-                                border="0" align="default" style="max-width: 48px; max-height: 48px;">
-                        </a>
-                    </td>
-                    <td width="10" valign="top"></td>
-                    <td width="auto" align="left">
-                        <span class="yz-bigger">
-                            <a href="/member/IFK">IFK</a>
-                        </span>
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="yz-sep10"></div>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="33%" align="center">
-                        <a href="/my/nodes" class="yz-dark" style="display: block;">
-                            <span class="yz-bigger">0</span>
-                            <div class="yz-sep3"></div>
-                            <span class="yz-fade">节点收藏</span>
-                        </a>
-                    </td>
-                    <td width="34%" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);"
-                        align="center">
-                        <a href="/my/topics" class="yz-dark" style="display: block;">
-                            <span class="yz-bigger">0</span>
-                            <div class="yz-sep3"></div>
-                            <span class="yz-fade">主题收藏</span>
-                        </a>
-                    </td>
-                    <td width="33%" align="center">
-                        <a href="/my/following" class="yz-dark" style="display: block;">
-                            <span class="yz-bigger">0</span>
-                            <div class="yz-sep3"></div>
-                            <span class="yz-fade">特别关注</span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="yz-cell">
-        <div style="width: 250px; background-color: #f0f0f0; height: 3px; display: inline-block; vertical-align: middle;">
-            <div style="width: 6px; background-color: #ccc; height: 3px; display: inline-block;"></div>
+        <div class="yz-cell">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="48" valign="top">
+                            <a href="/member/IFK">
+                                <img src="//cdn.v2ex.com/gravatar/287840c38b80043cc20c2c991110e0b9?s=48&amp;d=retro" class="yz-avatar"
+                                    border="0" align="default" style="max-width: 48px; max-height: 48px;">
+                            </a>
+                        </td>
+                        <td width="10" valign="top"></td>
+                        <td width="auto" align="left">
+                            <span class="yz-bigger">
+                                <a href="/member/IFK">{{ .User.Username}}</a>
+                            </span>
+    
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="yz-sep10"></div>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="33%" align="center">
+                            <a href="/my/nodes" class="yz-dark" style="display: block;">
+                                <span class="yz-bigger">0</span>
+                                <div class="yz-sep3"></div>
+                                <span class="yz-fade">节点收藏</span>
+                            </a>
+                        </td>
+                        <td width="34%" class="yz-left-border-td"
+                            align="center">
+                            <a href="/my/topics" class="yz-dark" style="display: block;">
+                                <span class="yz-bigger">0</span>
+                                <div class="yz-sep3"></div>
+                                <span class="yz-fade">主题收藏</span>
+                            </a>
+                        </td>
+                        <td width="33%" align="center">
+                            <a href="/my/following" class="yz-dark" style="display: block;">
+                                <span class="yz-bigger">0</span>
+                                <div class="yz-sep3"></div>
+                                <span class="yz-fade">特别关注</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="yz-cell">
+            <div style="width: 250px; background-color: #f0f0f0; height: 3px; display: inline-block; vertical-align: middle;">
+                <div style="width: 6px; background-color: #ccc; height: 3px; display: inline-block;vertical-align: top;"></div>
+            </div>
+        </div>
+    
+        <div class="yz-cell" style="padding: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="32">
+                            <a href="/new">
+                                <img src="/image/flat_compose.png" width="32" border="0">
+                            </a>
+                        </td>
+                        <td width="10"></td>
+                        <td width="auto" valign="middle" align="left">
+                            <a href="/ucenter/new_article">创作新主题</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="yz-inner">
+            <div class="yz-fr" id="money">
+                <a href="/balance" class="yz-balance_-area">20
+                    <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;"> 43
+                    <img src="//cdn.v2ex.com/static/img/bronze.png" alt="B" align="absmiddle" border="0">
+                </a>
+            </div>
+            <a href="/notifications" class="yz-fade">0 条未读提醒</a>
         </div>
     </div>
-
-    <div class="yz-cell" style="padding: 5px;">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="32">
-                        <a href="/new">
-                            <img src="/image/flat_compose.png" width="32" border="0">
-                        </a>
-                    </td>
-                    <td width="10"></td>
-                    <td width="auto" valign="middle" align="left">
-                        <a href="/new">创作新主题</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="yz-inner">
-        <div class="yz-fr" id="money">
-            <a href="/balance" class="yz-balance_-area">20
-                <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;"> 43
-                <img src="//cdn.v2ex.com/static/img/bronze.png" alt="B" align="absmiddle" border="0">
-            </a>
+{{ else }}
+<div class="yz-box">
+        <div class="yz-cell">
+            <strong>有咱币答 = 付出 + 收获</strong>
+            <div class="yz-sep5"></div>
+            <span class="yz-fade">有赞币答-你的每一次点击都是有付出的劳动</span>
         </div>
-        <a href="/notifications" class="yz-fade">0 条未读提醒</a>
+        <div class="yz-inner">
+            <div class="yz-sep5"></div>
+            <div align="center">
+                <a href="/signup" class="yz-super yz-normal yz-button">现在注册</a>
+                <div class="yz-sep5"></div>
+                <div class="yz-sep10"></div>
+                已注册用户请
+                <a href="/signin">登录</a>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="yz-sep20"></div>
+    <!-- 登录方式-->
+    <div class="yz-box">
+        <div class="yz-header">其他登录方式</div>
+        <div class="yz-cell" style="text-align: center;">
+            <a onclick="location.href = '/auth/google?once=70058';" href="#" class="yz-google-signin"></a>
+        </div>
+    </div>
+    <div class="yz-sep20"></div>
+{{ end }}
 {{ end }}

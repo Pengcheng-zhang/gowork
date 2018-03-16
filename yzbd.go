@@ -8,7 +8,7 @@ import (
 	"github.com/martini-contrib/sessions"
 	"biz"
 	"route"
-	"yztest"
+	//"yztest"
 )
 
 func main()  {
@@ -19,7 +19,12 @@ func main()  {
 	fmt.Println(now.Format("2006-01-02 15:04:05"))
 	biz.DbInit();
 	defer biz.GetDbInstance().Close()
-	yztest.Run()
+	var emailManage biz.EmailManager
+	//emailManage.UpdateUserVerifyStatus("zhangpch666@163.com", "Y")
+	//emailManage.Verify("zcqTGPGD8LvpseGUBjXXqOgOBLoX+Zlwj2eRMhmV+bMdL4cm2EPv+2u9u6J4mJ")
+	emailManage.CheckValid("770651352@qq.com")
+	return
+	//yztest.Run()
 	m := martini.Classic()
 	m.Use(render.Renderer(render.Options{
 		Directory:"templates",
