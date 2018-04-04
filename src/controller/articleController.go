@@ -13,7 +13,7 @@ import (
 	"model"
 )
 type artOutPut struct{
-	Article model.ArticleModel
+	Article model.ArticleResultModel
 	ReplyList []model.ReplyResultModel
 	PageCount int
 	ReplyCount int
@@ -22,6 +22,7 @@ type artOutPut struct{
 
 type ArticleController struct{
 	artBiz biz.ArtBiz
+	userBiz biz.UserBiz
 	artOutput artOutPut
 }
 
@@ -45,13 +46,12 @@ error code 2XXXX
 **************************END***********************/
 
 //详情GET
-func (this *ArticleController) Detail(r render.Render, params martini.Params) {
+func (this *ArticleController) Detail(r render.Render, params martini.Params, session sessions.Session) {
 	artId := params["id"]
 	replyPage := params["p"]
-	fmt.Printf("detail article id is: %s\n", artId)
 	id,err := strconv.Atoi(artId)
 	if err != nil {
-		r.HTML(200, "article/view", this.artOutput)
+		r.Redirect("/404")
 		return
 	}
 	var page int = 1
@@ -64,14 +64,16 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params) {
 		}
 	}
 	//获取主题内容
-	article, err := this.artBiz.Detail(id)
+	article, err := this.artBiz.DetailOutput(id)
 	if err != nil {
-		r.HTML(200, "article/view", this.artOutput)
+		r.Redirect("/404")
 		return
 	}
 	//update view times
 	updateData := map[string]interface{}{"ViewTimes": article.ViewTimes+1}
-	this.artBiz.Update(article, updateData)
+	var articleModel model.ArticleModel
+	articleModel.Id = article.Id
+	this.artBiz.Update(articleModel, updateData)
 
 	this.artOutput.Article = article
 
@@ -83,13 +85,13 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params) {
 	}
 	replyList, perr := this.artBiz.GetReplyList(id, 50, offset)
 	if perr != nil {
-		r.HTML(200, "article/view", this.artOutput)
+		r.Redirect("/404")
 		return
 	}
+	this.artOutput.User = GetUser(session)
 	this.artOutput.ReplyCount = replyCount
 	this.artOutput.PageCount = replyCount / 50
 	this.artOutput.ReplyList = replyList
-	fmt.Printf("article detail:%v\n", this.artOutput)
 	r.HTML(200, "article/view", this.artOutput)
 	
 }
@@ -232,9 +234,9 @@ func (this *ArticleController) AddDissNum(r render.Render, req *http.Request, se
 
 //添加评论
 func (this *ArticleController) AddReply(r render.Render, req *http.Request, session sessions.Session) {
+	user := this.userBiz.GetCurrentUser()
 	articleID := req.FormValue("id")
 	replyContent := req.FormValue("content")
-	fmt.Printf("article addReply id: %s", articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -252,11 +254,11 @@ func (this *ArticleController) AddReply(r render.Render, req *http.Request, sess
 	var reply model.ReplyModel
 	reply.TechId = article.Id
 	reply.Status = "A"
-	reply.UserId = 1
+	reply.UserId = user.Id
 	reply.Content = replyContent
 	err = this.artBiz.AddReply(reply)
 	if err == nil {
-		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "留言成功"})
+		r.JSON(200, map[string]interface{}{"code": 10000, "message" : "留言成功", "result": reply})
 	}else{
 		r.JSON(200, map[string]interface{}{"code": 20026, "message" : "留言失败"})
 	}

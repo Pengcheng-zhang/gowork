@@ -1,60 +1,55 @@
 package route
 
 import(
-	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
-	"biz"
 	"controller"
 	"middleware"
 	"model"
 )
 
+var loginMiddleWare middleware.LoginRequired
+var mClassic *martini.ClassicMartini
 func Run(m *martini.ClassicMartini)  {
-	var commBiz biz.CommomBiz
-	var category []model.CategoryModel
-	category = commBiz.GetCategory(1)
-	fmt.Println(category)
-	
-	commRoute(m)
-	adminRoute(m)
-	ucenterRoute(m)
-	articleRoute(m)
-	subPathRoute(m)
-	wechatRoute(m)
-	emailRoute(m)
-	route404(m)
+	mClassic = m
+	commRoute()
+	adminRoute()
+	ucenterRoute()
+	articleRoute()
+	catePathRoute()
+	wechatRoute()
+	emailRoute()
+	route404()
 
 	m.Run()
 }
 
 //通用接口路由
-func commRoute(m *martini.ClassicMartini)  {
+func commRoute()  {
 	var home controller.HomeController
-	m.Get("/", home.Index) 					//首页
-	m.Get("/signin", home.GetLogin)			//登陆页
-	m.Get("/signup", home.GetRegist)		//注册页
-	m.Get("/about", home.About)             //关于我们
+	mClassic.Get("/", home.Index) 					//首页
+	mClassic.Get("/signin", home.GetLogin)			//登陆页
+	mClassic.Get("/signup", home.GetRegist)		//注册页
+	mClassic.Get("/about", home.About)             //关于我们
 
-	m.Post("/api/signup", home.Regist)  		//注册
-	m.Post("/api/login", home.Login)		//登陆
-	m.Post("/api/logout", home.Logout)			//登出
+	mClassic.Post("/api/signup", home.Regist)  		//注册
+	mClassic.Post("/api/login", home.Login)		//登陆
+	mClassic.Post("/api/logout", home.Logout)			//登出
 }
 
 //后台管理路由
-func adminRoute(m *martini.ClassicMartini)  {
+func adminRoute()  {
 	var admin controller.AdminController
-	var loginMiddleWare middleware.LoginRequired
-	m.Group("/admin", func (r martini.Router)  {
+	mClassic.Group("/admin", func (r martini.Router)  {
 		r.Get("", admin.Index)
 		r.Get("/tech", admin.ArticleList);
 	}, loginMiddleWare.Call)
 }
 
 //个人中心路由
-func ucenterRoute(m *martini.ClassicMartini)  {
+func ucenterRoute()  {
 	var userCenter controller.UserCenterController
-	m.Group("/ucenter",func (r martini.Router)  {
+	mClassic.Group("/ucenter",func (r martini.Router)  {
 		//Get
 		r.Get("/user/:id",userCenter.Index) 		//首页
 		r.Get("/collect", userCenter.Collections)			//收藏管理
@@ -74,52 +69,48 @@ func ucenterRoute(m *martini.ClassicMartini)  {
 }
 
 //帖子路由
-func articleRoute(m *martini.ClassicMartini)  {
+func articleRoute()  {
 	var articleController controller.ArticleController
-	m.Group("/article",func(r martini.Router){
-		m.Get("/:id", articleController.Detail)      		//文章详情
-		m.Post("/api_new", articleController.NewArticle)				//发表文章
-		m.Post("/api_prise", articleController.AddPriseNum)				//为文章点赞
-		m.Post("/api_diss", articleController.AddDissNum)				//Diss一下文章
-		m.Post("/api_delete", articleController.Delete)					//删除文章
-		m.Post("/api_comment", articleController.AddReply)				//回复
-		m.Post("/api_comment_delete", articleController.DeleteReply)    //删除回复
-		m.Post("/comment_list", articleController.GetReplyList)			//评论列表
+	mClassic.Group("/article",func(r martini.Router){
+		r.Get("/:id", articleController.Detail)      		//文章详情
+		r.Post("/comment_list", articleController.GetReplyList)			//评论列表
 	})
-}
 
-//小分类路由
-func subPathRoute(m *martini.ClassicMartini)  {
-	var subCategory controller.CategoryController
-	m.Group("/go", func (r martini.Router)  {
-		r.Get("/php", subCategory.ToPHP)
-		r.Get("/python", subCategory.ToPython)
-		r.Get("/java", subCategory.ToJava)
-		r.Get("/nodejs", subCategory.ToNodeJs)
-		r.Get("/golang", subCategory.ToGoLang)
-		r.Get("/android", subCategory.ToAndroid)
-		r.Get("/ios", subCategory.ToIOS)
-	})
+	mClassic.Group("/article", func(r martini.Router){
+		r.Post("/api_new", articleController.NewArticle)				//发表文章
+		r.Post("/api_prise", articleController.AddPriseNum)				//为文章点赞
+		r.Post("/api_diss", articleController.AddDissNum)				//Diss一下文章
+		r.Post("/api_delete", articleController.Delete)					//删除文章
+		r.Post("/api_comment", articleController.AddReply)				//回复
+		r.Post("/api_comment_delete", articleController.DeleteReply)    //删除回复
+	}, loginMiddleWare.Call)
+}
+//分类路由
+func catePathRoute() {
+	var category controller.CategoryController
+	mClassic.Get("/tab/\\w+", category.CategoryPath)
+	mClassic.Get("/go/\\w+", category.SubCatePath)
+
 }
 //微信路由
-func wechatRoute(m *martini.ClassicMartini) {
+func wechatRoute() {
 	var wechat controller.WechatController
-	m.Group("/wechat", func(r martini.Router) {
+	mClassic.Group("/wechat", func(r martini.Router) {
 		r.Get("", wechat.Index)
 		r.Get("/login", wechat.Login)
 	})
 }
 
-func emailRoute(m *martini.ClassicMartini) {
+func emailRoute() {
 	var email controller.EmailController
-	m.Group("/email", func(r martini.Router) {
+	mClassic.Group("/email", func(r martini.Router) {
 		r.Get("/verify", email.Verification)
 		r.Post("/send", email.SendRegistVerification)
 	})
 }
 //404 not found
-func route404(m *martini.ClassicMartini)  {
-	m.NotFound(func(r render.Render) {
+func route404()  {
+	mClassic.NotFound(func(r render.Render) {
 		type output struct {
 			User model.UserModel
 			Js []string

@@ -185,18 +185,15 @@ function downVoteTopic(topicId) {
     }
 }
 function replyArticle(topicId) {
-    var request = $.ajax({
-        url: '/article/api_comment',
-        data: { id: topicId, content: $('#yz_reply_content').val('') },
-        type: "POST",
-        dataType: "json"
-    });
-    request.done(function (data) {
+    $.post('/article/api_comment', {id: topicId, content: $('#yz_reply_content').val()}, function(data) {
         if (data.code == '10000') {
             var tpl = template($('#yz_topic_reply').html());
             var html = tpl(data.result);
             $('#yz_reply_content').val('');
             $('#yz_reply_list').append(html);
+        }else{
+            showErrorMessage(data.message);
+            return;
         }
     });
 }

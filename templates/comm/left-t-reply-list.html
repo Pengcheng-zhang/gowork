@@ -12,7 +12,7 @@
                 <li class="fa fa-tag"></li> supported</a>
         </div>
         <span class="yz-gray">{{ .ReplyCount }} 回复
-            <strong class="yz-snow">|</strong> 直到 2018-02-12 14:01:47 +08:00</span>
+            <strong class="yz-snow">|</strong> 直到 {{ .Article.LastReplyTime}}</span>
     </div>
     {{range $key,$value := .ReplyList}}
     <div id="r_5328068" class="yz-cell">

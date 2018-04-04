@@ -1,0 +1,35 @@
+{{ define "mainContent" }}
+{{range $key, $value := .Articles}}
+<div class="yz-cell yz-item">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="48" valign="top" align="center">
+                    <a href="/member/{{$value.CreatorName}}">
+                        <img src="//cdn.v2ex.com/avatar/54a9/40cc/276192_normal.png?m=1513923135" class="avatar" border="0" align="default">
+                    </a>
+                </td>
+                <td width="10"></td>
+                <td width="auto" valign="middle">
+                    <span class="yz-item-title">
+                        <a href="/article/{{$value.Id}}">{{ $value.Title}}</a>
+                    </span>
+                    <div class="yz-sep5"></div>
+                    <span class="yz-small yz-fade">
+                        <div class="yz-votes">
+                            <li class="fa fa-chevron-up"></li>{{ $value.PriseNum}}</div>
+                        <a class="yz-node" href="/go/career">职场话题</a> &nbsp;•&nbsp;
+                        <strong>
+                            <a href="/member/{{$value.CreatorName}}">{{ $value.CreatorName}}</a>
+                        </strong> &nbsp;•&nbsp;  最后回复时间:{{ $value.LastReplyTime}}
+                    </span>
+                </td>
+                <td width="70" align="right" valign="middle">
+                    <a href="/t/427796#reply723" class="count_livid">{{ $value.ReplyNum}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{{ end }}
+{{ end }}

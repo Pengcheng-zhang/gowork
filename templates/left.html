@@ -3,8 +3,8 @@
 <div class="yz-comm-left">
     <div class="yz-sep20"></div>
     <div class="yz-box">
-        {{ template "tabSubcategory" }}
-        {{ template "leftMainContent"}}
+        {{ template "category" . }}
+        {{ template "mainContent" .}}
         <div class="yz-inner">
             <div class="yz-fr">
                 <a href="/feed/tab/jobs.xml" target="_blank">
@@ -15,7 +15,6 @@
             <span class="chevron">→</span>
             <a href="/recent">更多新主题</a>
         </div>
-        {{ template "pagenation" }}
     </div>
 </div>
 {{ end }}

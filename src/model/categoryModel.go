@@ -11,6 +11,7 @@ type CategoryModel struct{
 	Pid int 
 	Seq int 
 	Url string
+	Description string
 	CreatedAt time.Time
 }
 

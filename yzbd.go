@@ -19,11 +19,10 @@ func main()  {
 	fmt.Println(now.Format("2006-01-02 15:04:05"))
 	biz.DbInit();
 	defer biz.GetDbInstance().Close()
-	//var emailBiz biz.EmailBiz
-	//emailBiz.UpdateUserVerifyStatus("zhangpch666@163.com", "Y")
-	//emailBiz.Verify("zcqTGPGD8LvpseGUBjXXqOgOBLoX+Zlwj2eRMhmV+bMdL4cm2EPv+2u9u6J4mJ")
-	//emailemailBizManage.CheckValid("770651352@qq.com")
-	//return
+	//var comBiz biz.CommomBiz
+	//result := comBiz.GetCategory(2)
+	//var length int = len(result)
+	//cateIds := make([]int, length)
 	//yztest.Run()
 	m := martini.Classic()
 	m.Use(render.Renderer(render.Options{

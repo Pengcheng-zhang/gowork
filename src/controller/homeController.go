@@ -14,34 +14,18 @@ import (
 type HomeController struct{
 	uCenterBiz biz.UserBiz
 	commBiz biz.CommomBiz
+	artBiz biz.ArtBiz
 	hResult htmlResult  //html数据
 	jResult interface{} //api请求返回结果
 }
 
-type htmlResult struct {
-	Js []string
-	Css []string
-	CurrentTab int
-	User model.UserModel
-	Category []model.CategoryModel
-}
-
 //首页 / Get
 func (this *HomeController) Index(r render.Render, session sessions.Session) {
-	v := session.Get("sucai_session_token")
-	var user model.UserModel
-	sessionString, ok := v.(string)
-	fmt.Println("session string：",sessionString)
-	if ok && len(sessionString) > 0{
-		user = biz.GetUserFromSession(sessionString)
-		fmt.Println(user)
-	}
-	this.hResult.User = user
+	this.hResult.User = GetUser(session)
 	this.hResult.Category = this.commBiz.GetCategory(1)
-	this.hResult.CurrentTab = 1
-	fmt.Println(this.hResult)
+	this.hResult.CurrentCate = this.commBiz.GetCategoryByName("/tab/jobs")
+	this.hResult.Articles = this.artBiz.GetArtList(2, 50, 0, "P")
 	r.HTML(200, "index", this.hResult)
-	//r.JSON(200, htmlResult)
 }
 
 //登录 /login Post
@@ -56,11 +40,11 @@ func (this *HomeController) Login(r render.Render, req *http.Request, session se
 	var user model.UserModel
 	loginSession,user, err := this.uCenterBiz.Login(email, password)
 	if err != nil {
-		this.jResult = map[string]interface{}{"code": 10001, "message" : err}
+		this.jResult = map[string]interface{}{"code": 10001, "message" : "用户名或密码错误"}
 		r.JSON(200, this.jResult)
 		return
 	}
-	session.Set("sucai_session_token", loginSession)
+	session.Set("yz_session_token", loginSession)
 	var nextUrl string = "/"
 	if strings.Index(user.Roles, "A") != -1 {
 		nextUrl = "/admin"
@@ -71,16 +55,9 @@ func (this *HomeController) Login(r render.Render, req *http.Request, session se
 
 //登陆页 /login GET
 func (this *HomeController) GetLogin(r render.Render, session sessions.Session)  {
-	v := session.Get("sucai_session_token")
-	var user model.UserModel
-	sessionString, ok := v.(string)
-	fmt.Println("session string：",sessionString)
-	if ok && len(sessionString) > 0{
-		fmt.Println(v)
-		user = biz.GetUserFromSession(sessionString)
-		if user.Id > 0 {
-			r.Redirect("/")
-		}
+	user := GetUser(session)
+	if user.Id > 0 {
+		r.Redirect("/")
 	}
 	this.hResult.User = user
 	this.hResult.Js = []string{"/js/yzcomm.js"}
@@ -91,6 +68,7 @@ func (this *HomeController) GetRegist(r render.Render, session sessions.Session)
 	r.HTML(200, "main/signup", this.hResult)
 }
 
+//注册信息检测
 func (this *HomeController) checkSignupParams(username, email, password string) (bool, string){
 	if username == "" || email == "" || password == "" {
 		return false, "请填写完整信息"
@@ -113,7 +91,6 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 	username := req.FormValue("username")
 	email := req.FormValue("email")
 	password := req.FormValue("password")
-	fmt.Printf("email:%s\tpassword:%s\n", email, password)
 	check,message := this.checkSignupParams(username, email, password)
 	if ! check {
 		this.jResult = map[string]interface{}{"error": 10001, "message" : message}
@@ -132,7 +109,7 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 			return
 		}
 		fmt.Printf("session=%s\n", loginSession)
-		session.Set("sucai_session_token", loginSession)
+		session.Set("yz_session_token", loginSession)
 		nextUrl = strings.Join([]string{"/user/", strconv.Itoa(user.Id)}, "")
 		this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}
 	} else {
@@ -143,11 +120,12 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 
 //登出 /api/logout POST
 func (this *HomeController) Logout(r render.Render, session sessions.Session) {
-	session.Set("sucai_session_token", "")
+	session.Set("yz_session_token", "")
 	this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": ""}
 	r.JSON(200, this.jResult)
 }
 
+//关于
 func (this *HomeController) About(r render.Render, session sessions.Session) {
 	r.HTML(200, "main/about", this.hResult)
 }

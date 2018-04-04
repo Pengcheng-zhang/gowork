@@ -15,8 +15,8 @@
                 <div class="yz-sep5"></div>
                 <span class="yz-gray">请尽量让自己的回复能够对别人有帮助</span>
             </div>
-            <input type="hidden" value="74528" name="once">
             <input type="button" id="article_reply" value="回复" class="yz-super yz-normal yz-button">
+            <span class="yz-message yz-hidden" id="yz_tip_message"></span>
         </form>
     </div>
     <div class="yz-inner">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="yz-sep3"></div>
                         <strong>
-                            <a href="/member/SevanJoe" class="yz-dark">#{=Username}#</a>
+                            <a href="/member/SevanJoe" class="yz-dark">{{ .User.Username}}</a>
                         </strong>
                         <span class="yz-ago">刚刚</span>
                         <div class="yz-sep5"></div>
@@ -62,7 +62,7 @@
 <script type="text/javascript">
     template.config({sTag: '#{', eTag: '}#'});
     $("#article_reply").on("click", function(){
-        replyArticle(1);
+        replyArticle($("#art_id").text());
     });
 </script>
 {{ end }}

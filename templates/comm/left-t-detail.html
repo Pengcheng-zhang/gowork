@@ -10,17 +10,18 @@
         <span class="yz-chevron"> › </span>
         <a href="/go/career">职场话题</a>
         <div class="yz-sep10"></div>
+        <h2 id="art_id" class="yz-hidden">{{ .Article.Id}}</h2>
         <h1>{{.Article.Title}}</h1>
         <div id="topic_votes" class="yz-votes">
             <a href="javascript:" onclick="upVoteTopic(1);" class="yz-vote">
-                <li class="fa fa-chevron-up">12</li>
+                <li class="fa fa-chevron-up">{{ .Article.PriseNum}}</li>
             </a> &nbsp;
             <a href="javascript:" onclick="downVoteTopic(1);" class="yz-vote">
-                <li class="fa fa-chevron-down">21</li>
+                <li class="fa fa-chevron-down">{{.Article.DissNum}}</li>
             </a>
         </div> &nbsp;
         <small class="yz-gray">
-            <a href="/member/ycmchong">{{.Article.CreatorId}}</a> · 4 小时 36 分钟前 · {{ .Article.ViewTimes}} 次点击 &nbsp; </small>
+            <a href="/member/ycmchong">{{.Article.CreatorName}}</a> · 4 小时 36 分钟前 · {{ .Article.ViewTimes}} 次点击 &nbsp; </small>
     </div>
     <div class="yz-cell">
         <div class="yz-topic-content">

@@ -1,9 +1,10 @@
 package biz
 
 import (
+	"errors"
+	"time"
 	"fmt"
 	"model"
-	"output"
 )
 //帖子管理中心
 type ArtBiz struct{
@@ -43,20 +44,40 @@ func (this *ArtBiz) Delete(article model.ArticleModel)  bool{
 	}
 	return true
 }
-
+//总数
+func (this *ArtBiz) GetArtCount(artType int) int {
+	var articleModel model.ArticleModel
+	var count int = 0
+	GetDbInstance().Where("type = ?", artType).Find(&articleModel).Count(&count)
+	return count
+}
 //文章列表
-func (this *ArtBiz) GetArtList(artType int, limit int, offset int, status string) []output.ArtlistResult{
-	var article []output.ArtlistResult
-	selectField := `"yz_tech.id, yz_tech.type, yz_tech.title, yz_tech.creator_id, left(yz_tech.content, 150) as content, 
-	yz_tech.prise_num,yz_tech.diss_num, yz_tech.view_times, yz_tech.last_reply_user_id,yz_tech.last_reply_time,
-	yz_tech.status, yz_tech.created_at, yz_user.username as creator_name"`
+func (this *ArtBiz) GetArtList(artType int, limit int, offset int, status string) []model.ArticleResultModel{
+	var articles []model.ArticleResultModel
+	selectField := "yz_tech.id, yz_tech.type, yz_tech.title, yz_tech.creator_id, left(yz_tech.content, 150) as content, "+
+	"yz_tech.prise_num,yz_tech.diss_num, yz_tech.reply_num, yz_tech.view_times, yz_tech.last_reply_user_id,yz_tech.last_reply_time," +
+	"yz_tech.status, yz_tech.created_at, yz_user.username as creator_name"
 	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech.creator_id"
-	err := GetDbInstance().Table("yz_tech").Select(selectField).Joins(joinConditions).Where("type = ? AND status = ?", artType, status).Limit(limit).Offset(offset).Scan(&article).Error
+	err := GetDbInstance().Table("yz_tech").Select(selectField).Joins(joinConditions).Where("yz_tech.type = ? AND status = ?", artType, status).Limit(limit).Offset(offset).Scan(&articles).Error
 	if err != nil {
 		fmt.Println(err)
 	}
-	return article
+	return articles
 }
+//获取大分类及其下小分类文章
+func (this *ArtBiz) GetTabArtList(types []int, limit int, offset int, status string) []model.ArticleResultModel{
+	var articles []model.ArticleResultModel
+	selectField := "yz_tech.id, yz_tech.type, yz_tech.title, yz_tech.creator_id, left(yz_tech.content, 150) as content, "+
+	"yz_tech.prise_num,yz_tech.diss_num, yz_tech.reply_num, yz_tech.view_times, yz_tech.last_reply_user_id,yz_tech.last_reply_time," +
+	"yz_tech.status, yz_tech.created_at, yz_user.username as creator_name"
+	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech.creator_id"
+	err := GetDbInstance().Table("yz_tech").Select(selectField).Joins(joinConditions).Where("yz_tech.type IN (?) AND status = ?", types, status).Limit(limit).Offset(offset).Scan(&articles).Error
+	if err != nil {
+		fmt.Println(err)
+	}
+	return articles
+}
+
 //用户文章列表
 func (this *ArtBiz) GetUserArtList(userId int, limit int, offset int, status string)  []model.ArticleModel{
 	var article []model.ArticleModel
@@ -75,7 +96,14 @@ func (this *ArtBiz) GetUserArtList(userId int, limit int, offset int, status str
 func (this *ArtBiz) Detail(artId int) (model.ArticleModel,error){
 	var article model.ArticleModel
 	err := GetDbInstance().Where("id = ?", artId).First(&article).Error
-	fmt.Printf("article detail id:%d", article.Id)
+	return article, err
+}
+//文章详情用于输出
+func (this *ArtBiz) DetailOutput(artId int) (model.ArticleResultModel,error){
+	var article model.ArticleResultModel
+	selectFields := "yz_tech.*, yz_user.username as creator_name"
+	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech.creator_id"
+	err := GetDbInstance().Table("yz_tech").Select(selectFields).Joins(joinConditions).Where("yz_tech.id = ?", artId).Scan(&article).Error
 	return article, err
 }
 
@@ -87,6 +115,15 @@ func (this *ArtBiz) AddReply(reply model.ReplyModel) error{
 		return err
 	}
 	err = GetDbInstance().Create(&reply).Error
+	if err == nil {
+		fmt.Println("update article reply time",time.Now().Format("2006-01-02 15:04:05"))
+		updateData := map[string]interface{}{"ReplyNum": article.ReplyNum+1,"LastReplyUserId": reply.UserId, "LastReplyTime": time.Now().Format("2006-01-02 15:04:05")}
+		result := this.Update(article, updateData)
+		if !result {
+			return errors.New("更新错误")
+		}
+	}
+	
 	return err
 }
 
@@ -115,7 +152,7 @@ func (this *ArtBiz) GetReplyList(artId int, limit int, offset int) ([]model.Repl
 
 //获取回复总数
 func (this *ArtBiz) GetReplyCount(artId int) int {
-	var replyModel model.ReplyModel
+	var replyModel []model.ReplyModel
 	var count int = 0
 	GetDbInstance().Where("tech_id = ?", artId).Find(&replyModel).Count(&count)
 	return count

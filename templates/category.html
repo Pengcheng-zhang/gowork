@@ -1,20 +1,26 @@
 {{define "category"}}
-<div class="inner" style="background-color: #fff; border-top-left-radius: 3px; border-top-right-radius: 3px;" id="Tabs">
+<div class=" yz-inner yz-index-category" id="Tabs">
     {{ range $key,$value := .Category }}
         {{ if eq $value.Pid 0 }}
-            {{ if eq $.CurrentTab $value.Id }}
-                <a href="?{{ $value.Url }}" class="tab_current">{{ $value.Name }}</a>
+            {{ if eq $.CurrentCate.Id $value.Id }}
+                <a href="{{ $value.Url }}" class="tab_current">{{ $value.Name }}</a>
             {{ else }}
-             <a href="?{{ $value.Url }}" class="tab">{{ $value.Name }}</a>
+             <a href="{{ $value.Url }}" class="tab">{{ $value.Name }}</a>
             {{ end }}
         {{ end }}
     {{ end }}
 </div>
-<div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;">
+<div class="yz-cell yz-tab-sub">
     {{ range $key,$value := .Category }}
-        {{ if eq $value.Pid $.CurrentTab }}
-        <a href="/{{ $value.Url }}">{{ $value.Name }}</a> &nbsp; &nbsp;
-        {{ end }}
+        {{ if eq $.CurrentCate.Pid 0}}
+            {{ if eq $value.Pid $.CurrentCate.Id }}
+            <a href="{{ $value.Url }}">{{ $value.Name }}</a> &nbsp; &nbsp;
+            {{ end }}
+        {{ else }}
+            {{ if eq $value.Pid $.CurrentCate.Pid}}
+            <a href="{{ $value.Url }}">{{ $value.Name }}</a> &nbsp; &nbsp;
+            {{ end }}
+        {{ end }}    
     {{ end }}
 </div>
 {{end}}

@@ -13,6 +13,7 @@ import (
 type UserBiz struct {
 
 }
+
 type sessionStruct struct {
 	UserID int
 	Username string
@@ -113,6 +114,9 @@ func setCurrentUser(user model.UserModel) {
 //从session中获取当前用户
 func GetUserFromSession(session string) model.UserModel{
 	var user model.UserModel
+	if session == "" || len(session) == 0{
+		return user
+	}
 	decodedSession,err := base64.StdEncoding.DecodeString(session)
 	if err != nil {
 		return user

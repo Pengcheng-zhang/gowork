@@ -95,15 +95,7 @@ func (this *UserCenterController) NewArticleView(r render.Render)  {
 	r.HTML(200, "article/new", this.output)
 }
 func (this *UserCenterController) Settings(r render.Render,session sessions.Session) {
-	v := session.Get("sucai_session_token")
-	var user model.UserModel
-	sessionString, ok := v.(string)
-	fmt.Println("session string：",sessionString)
-	if ok && len(sessionString) > 0{
-		fmt.Println(v)
-		user = biz.GetUserFromSession(sessionString)
-	}
-	this.output.User = user
+	this.output.User = GetUser(session)
 	r.HTML(200, "ucenter/settings", this.output)
 }
 //我的积分
