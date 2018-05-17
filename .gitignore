@@ -4,5 +4,7 @@
 .vscode/*
 src/config
 src/config/*
+src/github.com
+src/github.com/*
 pkg/*
 debug/
