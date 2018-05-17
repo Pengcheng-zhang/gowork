@@ -22,7 +22,7 @@ type HomeController struct{
 //首页 / Get
 func (this *HomeController) Index(r render.Render, session sessions.Session) {
 	this.hResult.User = GetUser(session)
-	this.hResult.Category = this.commBiz.GetCategory(1)
+	this.hResult.Category = this.commBiz.GetCategory(3)
 	this.hResult.CurrentCate = this.commBiz.GetCategoryByName("/tab/jobs")
 	this.hResult.Articles = this.artBiz.GetArtList(2, 50, 0, "P")
 	r.HTML(200, "index", this.hResult)

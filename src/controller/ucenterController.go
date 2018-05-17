@@ -25,17 +25,12 @@ type outPut struct {
 }
 
 //首页
-func (this *UserCenterController) Index(r render.Render)  {
-	// v := session.Get("sucai_session_token")
-	// fmt.Println(v)
-	var user model.UserModel
+func (this *UserCenterController) Index(r render.Render, session sessions.Session)  {
 	// if v == nil {
 	// 	r.Redirect("/login")
 	// }
 	// user = biz.GetUserFromSession(v.(string))
-	fmt.Println(user)
-
-	this.output.User = user
+	this.output.User = GetUser(session)
 	this.output.Js = []string{}
 	this.output.Css = []string{}
 	r.HTML(200, "ucenter/index", this.output)
