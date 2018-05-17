@@ -1,6 +1,8 @@
-/.idea
-/.idea/*
-/.vscode
-/.vscode/*
-/.src/config
-/.src/config/*
+.idea
+.idea/*
+.vscode
+.vscode/*
+src/config
+src/config/*
+pkg/*
+debug/
