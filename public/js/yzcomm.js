@@ -244,7 +244,7 @@ function publishTopic() {
     var errors = 0;
     var em = $("#yz_error_message");
     var node = $('#yz_nodes').val();
-    var content = editor.getValue();
+    var content = editor.txt.html();
 
     var title = $("#topic_title").val();
 

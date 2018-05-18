@@ -1,2 +1,10 @@
-/src/config/*
-/src/github.com/*
+.idea
+.idea/*
+.vscode
+.vscode/*
+src/config
+src/config/*
+src/github.com
+src/github.com/*
+pkg/*
+debug/

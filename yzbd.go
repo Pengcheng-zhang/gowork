@@ -8,6 +8,7 @@ import (
 	"github.com/martini-contrib/sessions"
 	"biz"
 	"route"
+	"html/template"
 	//"yztest"
 )
 
@@ -29,6 +30,13 @@ func main()  {
 		Directory:"templates",
 		Layout: "layout",
 		Extensions:[]string{".tmpl",".html"},
+		Funcs: []template.FuncMap{
+			{
+				"unescaped": func(x string) template.HTML {
+					return template.HTML(x)
+				},
+			},
+		},
 		Charset:"UTF-8",
 		IndentJSON: true,
 	}))

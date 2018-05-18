@@ -15,12 +15,14 @@
             <div class="yz-fr yz-fade" id="content_remaining">20000</div>
             正文
         </div>
-        <div class="yz-editor-area">
-            <textarea maxlength="20000" id="editor" name="content" class="yz-editor"></textarea>
+        <div id="yz_editor" class="yz-editor-area">
+            <p>请输入内容</p>
         </div>
         <div class="yz-cell">
             <select name="node_name" id="yz_nodes" class="yz-nodes">
-                <option></option>
+                {{ range $key,$value := .Categories }} 
+                <option value="{{ $value.Id }}">{{ $value.Name }}</option>
+                {{ end }}
             </select>
         </div>
         <input type="hidden" name="once" value="22183">
@@ -40,28 +42,15 @@
 </div>
 <script>
     $(document).ready(function(){
-        var itemList = [{id:1, text:'2015 / 2015', value: '2015'},{id:2, text: '知乎 / zhihu', value: 'zhihu'}];
+        var E = window.wangEditor
+        editor = new E('#yz_editor')
+        editor.create()
         $('#yz_nodes').select2({
-            placeholder: '请选择一个节点',
-            data: itemList
+            placeholder: '请选择一个节点'
         });
         $('#yz_nodes').on("change", function(){
             $("#yz_error_message").html('');
-        });
-        editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-            mode: "markdown",
-            lineNumbers: true,
-            lineWrapping: true,
-            indentUnit: 4
-        });
-        editor.on('change', function(cm, change) {
-            var text = cm.getValue();
-            var max = 20000;
-            var remaining = max - text.length;
-            var r = $("#content_remaining");
-            r.html(remaining);
-            //saveComposeDraft(memberId);
-        });
+        });  
     });
 </script>
 {{ end }}

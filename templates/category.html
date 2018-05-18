@@ -12,13 +12,13 @@
 </div>
 <div class="yz-cell yz-tab-sub">
     {{ range $key,$value := .Category }}
-        {{ if eq $.CurrentCate.Pid 0}}
+        {{ if eq $.CurrentCate.Pid 0 }}
             {{ if eq $value.Pid $.CurrentCate.Id }}
-            <a href="{{ $value.Url }}">{{ $value.Name }}</a> &nbsp; &nbsp;
+            <a href="{{ $value.Url }}">{{ $value.Name }}</a>
             {{ end }}
         {{ else }}
             {{ if eq $value.Pid $.CurrentCate.Pid}}
-            <a href="{{ $value.Url }}">{{ $value.Name }}</a> &nbsp; &nbsp;
+            <a href="{{ $value.Url }}">{{ $value.Name }}</a>
             {{ end }}
         {{ end }}    
     {{ end }}

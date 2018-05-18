@@ -51,7 +51,8 @@ func ucenterRoute()  {
 	var userCenter controller.UserCenterController
 	mClassic.Group("/ucenter",func (r martini.Router)  {
 		//Get
-		r.Get("/user/:id",userCenter.Index) 		//首页
+		r.Get("/index",userCenter.Index)   //个人中心
+		r.Get("/user/:id",userCenter.Index) 		//用户
 		r.Get("/collect", userCenter.Collections)			//收藏管理
 		r.Get("/sign_history", userCenter.SignLogHistory)	//签到记录
 		r.Get("/points", userCenter.MyPoints)				//我的积分
