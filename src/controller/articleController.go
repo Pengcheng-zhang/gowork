@@ -101,9 +101,6 @@ func (this *ArticleController)  NewArticle(r render.Render, req *http.Request, s
 	articleNode := req.FormValue("node")
 	title := req.FormValue("title")
 	content := req.FormValue("content")
-	fmt.Printf("article node:%s", articleNode)
-	fmt.Printf("article title:%s", title)
-	fmt.Printf("article content:%s", content)
 
 	if articleNode == "" {
 		r.JSON(200, map[string]interface{}{"code": 20011, "message" : "请选择主题节点"})
@@ -121,11 +118,12 @@ func (this *ArticleController)  NewArticle(r render.Render, req *http.Request, s
 		r.JSON(200, map[string]interface{}{"code": 20012, "message" : "内容不能为空"})
 		return
 	}
+	user := GetUser(session)
 	var article model.ArticleModel
 	article.Title = title
 	article.Type = articleNode
 	article.Content = content
-	article.CreatorId = 2
+	article.CreatorId = user.Id
 	article.Status = "P"
 
 	artId := this.artBiz.Create(article)
