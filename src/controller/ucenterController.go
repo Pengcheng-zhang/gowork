@@ -14,12 +14,14 @@ import (
 type UserCenterController struct {
 	output outPut
 	userBiz biz.UserBiz
+	commBiz biz.CommomBiz
 	jResult interface{} //api请求返回结果
 }
 
 type outPut struct {
 	User model.UserModel
 	ArtList []model.ArticleModel
+	Categories []model.CategoryModel
 	Js []string
 	Css []string
 }
@@ -81,10 +83,9 @@ func (this *UserCenterController)  CheckDaily(r render.Render, session sessions.
 	r.JSON(200, this.jResult)
 }
 //发表新贴 GET
-func (this *UserCenterController) NewArticleView(r render.Render)  {
-	var user model.UserModel
-	fmt.Println(user)
-	this.output.User = user
+func (this *UserCenterController) NewArticleView(r render.Render, session sessions.Session)  {
+	this.output.User = GetUser(session)
+	this.output.Categories = this.commBiz.GetSubCategory()
 	this.output.Js = []string{}
 	this.output.Css = []string{}
 	r.HTML(200, "article/new", this.output)

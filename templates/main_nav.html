@@ -22,7 +22,7 @@
                         <td width="570" align="right" class="yz-top-right">
                             <a href="/" class="top">首页</a>
                             {{ if and .User .User.Id}}
-                            <a href="/member/{{ .User.Username}}" class="top">{{ .User.Username}}</a>
+                            <a href="/ucenter/index" class="top">{{ .User.Username}}</a>
                             <a href="/ucenter/settings" class="top">设置</a>
                             <a href="#;" onclick="signOut()" class="top">登出</a>
                             {{ else }}

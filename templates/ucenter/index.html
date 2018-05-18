@@ -46,21 +46,21 @@
             <td width="73" valign="top" align="center">
               总积分
             </td>
-            <td width="10">10000</td>
-            <td width="auto" valign="top" align="left"></td>
+            <td width="10">{{ .User.ScoreTotal }}</td>
+            <td width="auto" valign="top" align="left">查看详情</td>
           </tr>
           <tr>
             <td width="73" valign="top" align="center">
               现有积分
             </td>
-            <td width="10">500</td>
+            <td width="10">{{ .User.ScoreCurrent }}</td>
             <td width="auto" valign="top" align="left"><a></a>去兑换</td>
           </tr>
           <tr>
             <td width="73" valign="top" align="center">
               已消耗积分
             </td>
-            <td width="10">500</td>
+            <td width="10">{{ .User.ScoreCost }}</td>
             <td width="auto" valign="top" align="left">查看详情</td>
           </tr>
         </tbody>

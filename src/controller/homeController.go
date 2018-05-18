@@ -24,7 +24,8 @@ func (this *HomeController) Index(r render.Render, session sessions.Session) {
 	this.hResult.User = GetUser(session)
 	this.hResult.Category = this.commBiz.GetCategory(3)
 	this.hResult.CurrentCate = this.commBiz.GetCategoryByName("/tab/jobs")
-	this.hResult.Articles = this.artBiz.GetArtList(2, 50, 0, "P")
+	types := this.commBiz.GetSubcateIds(3)
+	this.hResult.Articles = this.artBiz.GetTabArtList(types, 50, 0, "P")
 	r.HTML(200, "index", this.hResult)
 }
 

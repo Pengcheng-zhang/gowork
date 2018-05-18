@@ -9,7 +9,9 @@ type UserModel struct {
 	Roles string
 	ClientId string
 	ClientSecret string
-	Scope string
+	ScoreTotal int
+	ScoreCurrent int
+	ScoreCost int
 	OpenId string
 	GrantType string
 	AccessToken string
