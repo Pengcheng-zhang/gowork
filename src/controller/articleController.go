@@ -51,6 +51,7 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params, se
 	replyPage := params["p"]
 	id,err := strconv.Atoi(artId)
 	if err != nil {
+		fmt.Println("article id:", err)
 		r.Redirect("/404")
 		return
 	}
