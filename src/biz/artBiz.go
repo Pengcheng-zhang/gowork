@@ -3,7 +3,6 @@ package biz
 import (
 	"errors"
 	"time"
-	"fmt"
 	"model"
 )
 //帖子管理中心
@@ -18,10 +17,10 @@ type ArtResult struct{
 func (this *ArtBiz)  Create(article model.ArticleModel) int{
 	err := GetDbInstance().Create(&article).Error
 	if err != nil {
-		fmt.Printf("article create error:%s", err)
+		Debug("article create error:%s", err.Error())
 		return 0
 	}
-	fmt.Printf("article id is : %d", article.Id)
+	Debug("article id is : %d", article.Id)
 	return article.Id
 }
 
@@ -29,7 +28,7 @@ func (this *ArtBiz)  Create(article model.ArticleModel) int{
 func (this *ArtBiz) Update(article model.ArticleModel, value interface{}) bool{
 	err := GetDbInstance().Model(&article).Updates(value).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("update article failed:", err.Error())
 		return false
 	}
 	return true
@@ -39,7 +38,7 @@ func (this *ArtBiz) Update(article model.ArticleModel, value interface{}) bool{
 func (this *ArtBiz) Delete(article model.ArticleModel)  bool{
 	err := GetDbInstance().Model(&article).Update("status", "D").Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("delete article failed:", err.Error())
 		return false
 	}
 	return true
@@ -60,7 +59,7 @@ func (this *ArtBiz) GetArtList(artType int, limit int, offset int, status string
 	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech.creator_id"
 	err := GetDbInstance().Table("yz_tech").Select(selectField).Joins(joinConditions).Where("yz_tech.type = ? AND status = ?", artType, status).Limit(limit).Offset(offset).Scan(&articles).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get artlist failed:", err.Error())
 	}
 	return articles
 }
@@ -73,7 +72,7 @@ func (this *ArtBiz) GetTabArtList(types []int, limit int, offset int, status str
 	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech.creator_id"
 	err := GetDbInstance().Table("yz_tech").Select(selectField).Joins(joinConditions).Where("yz_tech.type IN (?) AND status = ?", types, status).Limit(limit).Offset(offset).Scan(&articles).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get tab article list failed:", err.Error())
 	}
 	return articles
 }
@@ -88,7 +87,7 @@ func (this *ArtBiz) GetUserArtList(userId int, limit int, offset int, status str
 		err = GetDbInstance().Where("creator_id = ? AND status = ?", userId, status).Limit(limit).Offset(offset).Find(&article).Error
 	}
 	if err != nil {
-		fmt.Println(err)
+		Debug("get user article list failed:", err.Error())
 	}
 	return article
 }
@@ -111,12 +110,11 @@ func (this *ArtBiz) DetailOutput(artId int) (model.ArticleResultModel,error){
 func (this *ArtBiz) AddReply(reply model.ReplyModel) error{
 	article,err := this.Detail(reply.TechId)
 	if err != nil || article.Id == 0{
-		fmt.Println(err)
+		Debug("add reply failed:", err.Error())
 		return err
 	}
 	err = GetDbInstance().Create(&reply).Error
 	if err == nil {
-		fmt.Println("update article reply time",time.Now().Format("2006-01-02 15:04:05"))
 		updateData := map[string]interface{}{"ReplyNum": article.ReplyNum+1,"LastReplyUserId": reply.UserId, "LastReplyTime": time.Now().Format("2006-01-02 15:04:05")}
 		result := this.Update(article, updateData)
 		if !result {
@@ -138,14 +136,14 @@ func (this *ArtBiz) GetReplyList(artId int, limit int, offset int) ([]model.Repl
 	var replyList []model.ReplyResultModel
 	article,err := this.Detail(artId)
 	if err != nil || article.Id == 0 {
-		fmt.Println(err)
+		Debug("get reply article detail failed:", err.Error())
 		return replyList, err
 	}
 	selectFields := "yz_tech_reply.*, yz_user.username"
 	joinConditions := "JOIN yz_user ON yz_user.id = yz_tech_reply.user_id"
 	err = GetDbInstance().Table("yz_tech_reply").Select(selectFields).Joins(joinConditions).Where("tech_id = ?", artId).Limit(limit).Offset(offset).Scan(&replyList).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get reply list failed", err.Error())
 	}
 	return replyList,err
 }

@@ -1,15 +1,14 @@
 package controller
 
 import (
-	"fmt"
 	"model"
-	"biz"
+	"common"
 	"net/http"
 	"github.com/martini-contrib/render"
 )
 
 type EmailController struct{
-	emailBiz biz.EmailBiz
+	emailBiz common.Email
 }
 
 type emailResult struct {
@@ -35,5 +34,5 @@ func (this *EmailController) Verification(r render.Render, req *http.Request) {
 
 func (this *EmailController) SendRegistVerification(r render.Render, req *http.Request) {
 	toEmail := req.FormValue("email")
-	fmt.Println("email = ", toEmail)
+	Debug("email = ", toEmail)
 }

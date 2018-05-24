@@ -1,13 +1,13 @@
 package biz
 
 import (
-	"fmt"
 	"model"
 	"strings"
 	"encoding/base64"
 	"strconv"
 	"regexp"
 	"errors"
+	"common"
 )
 
 type UserBiz struct {
@@ -53,7 +53,14 @@ func checkUserByEmail (email string) bool {
 	}
 	return true
 }
-
+//更新用户邮箱认证状态
+func (this *UserBiz) UpdateUserVerifyStatus(email,status string) error{
+	var user model.UserModel
+	user.Email = email
+   updateData := map[string]interface{}{"verified": status}
+   _,err := this.UpdateUserInfo(user, updateData)
+   return err
+}
 //检查敏感词
 func (this *UserBiz) CheckSensitiveWord(username string) bool {
 	r,_ := regexp.Compile("[*|/|\\|(|)]")
@@ -72,7 +79,7 @@ func (this *UserBiz) Register(username, email, password string)  (string, bool){
 	}
 	user = model.UserModel{ Username: username, Email:email, Password:password }
 	err = GetDbInstance().Create(&user).Error
-	fmt.Printf("user Register: err: %v\n", err)
+	Debug("user Register: err:", err.Error())
 	if err == nil{
 		return "", true
 	}
@@ -85,17 +92,16 @@ func (this *UserBiz) Login(email string, password string) (string, model.UserMod
 	if err != nil {
 		return "", user, err
 	}
-	fmt.Printf("user login: user_id: %d\n", user.Id)
 	var originData string
 	originData = strings.Join([]string{"user_id:", strconv.Itoa(user.Id), ";username:", user.Username, ";roles:", user.Roles},"")
-	fmt.Printf("user login: origin data: %s\n", originData)
-	result, err := AesEncrypt([]byte(originData))
+	Debug("user login: origin data:", originData)
+	result, err := common.AesEncrypt([]byte(originData))
 	if err != nil {
+		Error("user login encrypt failed:", err.Error())
 		return "", user, err
 	}
 	var sessionString string
 	sessionString = base64.StdEncoding.EncodeToString(result)
-	fmt.Printf("user login: session: %s\n", sessionString)
 	return sessionString, user,nil
 }
 
@@ -121,7 +127,7 @@ func GetUserFromSession(session string) model.UserModel{
 	if err != nil {
 		return user
 	}
-	originData, err := AesDecrypt(decodedSession)
+	originData, err := common.AesDecrypt(decodedSession)
 	if err != nil {
 		return user
 	}
@@ -154,7 +160,7 @@ func (this *UserBiz) CheckUserOldPassword(username string, oldPassword string) e
 func (this *UserBiz) UpdateUserInfo(user model.UserModel, value interface{}) (model.UserModel,error) {
 	err := GetDbInstance().Model(&user).Updates(value).Error
 	if err != nil {
-		fmt.Println(err)
+		Error("update user info failed:", err.Error())
 	}
 	return user,err
 }
@@ -162,7 +168,7 @@ func (this *UserBiz) UpdateUserInfo(user model.UserModel, value interface{}) (mo
 func (this *UserBiz) CheckIn(checkmodel model.SignHistoryModel) bool{
 	err := GetDbInstance().Create(&checkmodel).Error
 	if err != nil {
-		fmt.Printf("check in err: %s", err)
+		Error("check in err:", err.Error())
 		return false
 	}
 	return true
@@ -171,7 +177,7 @@ func (this *UserBiz) CheckIn(checkmodel model.SignHistoryModel) bool{
 func (this *UserBiz) CheckedIn(checkmodel model.SignHistoryModel) bool{
 	err := GetDbInstance().Where("to_days(created_at) = to_days(now())").First(&checkmodel).Error
 	if err != nil {
-		fmt.Printf("check in err: %s", err)
+		Error("check in today err:", err.Error())
 		return false
 	}
 	return true

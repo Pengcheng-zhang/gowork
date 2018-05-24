@@ -4,7 +4,6 @@ import (
 	"strconv"
 	"biz"
 	"strings"
-	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
@@ -51,7 +50,7 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params, se
 	replyPage := params["p"]
 	id,err := strconv.Atoi(artId)
 	if err != nil {
-		fmt.Println("article id:", err)
+		Error("article id:", id, err.Error())
 		r.Redirect("/404")
 		return
 	}
@@ -67,6 +66,7 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params, se
 	//获取主题内容
 	article, err := this.artBiz.DetailOutput(id)
 	if err != nil {
+		Error("get article detail failed:", err.Error())
 		r.Redirect("/404")
 		return
 	}
@@ -86,6 +86,7 @@ func (this *ArticleController) Detail(r render.Render, params martini.Params, se
 	}
 	replyList, perr := this.artBiz.GetReplyList(id, 50, offset)
 	if perr != nil {
+		Error("get article reply failed:", err.Error())
 		r.Redirect("/404")
 		return
 	}
@@ -143,7 +144,7 @@ func (this *ArticleController)  Update(r render.Render, req *http.Request, sessi
 //帖子打回
 func (this *ArticleController)  Rollback(r render.Render, req *http.Request, session sessions.Session){
 	articleID := req.FormValue("article_id")
-	fmt.Printf("article rollback id: %s", articleID)
+	Debug("article rollback id: ", articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -187,7 +188,7 @@ func (this *ArticleController) Delete(r render.Render, req *http.Request, sessio
 //为帖子点赞
 func (this *ArticleController) AddPriseNum(r render.Render, req *http.Request, session sessions.Session) {
 	articleID := req.FormValue("id")
-	fmt.Println("articleID:",articleID)
+	Debug("articleID:",articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -211,7 +212,7 @@ func (this *ArticleController) AddPriseNum(r render.Render, req *http.Request, s
 //Diss一下帖子
 func (this *ArticleController) AddDissNum(r render.Render, req *http.Request, session sessions.Session) {
 	articleID := req.FormValue("id")
-	fmt.Printf("article diss id: %s", articleID)
+	Debug("article diss id: ", articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -267,7 +268,7 @@ func (this *ArticleController) AddReply(r render.Render, req *http.Request, sess
 func (this *ArticleController) DeleteReply(r render.Render, req *http.Request, session sessions.Session) {
 	articleID := req.FormValue("article_id")
 	replyId := req.FormValue("reply_id")
-	fmt.Printf("article delete reply id: %s,%s", articleID, replyId)
+	Debug("article delete reply id:", articleID, replyId)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})
@@ -295,7 +296,7 @@ func (this *ArticleController) GetReplyList(r render.Render, req *http.Request, 
 	articleID := req.FormValue("article_id")
 	limit := req.FormValue("limit")
 	offset := req.FormValue("offset")
-	fmt.Printf("article diss id: %s", articleID)
+	Debug("article diss id:", articleID)
 	artId,err := strconv.Atoi(articleID)
 	if err != nil {
 		r.JSON(200, map[string]interface{}{"code": 20001, "message" : "文章不存在"})

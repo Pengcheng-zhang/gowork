@@ -4,6 +4,7 @@ import (
 	"github.com/martini-contrib/sessions"
 	"model"
 	"biz"
+	"common"
 )
 
 type htmlResult struct {
@@ -24,4 +25,12 @@ func GetUser(session sessions.Session) model.UserModel{
 		user = biz.GetUserFromSession(sessionString)
 	}
 	return user
+}
+
+func Debug(v ...interface{}) {
+	common.Debug(v)
+}
+
+func Error(v ...interface{}) {
+	common.Error(v)
 }

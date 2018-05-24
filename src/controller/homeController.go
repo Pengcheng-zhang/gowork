@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"common"
 	"strings"
-	"fmt"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
 	"biz"
@@ -80,7 +80,7 @@ func (this *HomeController) checkSignupParams(username, email, password string) 
 	if len(password) > 20 || len(password) < 5 {
 		return false, "密码不符合要求"
 	}
-	var emailBiz biz.EmailBiz
+	var emailBiz common.Email
 	match := emailBiz.CheckValid(email)
 	if ! match {
 		return false, "请填写正确的邮箱"
@@ -103,13 +103,13 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 	if success {
 		var user model.UserModel
 		loginSession,user,err := this.uCenterBiz.Login(email, password)
-		fmt.Printf("user login: login session: %s\n", loginSession)
+		Debug("user login: login session:", loginSession)
 		if err != nil {
 			this.jResult = map[string]interface{}{"error": 10001, "message" : err}
 			r.JSON(200, this.jResult)
 			return
 		}
-		fmt.Printf("session=%s\n", loginSession)
+		Debug("session=", loginSession)
 		session.Set("yz_session_token", loginSession)
 		nextUrl = strings.Join([]string{"/user/", strconv.Itoa(user.Id)}, "")
 		this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}

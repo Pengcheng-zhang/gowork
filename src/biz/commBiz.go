@@ -1,7 +1,6 @@
 package biz
 
 import (
-	"fmt"
 	"model"
 )
 
@@ -13,19 +12,20 @@ func (this *CommomBiz) GetCategory(currentTab int) []model.CategoryModel {
 	var categories []model.CategoryModel
 	err := GetDbInstance().Where("pid = ?", 0).Or("pid = ?", currentTab).Find(&categories).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get category failed:", err.Error())
 	}
 	return categories
 }
 
 func(this *CommomBiz) GetSubcateIds(pid int) []int {
 	var categories []model.CategoryModel
+	var cateIds []int
 	err := GetDbInstance().Where("pid = ?", pid).Or("id = ?", pid).Find(&categories).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get subcateids failed", err.Error())
+		return cateIds
 	}
-	fmt.Println("categories:",categories )
-	var cateIds []int
+	Debug("categories:",categories )
 	for _,value := range categories {
 		cateIds = append(cateIds, value.Id)
 	}
@@ -36,7 +36,7 @@ func (this *CommomBiz) GetCategoryByName(name string) model.CategoryModel{
 	var category model.CategoryModel
 	err := GetDbInstance().Where("url = ?", name).First(&category).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get category by name failed", name, err.Error())
 	}
 	return category
 }
@@ -45,11 +45,7 @@ func (this *CommomBiz) GetSubCategory() []model.CategoryModel {
 	var categories []model.CategoryModel
 	err := GetDbInstance().Where("pid > ?", 0).Find(&categories).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("get subcategory failed:", err.Error())
 	}
 	return categories
-}
-
-func GetHost() string{
-	return "http://localhost:3000"
 }

@@ -1,7 +1,6 @@
 package biz
 
 import (
-	"fmt"
 	"model"
 )
 
@@ -13,7 +12,7 @@ type History struct{
 func (history History) AddOperationHistory(opHistory model.OperationHistoryModel) bool{
 	err := GetDbInstance().Create(&opHistory).Error
 	if err != nil {
-		fmt.Println(err)
+		Debug("add operate history failed:", err.Error())
 		return false
 	}
 	return true

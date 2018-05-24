@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"time"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
-	"biz"
+	"common"
 	"route"
 	"html/template"
 	//"yztest"
@@ -15,11 +14,11 @@ import (
 func main()  {
 	now,err := time.Parse("2006-01-02 15:04:05 +0000 UTC", "2018-01-09 11:02:51 +0000 UTC" )
 	if err != nil {
-		fmt.Println(err)
+		common.Debug(err)
 	}
-	fmt.Println(now.Format("2006-01-02 15:04:05"))
-	biz.DbInit();
-	defer biz.GetDbInstance().Close()
+	common.Debug(now.Format("2006-01-02 15:04:05"))
+	common.DbInit();
+	defer common.GetDbInstance().Close()
 	//var comBiz biz.CommomBiz
 	//result := comBiz.GetCategory(2)
 	//var length int = len(result)

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
@@ -24,8 +23,6 @@ func (this *CategoryController) CategoryPath(r render.Render, req *http.Request,
 	if err != nil {
 		page = 0
 	}
-	fmt.Println("page:", page)
-	fmt.Println("tab name:", req.URL.Path)
 	category := this.commBiz.GetCategoryByName(req.URL.Path)
 	if category.Id == 0 {
 		r.Redirect("/404")
@@ -40,7 +37,7 @@ func (this *CategoryController) CategoryPath(r render.Render, req *http.Request,
 		}
 	}
 	this.hResult.CurrentCate = category
-	this.hResult.Articles = this.artBiz.GetTabArtList(cateIds, 50, 0, "P")
+	this.hResult.Articles = this.artBiz.GetTabArtList(cateIds, 50, page, "P")
 	r.HTML(200, "index", this.hResult)
 }
 
@@ -50,8 +47,6 @@ func (this *CategoryController) SubCatePath(r render.Render, req *http.Request, 
 	if err != nil {
 		page = 0
 	}
-	fmt.Println("page:", page)
-	fmt.Println("tab name:", req.URL.Path)
 	category := this.commBiz.GetCategoryByName(req.URL.Path)
 	if category.Id == 0 {
 		r.Redirect("/404")
@@ -60,6 +55,6 @@ func (this *CategoryController) SubCatePath(r render.Render, req *http.Request, 
 	this.hResult.CurrentCate = category
 	this.hResult.User = GetUser(session)
 	this.hResult.ArticleCount = this.artBiz.GetArtCount(category.Id)
-	this.hResult.Articles = this.artBiz.GetArtList(category.Id, 50, 0, "P")
+	this.hResult.Articles = this.artBiz.GetArtList(category.Id, 50, page, "P")
 	r.HTML(200, "subcate/index", this.hResult)
 }
