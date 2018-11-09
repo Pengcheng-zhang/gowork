@@ -17,6 +17,13 @@ type htmlResult struct {
 	ArticleCount int
 }
 
+type commonResult struct {
+	Code int
+	Message string
+	Result interface{}
+}
+
+var CommonResult commonResult
 func GetUser(session sessions.Session) model.UserModel{
 	v := session.Get("yz_session_token")
 	var user model.UserModel
@@ -33,4 +40,10 @@ func Debug(v ...interface{}) {
 
 func Error(v ...interface{}) {
 	common.Error(v)
+}
+
+func SetCommonResult(code int, message string,result interface{}) {
+	CommonResult.Code = code
+	CommonResult.Message = message
+	CommonResult.Result = result
 }

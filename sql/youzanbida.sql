@@ -256,3 +256,38 @@ CREATE TABLE `yz_wechat` (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE `friends` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`user_id`  int(11) NULL ,
+`name`  varchar(55) NULL ,
+`sex`  int(11) NULL DEFAULT 0 ,
+`birth_day`  varchar(80) NULL ,
+`height`  varchar(80) NULL ,
+`weight`  varchar(80) NULL ,
+`married`  varchar(80) NULL ,
+`education`  varchar(80) NULL ,
+`current_city`  varchar(80) NULL ,
+`regist_city`  varchar(80) NULL ,
+`born_city`  varchar(80) NULL ,
+`profession`  varchar(255) NULL ,
+`parents`  varchar(255) NULL ,
+`brothers`  varchar(255) NULL ,
+`is_only`  varchar(255) NULL ,
+`in_come`  varchar(255) NULL ,
+`interest`  varchar(255) NULL ,
+`place_other`  varchar(255) NULL ,
+`marry_years`  varchar(255) NULL ,
+`child_num`  varchar(255) NULL ,
+`request_base`  varchar(255) NULL ,
+`show_me_special`  varchar(255) NULL ,
+`self_recommend`  varchar(255) NULL ,
+`image_url_one`  varchar(255) NULL ,
+`image_url_two`  varchar(255) NULL ,
+`image_url_three`  varchar(255) NULL ,
+`image_url_four`  varchar(255) NULL ,
+`contact`  varchar(255) NULL ,
+`source_dest`  varchar(255) NULL ,
+`created_at`  timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+PRIMARY KEY (`id`)
+);

@@ -3,6 +3,7 @@ package route
 import(
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
+	"net/http"
 	"controller"
 	"middleware"
 	"model"
@@ -19,6 +20,8 @@ func Run(m *martini.ClassicMartini)  {
 	catePathRoute()
 	wechatRoute()
 	emailRoute()
+	uploadRoute()
+	friendsRoute()
 	route404()
 
 	m.Run()
@@ -109,17 +112,38 @@ func emailRoute() {
 		r.Post("/send", email.SendRegistVerification)
 	})
 }
+
+func uploadRoute() {
+	var upload controller.UploadController
+	mClassic.Group("/upload", func(r martini.Router) {
+		r.Post("/file", upload.File)
+	})
+}
+
+func friendsRoute() {
+	var friends controller.FriendsController
+	mClassic.Group("/friends", func(r martini.Router) {
+		r.Post("/list", friends.List)
+		r.Post("/details", friends.Detail)
+		r.Post("/new", friends.New)
+		r.Post("/update", friends.Update)
+	})
+}
 //404 not found
 func route404()  {
-	mClassic.NotFound(func(r render.Render) {
-		type output struct {
-			User model.UserModel
-			Js []string
-			Css []string
-			Category []model.CategoryModel
-			CurrentTab int
+	mClassic.NotFound(func(r render.Render, req *http.Request ) {
+		if req.Method == "POST" {
+			r.JSON(404, map[string]interface{}{"Code": 404, "Message" : "未找到请求接口"})
+		}else {
+			type output struct {
+				User model.UserModel
+				Js []string
+				Css []string
+				Category []model.CategoryModel
+				CurrentTab int
+			}
+			var data output
+			r.HTML(404, "404", data)
 		}
-		var data output
-		r.HTML(404, "404", data)
 	})
 }
