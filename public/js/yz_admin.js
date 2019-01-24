@@ -169,7 +169,7 @@ function initArticleList() {
 			}
 		],
 		"ajax": {
-			"url": "http://localhost:3000/admin/article_list",
+			"url": "/admin/article_list",
 			"type": "POST",
 			"data" : function(d) {
 				 d.status = $('#article_status').val();
