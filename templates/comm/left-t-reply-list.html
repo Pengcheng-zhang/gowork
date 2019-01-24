@@ -1,18 +1,7 @@
 {{ define "leftReplyList" }}
 <div class="yz-box" id="yz_reply_list">
     <div class="yz-cell">
-        <div class="yz-fr" style="margin: -3px -5px 0px 0px;">
-            <a href="/tag/lazada" class="yz-tag">
-                <li class="fa fa-tag"></li> lazada</a>
-            <a href="/tag/the" class="yz-tag">
-                <li class="fa fa-tag"></li> the</a>
-            <a href="/tag/阿里" class="yz-tag">
-                <li class="fa fa-tag"></li> 阿里</a>
-            <a href="/tag/supported" class="yz-tag">
-                <li class="fa fa-tag"></li> supported</a>
-        </div>
-        <span class="yz-gray">{{ .ReplyCount }} 回复
-            <strong class="yz-snow">|</strong> 直到 {{ .Article.LastReplyTime}}</span>
+        <span class="yz-gray">{{ .ReplyCount }} 回复</span>
     </div>
     {{range $key,$value := .ReplyList}}
     <div id="r_5328068" class="yz-cell">
@@ -24,21 +13,11 @@
                     </td>
                     <td width="10" valign="top"></td>
                     <td width="auto" valign="top" align="left">
-                        <div class="yz-fr">
-                            <div id="thank_area_5328068" class="yz-thank-area">
-                                <a href="#;" onclick="if (confirm('确认花费 10 个铜币向 @SevanJoe 的这条回复发送感谢？')) { thankReply(5328068, 'biqgcgbmekkudnnfkrrdmbwgqocuqdgy'); }"
-                                    class="yz-thank">感谢回复者</a>
-                            </div>
-                            <a href="#;" onclick="replyOne('SevanJoe');">
-                                <img src="//cdn.v2ex.com/static/img/reply.png" align="absmiddle" border="0" alt="Reply">
-                            </a>
-                            <span class="yz-no">1</span>
-                        </div>
                         <div class="yz-sep3"></div>
                         <strong>
                             <a href="/member/SevanJoe" class="yz-dark">{{ $value.Username}}</a>
                         </strong>
-                        <span class="yz-ago">{{ $value.CreatedAt }}</span>
+                        <span class="yz-ago">{{ $value.CreatedAt | formatToTime}}</span>
                         <div class="yz-sep5"></div>
                         <div class="yz-reply-content">{{ $value.Content}}</div>
                     </td>

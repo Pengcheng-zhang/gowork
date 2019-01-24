@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"regexp"
 	"errors"
-	"common"
+	"services"
 )
 
 type UserBiz struct {
@@ -95,7 +95,7 @@ func (this *UserBiz) Login(email string, password string) (string, model.UserMod
 	var originData string
 	originData = strings.Join([]string{"user_id:", strconv.Itoa(user.Id), ";username:", user.Username, ";roles:", user.Roles},"")
 	Debug("user login: origin data:", originData)
-	result, err := common.AesEncrypt([]byte(originData))
+	result, err := services.AesEncrypt([]byte(originData))
 	if err != nil {
 		Error("user login encrypt failed:", err.Error())
 		return "", user, err
@@ -127,7 +127,7 @@ func GetUserFromSession(session string) model.UserModel{
 	if err != nil {
 		return user
 	}
-	originData, err := common.AesDecrypt(decodedSession)
+	originData, err := services.AesDecrypt(decodedSession)
 	if err != nil {
 		return user
 	}
@@ -181,6 +181,24 @@ func (this *UserBiz) CheckedIn(checkmodel model.SignHistoryModel) bool{
 		return false
 	}
 	return true
+}
+// 用户列表
+func (this *UserBiz) GetUserList(limit int, offset int, status string) ([]model.UserModel, int){
+	var userList []model.UserModel
+	var err error
+	count := 0
+	DB := GetDbInstance()
+	if status == "all" {
+		DB.Find(&userList).Count(&count)
+		err = DB.Limit(limit).Offset(offset).Find(&userList).Error
+	} else {
+		DB.Where("status = ?", status).Find(&userList).Count(&count)
+		err = DB.Where("status = ?", status).Limit(limit).Offset(offset).Find(&userList).Error
+	}
+	if err != nil {
+		Debug("get user list failed:", err.Error())
+	}
+	return userList, count
 }
 
 

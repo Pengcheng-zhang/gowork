@@ -8,20 +8,19 @@
         </div>
         <a href="/">V2EX</a>
         <span class="yz-chevron"> › </span>
-        <a href="/go/career">职场话题</a>
         <div class="yz-sep10"></div>
         <h2 id="art_id" class="yz-hidden">{{ .Article.Id}}</h2>
         <h1>{{.Article.Title}}</h1>
         <div id="topic_votes" class="yz-votes">
-            <a href="javascript:" onclick="upVoteTopic(1);" class="yz-vote">
-                <li class="fa fa-chevron-up">{{ .Article.PriseNum}}</li>
+            <a href="javascript:upVoteTopic({{ .Article.Id}});" class="yz-vote" id="vote-up">
+                <li class="fa fa-thumbs-up">{{ .Article.PriseNum}}</li>
             </a> &nbsp;
-            <a href="javascript:" onclick="downVoteTopic(1);" class="yz-vote">
-                <li class="fa fa-chevron-down">{{.Article.DissNum}}</li>
+            <a href="javascript:downVoteTopic({{ .Article.Id}});" class="yz-vote" id="vote-down">
+                <li class="fa fa-thumbs-down">{{.Article.DissNum}}</li>
             </a>
         </div> &nbsp;
         <small class="yz-gray">
-            <a href="/member/ycmchong">{{.Article.CreatorName}}</a> · 4 小时 36 分钟前 · {{ .Article.ViewTimes}} 次点击 &nbsp; </small>
+            <a href="/member/ycmchong">{{.Article.CreatorName}}</a>  · {{ .Article.ViewTimes}} 次浏览 &nbsp; </small>
     </div>
     <div class="yz-cell">
         <div class="yz-topic-content">
@@ -29,14 +28,6 @@
                     {{ .Article.Content | unescaped }}
             </div>
         </div>
-    </div>
-    <div class="yz-topic-buttons">
-        <div class="yz-fr yz-gray yz-f11 yz-detail-bottom-right">{{ .Article.ViewTimes}} 次点击 ∙ 5 人收藏 </div>
-        <a href="/favorite/topic/430135?t=gnaaqgkwmgllfyybjnqrbgsmywosvkgi" class="yz-tb">加入收藏</a> &nbsp;
-        <a href="#;" onclick="window.open('https://twitter.com/share?url=https://www.v2ex.com/t/430135?r\u003DIFK&amp;related=v2ex&amp;hashtags=career&amp;text=要不要换个压力小一点的城市.', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'twitter.com');"
-            class="yz-tb">Tweet</a>
-        <a href="#;" onclick="window.open('http://service.weibo.com/share/share.php?url=https://www.v2ex.com/t/430135?r\u003DIFK&amp;title=V2EX%20-%20要不要换个压力小一点的城市.', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');"
-            class="yz-tb">Weibo</a>
     </div>
 </div>
 <script>

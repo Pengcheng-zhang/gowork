@@ -37,6 +37,7 @@ type FriendsModel struct {
 	ImageUrlFour string
 	Contact string
 	SourceDest string
+	ViewTimes int
 	CreatedAt time.Time
 }
 

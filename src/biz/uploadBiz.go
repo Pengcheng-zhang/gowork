@@ -3,7 +3,7 @@ package biz
 import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"mime/multipart"
-	"common"
+	"services"
 )
 
 type UploadBiz struct{
@@ -11,7 +11,7 @@ type UploadBiz struct{
 }
 
 func(this *UploadBiz) getBucket() (*oss.Bucket){
-	ossConfig := common.GetConfigSection("oss")
+	ossConfig := services.GetConfigSection("oss")
 	if ossConfig == nil {
 		Debug("get oss config failed")
 		return nil

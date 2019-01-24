@@ -22,6 +22,11 @@ func(this *FriendsBiz) Detail(id int) model.FriendsModel {
 	err := GetDbInstance().Where("id = ?", id).First(&friend).Error
 	if err != nil {
 		Debug("get friend failed:", err.Error())
+	}else{
+		err = GetDbInstance().Model(&friend).Update("view_times", friend.ViewTimes + 1).Error
+		if err != nil {
+			Debug("update friend view times failed:", err.Error())
+		}
 	}
 	return friend
 }

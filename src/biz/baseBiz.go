@@ -1,18 +1,18 @@
 package biz
 
 import (
-	"common"
+	"services"
 	"github.com/jinzhu/gorm"
 )
 
 func Debug(v ...interface{}) {
-	common.Debug(v)
+	services.Debug(v)
 }
 
 func Error(v ...interface{}) {
-	common.Error(v)
+	services.Error(v)
 }
 
 func GetDbInstance() *gorm.DB{
-	return common.GetDbInstance();
+	return services.GetDbInstance();
 }

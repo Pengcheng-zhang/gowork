@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"common"
 	"strings"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
@@ -13,36 +12,54 @@ import (
 
 type HomeController struct{
 	uCenterBiz biz.UserBiz
+	categoryBiz biz.CategoryBiz
 	commBiz biz.CommomBiz
 	artBiz biz.ArtBiz
 	hResult htmlResult  //html数据
-	jResult interface{} //api请求返回结果
 }
 
 //首页 / Get
-func (this *HomeController) Index(r render.Render, session sessions.Session) {
+func (this *HomeController) Index(r render.Render, req *http.Request, session sessions.Session) {
+	in_page := req.FormValue("p")
 	this.hResult.User = GetUser(session)
-	this.hResult.Category = this.commBiz.GetCategory(3)
-	this.hResult.CurrentCate = this.commBiz.GetCategoryByName("/tab/jobs")
-	types := this.commBiz.GetSubcateIds(3)
-	this.hResult.Articles = this.artBiz.GetTabArtList(types, 50, 0, "P")
+	// types := this.categoryBiz.GetSubcateIds(3)
+	var page int = 0
+	if in_page == "" {
+		page = 0
+	} else {
+		var err error
+		page,err = strconv.Atoi(in_page)
+		if err != nil {
+			page = 0
+		}else {
+			if page > 1 {
+				page = page - 1
+			}else {
+				page = 0
+			}
+		}
+	}
+	offset := page * 50
+	this.hResult.Articles, this.hResult.ArticleCount = this.artBiz.GetArtList(0, 50, offset, "P", "")
+	this.hResult.ArticlePageCount = this.hResult.ArticleCount / 50 + 1
+	this.hResult.ArticleCurrentPage = page
 	r.HTML(200, "index", this.hResult)
 }
 
 //登录 /login Post
-func (this *HomeController) Login(r render.Render, req *http.Request, session sessions.Session)  {
+func (this *HomeController) ApiLogin(r render.Render, req *http.Request, session sessions.Session)  {
 	email := req.FormValue("email")
 	password := req.FormValue("password")
 	if email == "" || password == "" {
-		this.jResult = map[string]interface{}{"code": 10001, "message": "请输入邮箱和密码", "result":""}
-		r.JSON(200, this.jResult)
+		setJsonResult(10001, "请输入邮箱和密码", "")
+		r.JSON(200, jsonResult)
 		return
 	}
 	var user model.UserModel
 	loginSession,user, err := this.uCenterBiz.Login(email, password)
 	if err != nil {
-		this.jResult = map[string]interface{}{"code": 10001, "message" : "用户名或密码错误"}
-		r.JSON(200, this.jResult)
+		setJsonResult(10001, "用户名或密码错误", "")
+		r.JSON(200, jsonResult)
 		return
 	}
 	session.Set("yz_session_token", loginSession)
@@ -50,8 +67,8 @@ func (this *HomeController) Login(r render.Render, req *http.Request, session se
 	if strings.Index(user.Roles, "A") != -1 {
 		nextUrl = "/admin"
 	}
-	this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}
-	r.JSON(200, this.jResult)
+	setJsonResult(10000, "success", nextUrl)
+	r.JSON(200, jsonResult)
 }
 
 //登陆页 /login GET
@@ -61,7 +78,6 @@ func (this *HomeController) GetLogin(r render.Render, session sessions.Session) 
 		r.Redirect("/")
 	}
 	this.hResult.User = user
-	this.hResult.Js = []string{"/js/yzcomm.js"}
 	r.HTML(200, "main/signin", this.hResult)
 }
 
@@ -80,22 +96,21 @@ func (this *HomeController) checkSignupParams(username, email, password string) 
 	if len(password) > 20 || len(password) < 5 {
 		return false, "密码不符合要求"
 	}
-	var emailBiz common.Email
-	match := emailBiz.CheckValid(email)
+	match := this.commBiz.CheckValid(email)
 	if ! match {
 		return false, "请填写正确的邮箱"
 	}
 	return true,""
 }
 //注册 /regist POST
-func (this *HomeController) Regist(r render.Render, req *http.Request, session sessions.Session) {
+func (this *HomeController) ApiRegist(r render.Render, req *http.Request, session sessions.Session) {
 	username := req.FormValue("username")
 	email := req.FormValue("email")
 	password := req.FormValue("password")
 	check,message := this.checkSignupParams(username, email, password)
 	if ! check {
-		this.jResult = map[string]interface{}{"error": 10001, "message" : message}
-		r.JSON(200, this.jResult)
+		setJsonResult(10001, message, "")
+		r.JSON(200, jsonResult)
 		return 
 	}
 	var nextUrl string
@@ -105,28 +120,54 @@ func (this *HomeController) Regist(r render.Render, req *http.Request, session s
 		loginSession,user,err := this.uCenterBiz.Login(email, password)
 		Debug("user login: login session:", loginSession)
 		if err != nil {
-			this.jResult = map[string]interface{}{"error": 10001, "message" : err}
-			r.JSON(200, this.jResult)
+			setJsonResult(10001, "登录失败", "")
+			r.JSON(200, jsonResult)
 			return
 		}
 		Debug("session=", loginSession)
 		session.Set("yz_session_token", loginSession)
 		nextUrl = strings.Join([]string{"/user/", strconv.Itoa(user.Id)}, "")
-		this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": nextUrl}
+		setJsonResult(10000, "success", nextUrl)
 	} else {
-		this.jResult = map[string]interface{}{"code": 10001, "message" : message}
+		setJsonResult(10001, message, "")
 	}
-	r.JSON(200, this.jResult)
+	r.JSON(200, jsonResult)
 }
 
 //登出 /api/logout POST
-func (this *HomeController) Logout(r render.Render, session sessions.Session) {
+func (this *HomeController) ApiLogout(r render.Render, session sessions.Session) {
 	session.Set("yz_session_token", "")
-	this.jResult = map[string]interface{}{"code": 10000, "message" : "success", "result": ""}
-	r.JSON(200, this.jResult)
+	setJsonResult(10000, "success", "")
+	r.JSON(200, jsonResult)
 }
 
 //关于
 func (this *HomeController) About(r render.Render, session sessions.Session) {
 	r.HTML(200, "main/about", this.hResult)
+}
+
+//忘记密码
+func (this *HomeController) Forget(r render.Render, session sessions.Session) {
+	r.HTML(200, "main/forget", this.hResult)
+}
+
+func (this *HomeController) ApiForgetPassword(r render.Render, req *http.Request, session sessions.Session) {
+	email := req.FormValue("email")
+	result := this.commBiz.CheckValid(email)
+	if result == false {
+		setJsonResult(10001, "邮箱地址不正确", "")
+	} else {
+		result = this.commBiz.CheckLatestSendEmailTime(email, "forget")
+		if result == false {
+			setJsonResult(10003, "操作过快，请稍后再试。", "")
+		}else {
+			err := this.commBiz.SendForgetPasswordEmail(email)
+			if err == nil {
+				setJsonResult(10000, "邮件发送成功，请前往邮箱完成下一步操作。", "")
+			}else {
+				setJsonResult(10002, "邮件发送失败，请稍后再试！", "")
+			}
+		}
+	}
+	r.JSON(200, jsonResult)
 }

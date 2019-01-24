@@ -4,28 +4,31 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tbody>
             <tr>
-                <td width="48" valign="top" align="center">
-                    <a href="/member/{{$value.CreatorName}}">
-                        <img src="//cdn.v2ex.com/avatar/54a9/40cc/276192_normal.png?m=1513923135" class="avatar" border="0" align="default">
-                    </a>
+                <td width="215" valign="top" align="center">
+                    <div class="yz-content-img">
+                        <a href="/member/{{$value.CreatorName}}">
+                            <img src="//cdn.v2ex.com/avatar/54a9/40cc/276192_normal.png?m=1513923135" class="avatar" border="0" align="default">
+                        </a>
+                    </div>
                 </td>
                 <td width="10"></td>
-                <td width="auto" valign="middle">
-                    <span class="yz-item-title">
+                <td width="auto" valign="top">
+                    <h2 class="yz-item-title">
                         <a href="/article/{{$value.Id}}">{{ $value.Title}}</a>
-                    </span>
-                    <div class="yz-sep5"></div>
-                    <span class="yz-small yz-fade">
-                        <div class="yz-votes">
-                            <li class="fa fa-chevron-up"></li>{{ $value.PriseNum}}</div>
+                    </h2>
+                    <div class="yz-des">
+                        {{ $value.Content | unescaped}}
+                    </div>
+                    <div class="yz-small yz-fade">
                         <a class="yz-node" href="/go/career">职场话题</a> &nbsp;•&nbsp;
                         <strong>
                             <a href="/member/{{$value.CreatorName}}">{{ $value.CreatorName}}</a>
-                        </strong> &nbsp;•&nbsp;  最后回复时间:{{ $value.LastReplyTime}}
-                    </span>
-                </td>
-                <td width="70" align="right" valign="middle">
-                    <a href="/t/427796#reply723" class="count_livid">{{ $value.ReplyNum}}</a>
+                        </strong> &nbsp;•&nbsp;  发表时间:{{ $value.CreatedAt | formatToDate }}
+                        <div class="yz-fr">
+                            <span class="yz-meta-item"><span class="fa fa-eye"></span>{{ $value.ViewTimes}}</span>
+                            <span class="yz-meta-item"><span class="fa fa-thumbs-up"></span>{{ $value.PriseNum}}</span>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>

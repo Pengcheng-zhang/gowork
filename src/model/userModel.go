@@ -5,7 +5,7 @@ import "time"
 type UserModel struct {
 	Id int `gorm:"primary_key"`
 	Username string
-	Password string
+	Password string `json:"-"`
 	Roles string
 	ClientId string
 	ClientSecret string

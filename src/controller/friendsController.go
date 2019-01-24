@@ -31,21 +31,21 @@ func(this *FriendsController) List(r render.Render, req *http.Request, session s
 		queryOffset = 0
 	}
 	result := this.fBiz.GetList(querySex, queryLimit, queryOffset)
-	SetCommonResult(10000, "success", result)
-	r.JSON(200, CommonResult)
+	setJsonResult(10000, "success", result)
+	r.JSON(200, jsonResult)
 }
 
 func(this *FriendsController) Detail(r render.Render, req *http.Request, session sessions.Session) {
 	id := req.FormValue("id")
 	queryId,err := strconv.Atoi(id)
 	if err != nil {
-		SetCommonResult(40004, "fail", "未找到你心仪的对象")
-		r.JSON(200, CommonResult)
+		setJsonResult(40004, "fail", "未找到你心仪的对象")
+		r.JSON(200, jsonResult)
 		return
 	}
 	result := this.fBiz.Detail(queryId)
-	SetCommonResult(10000, "success", result)
-	r.JSON(200, CommonResult)
+	setJsonResult(10000, "success", result)
+	r.JSON(200, jsonResult)
 }
 
 func(this *FriendsController) New(r render.Render, req *http.Request, session sessions.Session) {

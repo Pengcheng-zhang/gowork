@@ -10,7 +10,7 @@ import (
 
 type CategoryController struct {
 	uCenterBiz biz.UserBiz
-	commBiz biz.CommomBiz
+	commBiz biz.CategoryBiz
 	artBiz biz.ArtBiz
 	hResult htmlResult  //html数据
 	jResult interface{} //api请求返回结果
@@ -55,6 +55,6 @@ func (this *CategoryController) SubCatePath(r render.Render, req *http.Request, 
 	this.hResult.CurrentCate = category
 	this.hResult.User = GetUser(session)
 	this.hResult.ArticleCount = this.artBiz.GetArtCount(category.Id)
-	this.hResult.Articles = this.artBiz.GetArtList(category.Id, 50, page, "P")
+	this.hResult.Articles, this.hResult.ArticleCount = this.artBiz.GetArtList(category.Id, 50, page, "P","")
 	r.HTML(200, "subcate/index", this.hResult)
 }

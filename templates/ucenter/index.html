@@ -24,10 +24,11 @@
             <td width="auto" valign="top" align="left">
               <div class="yz-fr">
               </div>
-              <h1 style="margin-bottom: 5px;">ppd</h1>
+              <h1 style="margin-bottom: 5px;">{{ .User.Username}}</h1>
               <div class="yz-sep10"></div>
               <span class="yz-gray">
-                <li class="fa fa-time"></li> &nbsp; V2EX 第 285624 号会员，加入于 2018-01-23 10:00:15 +08:00，今日活跃度排名
+                <li class="fa fa-time"></li>  欢迎来到有赞币答，如果你想开发此网站，并有golang基础，可以联系我，zhangpch666@163.com, 我可以开放源码给你，一起开发<br/>
+                <li class="fa fa-time"></li> &nbsp; 有赞币答 第 {{ .User.Id}} 号会员，加入于 {{ .User.CreatedAt | formatToTime }}，今日活跃度排名
                 <a href="/top/dau">3629</a>
               </span>
             </td>

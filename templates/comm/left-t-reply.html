@@ -36,23 +36,13 @@
                     </td>
                     <td width="10" valign="top"></td>
                     <td width="auto" valign="top" align="left">
-                        <div class="yz-fr">
-                            <div id="thank_area_5328068" class="yz-thank-area">
-                                <a href="#;" onclick="if (confirm('确认花费 10 个铜币向 @SevanJoe 的这条回复发送感谢？')) { thankReply(#{=UserID}#, 'biqgcgbmekkudnnfkrrdmbwgqocuqdgy'); }"
-                                    class="yz-thank">感谢回复者</a>
-                            </div>
-                            <a href="#;" onclick="replyOne('SevanJoe');">
-                                <img src="//cdn.v2ex.com/static/img/reply.png" align="absmiddle" border="0" alt="Reply">
-                            </a>
-                            <span class="yz-no">1</span>
-                        </div>
                         <div class="yz-sep3"></div>
                         <strong>
                             <a href="/member/SevanJoe" class="yz-dark">{{ .User.Username}}</a>
                         </strong>
                         <span class="yz-ago">刚刚</span>
                         <div class="yz-sep5"></div>
-                        <div class="yz-reply-content">#{=Content}#</div>
+                        <div class="yz-reply-content">#{=result.content}#</div>
                     </td>
                 </tr>
             </tbody>

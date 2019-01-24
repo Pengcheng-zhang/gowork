@@ -3,18 +3,8 @@
 <div class="yz-comm-left">
     <div class="yz-sep20"></div>
     <div class="yz-box">
-        {{ template "category" . }}
         {{ template "mainContent" .}}
-        <div class="yz-inner">
-            <div class="yz-fr">
-                <a href="/feed/tab/jobs.xml" target="_blank">
-                    <img src="/image/rss.png" align="absmiddle" style="margin-top:-3px;" border="0">
-                </a>&nbsp;
-                <a href="/feed/tab/jobs.xml" target="_blank">通过 Atom Feed 订阅</a>
-            </div>
-            <span class="chevron">→</span>
-            <a href="/recent">更多新主题</a>
-        </div>
+        {{ template "pagenation" . }}
     </div>
 </div>
 {{ end }}

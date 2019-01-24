@@ -10,6 +10,7 @@ import(
 )
 
 var loginMiddleWare middleware.LoginRequired
+var adminMiddleWare middleware.AdminRequired
 var mClassic *martini.ClassicMartini
 func Run(m *martini.ClassicMartini)  {
 	mClassic = m
@@ -34,10 +35,12 @@ func commRoute()  {
 	mClassic.Get("/signin", home.GetLogin)			//登陆页
 	mClassic.Get("/signup", home.GetRegist)		//注册页
 	mClassic.Get("/about", home.About)             //关于我们
+	mClassic.Get("/forget", home.Forget)		//忘记密码
 
-	mClassic.Post("/api/signup", home.Regist)  		//注册
-	mClassic.Post("/api/login", home.Login)		//登陆
-	mClassic.Post("/api/logout", home.Logout)			//登出
+	mClassic.Post("/api_signup", home.ApiRegist)  		//注册
+	mClassic.Post("/api_login", home.ApiLogin)		//登陆
+	mClassic.Post("/api_logout", home.ApiLogout)			//登出
+	mClassic.Post("/api_forget_password", home.ApiForgetPassword)
 }
 
 //后台管理路由
@@ -45,8 +48,11 @@ func adminRoute()  {
 	var admin controller.AdminController
 	mClassic.Group("/admin", func (r martini.Router)  {
 		r.Get("", admin.Index)
-		r.Get("/tech", admin.ArticleList);
-	}, loginMiddleWare.Call)
+	}, loginMiddleWare.Call, adminMiddleWare.Call)
+	mClassic.Group("/admin", func (r martini.Router)  {
+		r.Post("/user_list", admin.UserList)
+		r.Post("/article_list", admin.ArticleList)
+	}, loginMiddleWare.Call, adminMiddleWare.Call)
 }
 
 //个人中心路由
@@ -67,34 +73,37 @@ func ucenterRoute()  {
 		r.Get("/art_list/:status", userCenter.GetArtList)	//文章列表
 		r.Get("/settings", userCenter.Settings)
 		//POST
-		r.Post("/api_check", userCenter.CheckDaily)			//每日签到
+		r.Post("/api_check", userCenter.ApiCheckDaily)			//每日签到
 		
-	})
+	}, loginMiddleWare.Call)
 }
 
 //帖子路由
 func articleRoute()  {
 	var articleController controller.ArticleController
 	mClassic.Group("/article",func(r martini.Router){
-		r.Get("/:id", articleController.Detail)      		//文章详情
-		r.Post("/comment_list", articleController.GetReplyList)			//评论列表
+		r.Get("/:id", articleController.GetDetail)      		//文章详情
+		r.Post("/api_comment_list", articleController.ApiGetReplyList)			//评论列表
+		r.Post("/api_detail", articleController.ApiDetail)
 	})
 
 	mClassic.Group("/article", func(r martini.Router){
-		r.Post("/api_new", articleController.NewArticle)				//发表文章
-		r.Post("/api_prise", articleController.AddPriseNum)				//为文章点赞
-		r.Post("/api_diss", articleController.AddDissNum)				//Diss一下文章
-		r.Post("/api_delete", articleController.Delete)					//删除文章
-		r.Post("/api_comment", articleController.AddReply)				//回复
-		r.Post("/api_comment_delete", articleController.DeleteReply)    //删除回复
+		r.Post("/api_new", articleController.ApiNewArticle)				//发表文章
+		r.Post("/api_update", articleController.ApiUpdate)				//更新文章
+		r.Post("/api_prise", articleController.ApiAddPriseNum)				//为文章点赞
+		r.Post("/api_diss", articleController.ApiAddDissNum)				//Diss一下文章
+		r.Post("/api_delete", articleController.ApiDelete)					//删除文章
+		r.Post("/api_add_comment", articleController.ApiAddReply)				//回复
+		r.Post("/api_comment_delete", articleController.ApiDeleteReply)    //删除回复
+		r.Post("/api_type_list", articleController.ApiGetTypeList)    //类型列表
 	}, loginMiddleWare.Call)
+
+	mClassic.Group("/article",func(r martini.Router){
+		r.Post("/api_roll_back", articleController.ApiRollback)    //帖子打回
+	}, adminMiddleWare.Call)
 }
 //分类路由
 func catePathRoute() {
-	var category controller.CategoryController
-	mClassic.Get("/tab/\\w+", category.CategoryPath)
-	mClassic.Get("/go/\\w+", category.SubCatePath)
-
 }
 //微信路由
 func wechatRoute() {
@@ -117,7 +126,7 @@ func uploadRoute() {
 	var upload controller.UploadController
 	mClassic.Group("/upload", func(r martini.Router) {
 		r.Post("/file", upload.File)
-	})
+	}, loginMiddleWare.Call)
 }
 
 func friendsRoute() {
@@ -137,10 +146,6 @@ func route404()  {
 		}else {
 			type output struct {
 				User model.UserModel
-				Js []string
-				Css []string
-				Category []model.CategoryModel
-				CurrentTab int
 			}
 			var data output
 			r.HTML(404, "404", data)

@@ -84,34 +84,29 @@
         box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
     }
 </style>
-<div class="yz-cell yz-page-cell">
+<div class="yz-cell yz-page-cell" id="yz_art_page" data-total="{{ .ArticlePageCount}}" data-current="{{ .ArticleCurrentPage}}">
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tbody>
             <tr>
-                <td width="92%" align="left">
-                    <a href="?p=1" class="yz-page-normal">1</a>
-                    <a href="?p=2" class="yz-page-normal">2</a>
-                    <a href="?p=3" class="yz-page-normal">3</a>
-                    <a href="?p=4" class="yz-page-normal">4</a>
-                    <a href="?p=5" class="yz-page-current">5</a>
-                    <input type="number" class="yz-page-input" autocomplete="off" value="5" min="1" max="5" onkeydown="if (event.keyCode == 13)
+                <td width="92%" align="left" id="yz_page_num">
+                    <input type="number" class="yz-page-input" autocomplete="off" value="" min="1" max="5" onkeydown="if (event.keyCode == 13)
                         location.href = '?p=' + this.value">
-                </td>
-                <td width="8%" align="right">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tbody>
-                            <tr>
-                                <td width="50%" align="center" class="yz-super yz-normal yz-button yz-page-pre" onclick="location.href='?p=4';"
-                                    onmouseover="$(this).addClass('yz-hover-now');" onmousedown="$(this).addClass('yz-active-now');"
-                                    onmouseleave="$(this).removeClass('yz-hover-now'); $(this).removeClass('yz-active-now');" title="上一页">❮</td>
-                                <td width="50%" align="center" class="yz-super yz-page-behind yz-button yz-disable-now">❯</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-
+<script>
+$(document).ready(function(){
+    var total = $("#yz_art_page").data('total');
+    var current = $("#yz_art_page").data("current");
+    for(var i=1;i<=total;i++) {
+        if (i == current) {
+            $('<a href="?p=1" class="yz-page-current">'+i+'</a>').prependTo($("#yz_page_num"));
+        } else {
+            $('<a href="?p=1" class="yz-page-normal">'+i+'</a>').prependTo($("#yz_page_num"));
+        }
+    }
+});
+</script>
 {{ end }}

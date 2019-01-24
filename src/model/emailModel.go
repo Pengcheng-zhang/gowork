@@ -9,6 +9,7 @@ type EmailVerifyModel struct {
 	Code string
 	MailType string
 	Duration int
+	UpdatedAt time.Time
 	CreatedAt time.Time
 }
 

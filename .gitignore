@@ -7,7 +7,9 @@ src/config/*
 src/github.com
 src/github.com/*
 pkg/*
-debug/
+debug/*
+log/*
 bin/*
+goworkspace\.code-workspace
 yzbd.exe
 

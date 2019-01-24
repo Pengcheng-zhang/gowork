@@ -19,21 +19,21 @@ func(this *UploadController) File(r render.Render, req *http.Request) {
 	file, handler, err := req.FormFile("loadfile")
 	if err != nil {
 		Debug("get upload file failed", err.Error())
-		SetCommonResult(40001, "请选择文件", "")
-		r.JSON(200, CommonResult)
+		setJsonResult(40001, "请选择文件", "")
+		r.JSON(200, jsonResult)
 		return
 	}
 	defer file.Close()
 	fileSuffix := path.Ext(handler.Filename)
 	if fileSuffix != ".png" && fileSuffix != ".jpg" {
-		SetCommonResult(40002, "请选择图片文件", "")
-		r.JSON(200, CommonResult)
+		setJsonResult(40002, "请选择图片文件", "")
+		r.JSON(200, jsonResult)
 		return
 	}
 	Debug("upload file size:", handler.Size)
 	if handler.Size > 5000000 {
-		SetCommonResult(40003, "文件过大，请选择小于5M的文件", "")
-		r.JSON(200, CommonResult)
+		setJsonResult(40003, "文件过大，请选择小于5M的文件", "")
+		r.JSON(200, jsonResult)
 		return
 	}
 	currentTime := time.Now().Unix()
@@ -42,12 +42,12 @@ func(this *UploadController) File(r render.Render, req *http.Request) {
 	Debug("upload file name:", objectName)
 	result, url := this.uploadBiz.Upload(objectName, file)
 	if result {
-		SetCommonResult(40004, "上传成功", url)
+		setJsonResult(40004, "上传成功", url)
 		Debug("upload file url:", url)
-		r.JSON(200, CommonResult)
+		r.JSON(200, jsonResult)
 	}else {
-		SetCommonResult(10000, "上传错误", "")
-		r.JSON(200, CommonResult)
+		setJsonResult(10000, "上传错误", "")
+		r.JSON(200, jsonResult)
 	}
 	return
 }
